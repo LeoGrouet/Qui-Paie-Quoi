@@ -13,23 +13,51 @@ class Expense
     #[ORM\Column]
     private int $id;
 
-    #[ORM\Column(type: 'integer')]
-    private int $amount;
+    /**
+     * @param array<string> $participants
+     */
+    public function __construct(
+        #[ORM\Column(type: 'integer')]
+        private int $amount,
+        #[ORM\Column(type: 'string', length: 60)]
+        private string $payer,
+        #[ORM\Column(type: 'simple_array')]
+        private array $participants,
+        #[ORM\Column(type: 'string')]
+        private string $description
+    ) {
+    }
 
-    #[ORM\Column(type: 'string', length: 60)]
-    private string $payer;
-
-    #[ORM\Column(type: 'array')]
-    private array $participants;
-
-    #[ORM\Column(type: 'string')]
-    private string $description;
-
-    public function __construct(int $amount, string $payer, array $participants, string $description)
+    public function getId(): int
     {
-        $this->amount = $amount;
-        $this->payer = $payer;
-        $this->participants = $participants;
-        $this->description = $description;
+        return $this->id;
+    }
+
+    public function getAmount(): int
+    {
+        return $this->amount;
+    }
+
+    public function getPayer(): string
+    {
+        return $this->payer;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getParticipants(): array
+    {
+        return $this->participants;
+    }
+
+    public function getAmountByParticipant(): float
+    {
+        return $this->amount / count($this->participants);
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
     }
 }
