@@ -51,7 +51,7 @@ class Expense
         return $this->participants;
     }
 
-    public function getAmountByParticipant(): float
+    public function getAmountByParticipant(): int
     {
         return $this->amount / count($this->participants);
     }
