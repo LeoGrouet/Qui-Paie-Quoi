@@ -46,23 +46,46 @@ class HandleBalanceCommand extends Command
         // $this->entityManager->persist($expense);
         // $this->entityManager->flush();
 
+        // //Scénario 3
+        // $expenses = [
+        //     $expense = new Expense(10 * 100, "George", ["George", "Helene"], "Petit dèj"),
+        //     $expense = new Expense(15 * 100, "Helene", ["George"], "Déjeuner"),
+        //     $expense = new Expense(20 * 100, "George", ["Helene"], "Diner"),
+        // ];
+        // foreach ($expenses as $expense) {
+        //     $this->entityManager->persist($expense);
+        // }
+        // $this->entityManager->flush();
+
+
+        // //Scénario 4
+        // $expenses = [
+        //     $expense = new Expense(50 * 100, "Isabelle", ["Isabelle", "Julien", "Leo"], "Peinture"),
+        //     $expense = new Expense(50 * 100, "Julien", ["Isabelle", "Julien", "Leo"], "Faux gazon"),
+        //     $expense = new Expense(50 * 100, "Leo", ["Isabelle", "Julien", "Leo"], "Plomb"),
+        // ];
+        // foreach ($expenses as $expense) {
+        //     $this->entityManager->persist($expense);
+        // }
+        // $this->entityManager->flush();
+
         $expenses = $this->expenseRepository->findAll();
 
-        //Scénario 1
-        $users = [
-            [
-                "name" => "Alice",
-                "balance" => 0,
-            ],
-            [
-                "name" => "Charles",
-                "balance" => 0,
-            ],
-            [
-                "name" => "Camille",
-                "balance" => 0
-            ]
-        ];
+        // //Scénario 1
+        // $users = [
+        //     [
+        //         "name" => "Alice",
+        //         "balance" => 0,
+        //     ],
+        //     [
+        //         "name" => "Charles",
+        //         "balance" => 0,
+        //     ],
+        //     [
+        //         "name" => "Camille",
+        //         "balance" => 0
+        //     ]
+        // ];
 
         // //Scénario 2
         // $users = [
@@ -84,50 +107,77 @@ class HandleBalanceCommand extends Command
         //     ],
         // ];
 
+        // //Scénario 3
+        // $users = [
+        //     [
+        //         "name" => "George",
+        //         "balance" => 0,
+        //     ],
+        //     [
+        //         "name" => "Helene",
+        //         "balance" => 0,
+        //     ],
+        // ];
+
+        //Scénario 4
+        $users = [
+            [
+                "name" => "Isabelle",
+                "cost" => 0,
+                "participation" => 0,
+            ],
+            [
+                "name" => "Julien",
+                "cost" => 0,
+                "participation" => 0,
+            ],
+            [
+                "name" => "Leo",
+                "cost" => 0,
+                "participation" => 0,
+            ],
+        ];
+
         foreach ($expenses as $expense) {
             $amount = $expense->getAmount();
-            $amountByParticipants = $expense->getAmountByParticipant();
-            $payer = $expense->getPayer();
-            $description = $expense->getDescription();
-            $rest = $amount - ($amountByParticipants * count($expense->getParticipants()));
             $participants = $expense->getParticipants();
-            $randomNum = rand(1, count($participants));
-            $i = 0;
+            $countParticipants = count($participants);
+            $rest = $amount % $countParticipants;
+            $amountByParticipants = ($amount - $rest) / $countParticipants;
+            $payer = $expense->getPayer();
 
             foreach ($users as &$user) {
-
-                // Si le payer est le user 
                 if ($payer === $user["name"]) {
                     if (in_array($user["name"], $participants)) {
-                        $user["balance"] += $amount - $amountByParticipants;
+                        $user["cost"] += $amount;
+                        $user["participation"] += $amountByParticipants;
                     } else {
-                        $user["balance"] += $amount;
+                        $user["cost"] += $amount;
                     }
                 } else {
-                    if ($rest > 0 && $i === $randomNum) {
-                        $user["balance"] -= $amountByParticipants + $rest;
-                    } else if (in_array($user["name"], $participants)) {
-                        $user["balance"] -= $amountByParticipants;
-                    }
+                    $user["participation"] += $amountByParticipants;
                 }
-                $i++;
             }
-        }
 
-        $userPos = [];
-        $userNeg = [];
+            // if ($rest > 0) {
+            //     $users[$randomNum]["participation"] += $rest;
+            // }
+        }
 
         foreach ($users as &$user) {
-            if ($user["balance"] > 0) {
-                array_push($userPos, $user["name"], $user["balance"]);
-            } else {
-                array_push($userNeg, [$user["name"], $user["balance"]]);
-            }
+            $balance = $user["cost"] - $user["participation"];
+            $user["balance"] = $balance;
         }
 
-        foreach ($userNeg as $user) {
-            echo $user[0] . " doit " . abs($user[1] / 100) . " euros à " . $userPos[0] . PHP_EOL;
+        foreach ($users as $user) {
+            echo $user["name"] . " doit " . $user["balance"] / 100 . " euros" . PHP_EOL;
         }
+
+
+        // foreach ($expenses as $expense) {
+        //     $this->entityManager->remove($expense);
+        // }
+        // $this->entityManager->flush();
 
         return Command::SUCCESS;
     }

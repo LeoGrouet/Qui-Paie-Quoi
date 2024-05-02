@@ -51,11 +51,6 @@ class Expense
         return $this->participants;
     }
 
-    public function getAmountByParticipant(): int
-    {
-        return $this->amount / count($this->participants);
-    }
-
     public function getDescription(): string
     {
         return $this->description;
