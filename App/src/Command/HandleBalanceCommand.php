@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Entity\Expense;
 use App\Repository\ExpenseRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -28,12 +29,26 @@ class HandleBalanceCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        // $expense = new Expense(3.6, "Camille", ["Alice", "Charles", "Camille"], "Essence");
+        // //Scénario 1
+        // $expenses = [
+        //     $expense = new Expense(9 * 100, "Alice", ["Alice", "Charles", "Camille"], "Bouteille  d'eau"),
+        //     $expense = new Expense(6 * 100, "Charles", ["Charles"], "Sandwich"),
+        //     $expense = new Expense(12 * 100, "Charles", ["Alice", "Camille"], "Nourriture"),
+        //     $expense = new Expense(36 * 100, "Camille", ["Alice", "Charles", "Camille"], "Essence")
+        // ];
+        // foreach ($expenses as $expense) {
+        //     $this->entityManager->persist($expense);
+        // }
+        // $this->entityManager->flush();
+
+        // // Scénario 2
+        // $expense = new Expense(10 * 100, "Pierre", ["David", "Emilie", "Florence"], "Taxi");
         // $this->entityManager->persist($expense);
         // $this->entityManager->flush();
 
         $expenses = $this->expenseRepository->findAll();
 
+        //Scénario 1
         $users = [
             [
                 "name" => "Alice",
@@ -47,19 +62,41 @@ class HandleBalanceCommand extends Command
                 "name" => "Camille",
                 "balance" => 0
             ]
-
         ];
 
-        foreach ($expenses as $expense) {
+        // //Scénario 2
+        // $users = [
+        //     [
+        //         "name" => "Pierre",
+        //         "balance" => 0,
+        //     ],
+        //     [
+        //         "name" => "David",
+        //         "balance" => 0,
+        //     ],
+        //     [
+        //         "name" => "Emilie",
+        //         "balance" => 0
+        //     ],
+        //     [
+        //         "name" => "Florence",
+        //         "balance" => 0
+        //     ],
+        // ];
 
+        foreach ($expenses as $expense) {
             $amount = $expense->getAmount();
             $amountByParticipants = $expense->getAmountByParticipant();
             $payer = $expense->getPayer();
             $description = $expense->getDescription();
             $rest = $amount - ($amountByParticipants * count($expense->getParticipants()));
             $participants = $expense->getParticipants();
+            $randomNum = rand(1, count($participants));
+            $i = 0;
 
             foreach ($users as &$user) {
+
+                // Si le payer est le user 
                 if ($payer === $user["name"]) {
                     if (in_array($user["name"], $participants)) {
                         $user["balance"] += $amount - $amountByParticipants;
@@ -67,37 +104,29 @@ class HandleBalanceCommand extends Command
                         $user["balance"] += $amount;
                     }
                 } else {
-                    if (in_array($user["name"], $participants)) {
+                    if ($rest > 0 && $i === $randomNum) {
+                        $user["balance"] -= $amountByParticipants + $rest;
+                    } else if (in_array($user["name"], $participants)) {
                         $user["balance"] -= $amountByParticipants;
                     }
                 }
+                $i++;
             }
-
-            // Convert the amount from centimes to euros
-            // $amountFormatted = $amount / 100;
-            // $amountByParticipantsFormatted = $amountByParticipants / 100;
-            // $restFormatted = $rest / 100;
-
-            // echo (sprintf(
-            //     "%s a payé %s€ (%s€ par participant) (%s) : reste %s",
-            //     $payer,
-            //     $amountFormatted,
-            //     $amountByParticipantsFormatted,
-            //     $description,
-            //     $restFormatted,
-            // ) . PHP_EOL);
         }
 
+        $userPos = [];
+        $userNeg = [];
+
         foreach ($users as &$user) {
-            // Je recupere le nom et la balance de l'utilisateur qui est en positif
             if ($user["balance"] > 0) {
-                $usernamePositif = $user["name"];
-                $userbalancePositif = $user["balance"];
+                array_push($userPos, $user["name"], $user["balance"]);
             } else {
-                $userNeg = [];
-                array_push($userNeg, $user["name"], $user["balance"]);
+                array_push($userNeg, [$user["name"], $user["balance"]]);
             }
-            // Les users en negatif doivent leur somme a celui en positif
+        }
+
+        foreach ($userNeg as $user) {
+            echo $user[0] . " doit " . abs($user[1] / 100) . " euros à " . $userPos[0] . PHP_EOL;
         }
 
         return Command::SUCCESS;
