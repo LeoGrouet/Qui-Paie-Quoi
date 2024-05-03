@@ -29,17 +29,17 @@ class HandleBalanceCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        // //Scénario 1
-        // $expenses = [
-        //     $expense = new Expense(9 * 100, "Alice", ["Alice", "Charles", "Camille"], "Bouteille  d'eau"),
-        //     $expense = new Expense(6 * 100, "Charles", ["Charles"], "Sandwich"),
-        //     $expense = new Expense(12 * 100, "Charles", ["Alice", "Camille"], "Nourriture"),
-        //     $expense = new Expense(36 * 100, "Camille", ["Alice", "Charles", "Camille"], "Essence")
-        // ];
-        // foreach ($expenses as $expense) {
-        //     $this->entityManager->persist($expense);
-        // }
-        // $this->entityManager->flush();
+        //Scénario 1
+        $expenses = [
+            $expense = new Expense(9 * 100, "Alice", ["Alice", "Charles", "Camille"], "Bouteille  d'eau"),
+            $expense = new Expense(6 * 100, "Charles", ["Charles"], "Sandwich"),
+            $expense = new Expense(12 * 100, "Charles", ["Alice", "Camille"], "Nourriture"),
+            $expense = new Expense(36 * 100, "Camille", ["Alice", "Charles", "Camille"], "Essence")
+        ];
+        foreach ($expenses as $expense) {
+            $this->entityManager->persist($expense);
+        }
+        $this->entityManager->flush();
 
         // // Scénario 2
         // $expense = new Expense(10 * 100, "Pierre", ["David", "Emilie", "Florence"], "Taxi");
@@ -71,39 +71,46 @@ class HandleBalanceCommand extends Command
 
         $expenses = $this->expenseRepository->findAll();
 
-        // //Scénario 1
-        // $users = [
-        //     [
-        //         "name" => "Alice",
-        //         "balance" => 0,
-        //     ],
-        //     [
-        //         "name" => "Charles",
-        //         "balance" => 0,
-        //     ],
-        //     [
-        //         "name" => "Camille",
-        //         "balance" => 0
-        //     ]
-        // ];
+        //Scénario 1
+        $users = [
+            [
+                "name" => "Alice",
+                "cost" => 0,
+                "participation" => 0,
+            ],
+            [
+                "name" => "Charles",
+                "cost" => 0,
+                "participation" => 0,
+            ],
+            [
+                "name" => "Camille",
+                "cost" => 0,
+                "participation" => 0,
+            ]
+        ];
 
         // //Scénario 2
         // $users = [
         //     [
         //         "name" => "Pierre",
-        //         "balance" => 0,
+        //         "cost" => 0,
+        //         "participation" => 0,
         //     ],
         //     [
         //         "name" => "David",
-        //         "balance" => 0,
+        //         "cost" => 0,
+        //         "participation" => 0,
         //     ],
         //     [
         //         "name" => "Emilie",
-        //         "balance" => 0
+        //         "cost" => 0,
+        //         "participation" => 0,
         //     ],
         //     [
         //         "name" => "Florence",
-        //         "balance" => 0
+        //         "cost" => 0,
+        //         "participation" => 0,
         //     ],
         // ];
 
@@ -111,32 +118,34 @@ class HandleBalanceCommand extends Command
         // $users = [
         //     [
         //         "name" => "George",
-        //         "balance" => 0,
+        //         "cost" => 0,
+        //         "participation" => 0,
         //     ],
         //     [
         //         "name" => "Helene",
-        //         "balance" => 0,
+        //         "cost" => 0,
+        //         "participation" => 0,
         //     ],
         // ];
 
-        //Scénario 4
-        $users = [
-            [
-                "name" => "Isabelle",
-                "cost" => 0,
-                "participation" => 0,
-            ],
-            [
-                "name" => "Julien",
-                "cost" => 0,
-                "participation" => 0,
-            ],
-            [
-                "name" => "Leo",
-                "cost" => 0,
-                "participation" => 0,
-            ],
-        ];
+        // //Scénario 4
+        // $users = [
+        //     [
+        //         "name" => "Isabelle",
+        //         "cost" => 0,
+        //         "participation" => 0,
+        //     ],
+        //     [
+        //         "name" => "Julien",
+        //         "cost" => 0,
+        //         "participation" => 0,
+        //     ],
+        //     [
+        //         "name" => "Leo",
+        //         "cost" => 0,
+        //         "participation" => 0,
+        //     ],
+        // ];
 
         foreach ($expenses as $expense) {
             $amount = $expense->getAmount();
@@ -149,12 +158,10 @@ class HandleBalanceCommand extends Command
             foreach ($users as &$user) {
                 if ($payer === $user["name"]) {
                     if (in_array($user["name"], $participants)) {
-                        $user["cost"] += $amount;
                         $user["participation"] += $amountByParticipants;
-                    } else {
-                        $user["cost"] += $amount;
                     }
-                } else {
+                    $user["cost"] += $amount;
+                } elseif (in_array($user["name"], $participants)) {
                     $user["participation"] += $amountByParticipants;
                 }
             }
@@ -169,15 +176,19 @@ class HandleBalanceCommand extends Command
             $user["balance"] = $balance;
         }
 
-        foreach ($users as $user) {
-            echo $user["name"] . " doit " . $user["balance"] / 100 . " euros" . PHP_EOL;
+        foreach ($users as &$user) {
+            if ($user["balance"] < 0) {
+                echo $user["name"] . " doit " . $user["balance"] / 100 . " euros" . PHP_EOL;
+            } else {
+                echo $user["name"] . " ne doit rien . Balance = " . $user["balance"] / 100 . " euros" . PHP_EOL;
+            }
         }
 
 
-        // foreach ($expenses as $expense) {
-        //     $this->entityManager->remove($expense);
-        // }
-        // $this->entityManager->flush();
+        foreach ($expenses as $expense) {
+            $this->entityManager->remove($expense);
+        }
+        $this->entityManager->flush();
 
         return Command::SUCCESS;
     }
