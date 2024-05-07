@@ -3,12 +3,11 @@
 namespace App\Command;
 
 use App\Entity\Expense;
+use App\Entity\Bilan;
 use App\Repository\ExpenseRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -82,7 +81,7 @@ class HandleBalanceCommand extends Command
                 );
                 break;
             default:
-                echo "Ce scénario n'existe pas. Veuillez indiquer : first ,second, third ou fourth";
+                echo "Ce scénario n'existe pas. Veuillez indiquer : first, second, third ou fourth";
                 return Command::FAILURE;
         }
 
@@ -94,14 +93,16 @@ class HandleBalanceCommand extends Command
 
         $expenses = $this->expenseRepository->findAll();
 
-        $users = [];
-
-        foreach ($expenses as $expense) {
-            $users[$expense->getPayer()] = ["name" => $expense->getPayer(), "cost" => 0, "participation" => 0];
-            foreach ($expense->getParticipants() as $participant) {
-                $users[$participant] = ["name" => $participant, "cost" => 0, "participation" => 0];
+        /**
+         * @var Bilan[]
+         */
+        $bilans = array_reduce($expenses, static function (array $bilans, Expense $expense) {
+            $payer = $expense->getPayer();
+            if (!array_key_exists($payer, $bilans)) {
+                return [...$bilans, $payer => new Bilan($payer)];
             }
-        };
+            return $bilans;
+        }, []);
 
         foreach ($expenses as $expense) {
             $amount = $expense->getAmount();
@@ -111,35 +112,20 @@ class HandleBalanceCommand extends Command
             $amountByParticipants = ($amount - $rest) / $countParticipants;
             $payer = $expense->getPayer();
 
-            foreach ($users as &$user) {
-                if ($payer === $user["name"]) {
-                    if (in_array($user["name"], $participants)) {
-                        $user["participation"] += $amountByParticipants;
-                    }
-                    $user["cost"] += $amount;
-                } elseif (in_array($user["name"], $participants)) {
-                    $user["participation"] += $amountByParticipants;
+            foreach ($bilans as $user) {
+                $name = $user->getName();
+                $cost = $user->getCost();
+                $participations = $user->getParticipation();
+                if ($payer === $name) {
+                    $user->setCost($cost + $amount);
+                }
+                if (in_array($name, $participants)) {
+                    $user->setParticipation($participations + $amountByParticipants);
                 }
             }
-
-            // if ($rest > 0) {
-            //     $users[$randomNum]["participation"] += $rest;
-            // }
         }
 
-        foreach ($users as &$user) {
-            $balance = $user["cost"] - $user["participation"];
-            $user["balance"] = $balance;
-        }
-
-        foreach ($users as &$user) {
-            if ($user["balance"] < 0) {
-                echo $user["name"] . " doit " . $user["balance"] / 100 . " euros" . PHP_EOL;
-            } else {
-                echo $user["name"] . " ne doit rien . Balance = " . $user["balance"] / 100 . " euros" . PHP_EOL;
-            }
-        }
-        echo "Il reste " . ($rest / 100) . " à répartir";
+        $output->writeln($bilans);
 
         foreach ($expenses as $expense) {
             $this->entityManager->remove($expense);
