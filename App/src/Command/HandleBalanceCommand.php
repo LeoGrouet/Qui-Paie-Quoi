@@ -11,13 +11,15 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use App\Service\GroupExpenseBalancer;
 
 #[AsCommand(name: 'app:handle-balance')]
 class HandleBalanceCommand extends Command
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private ExpenseRepository $expenseRepository
+        private ExpenseRepository $expenseRepository,
+        private GroupExpenseBalancer $groupExpenseBalancer,
     ) {
         parent::__construct();
     }
@@ -85,7 +87,6 @@ class HandleBalanceCommand extends Command
                 return Command::FAILURE;
         }
 
-
         foreach ($datas as $expense) {
             $this->entityManager->persist($expense);
         }
@@ -93,37 +94,7 @@ class HandleBalanceCommand extends Command
 
         $expenses = $this->expenseRepository->findAll();
 
-        /**
-         * @var Bilan[]
-         */
-        $bilans = array_reduce($expenses, static function (array $bilans, Expense $expense) {
-            $payer = $expense->getPayer();
-            if (!array_key_exists($payer, $bilans)) {
-                return [...$bilans, $payer => new Bilan($payer)];
-            }
-            return $bilans;
-        }, []);
-
-        foreach ($expenses as $expense) {
-            $amount = $expense->getAmount();
-            $participants = $expense->getParticipants();
-            $countParticipants = count($participants);
-            $rest = $amount % $countParticipants;
-            $amountByParticipants = ($amount - $rest) / $countParticipants;
-            $payer = $expense->getPayer();
-
-            foreach ($bilans as $user) {
-                $name = $user->getName();
-                $cost = $user->getCost();
-                $participations = $user->getParticipation();
-                if ($payer === $name) {
-                    $user->setCost($cost + $amount);
-                }
-                if (in_array($name, $participants)) {
-                    $user->setParticipation($participations + $amountByParticipants);
-                }
-            }
-        }
+        $bilans = $this->groupExpenseBalancer->expenseBalancer($expenses);
 
         $output->writeln($bilans);
 
