@@ -17,9 +17,18 @@ class GroupExpenseBalancer
             if (!array_key_exists($payer, $bilans)) {
                 return [...$bilans, $payer => new Bilan($payer)];
             }
+
             return $bilans;
         }, []);
 
+        $this->setExpenses($expenses, $bilans);
+
+        return $bilans;
+    }
+
+    private function setExpenses($expenses, $bilans)
+    {
+        $names = [];
         foreach ($expenses as $expense) {
             $amount = $expense->getAmount();
             $participants = $expense->getParticipants();
@@ -27,29 +36,41 @@ class GroupExpenseBalancer
             $rest = $amount % $countParticipants;
             $amountByParticipants = ($amount - $rest) / $countParticipants;
             $payer = $expense->getPayer();
-
-            foreach ($bilans as $user) {
-                $name = $user->getName();
-                $cost = $user->getCost();
-                $participations = $user->getParticipation();
-                if ($payer === $name) {
-                    $user->setCost($cost + $amount);
-                }
-                if (in_array($name, $participants)) {
-                    $user->setParticipation($participations + $amountByParticipants);
-                }
+            $names[] = $payer;
+            foreach ($participants as $participant) {
+                $names[] = $participant;
             }
+
+            $this->updateBilan($bilans, $amount, $participants, $payer, $amountByParticipants);
         }
 
-        return $bilans;
+        $names = array_unique($names);
+
+        foreach ($bilans as $bilan) {
+            $owes = [];
+            foreach ($names as $name) {
+                if ($name != $bilan->getName()) {
+                    $owes[$name] = 0;
+                }
+            }
+            $bilan->setOwe($owes);
+        }
+        dump($bilans);
     }
 
-    // Methode private pour le array_reduce
-    private function reduce($expenses)
+    private function updateBilan($bilans, $amount, $participants, $payer, $amountByParticipants)
     {
+        foreach ($bilans as $bilan) {
+            $name = $bilan->getName();
+            $cost = $bilan->getCost();
+            $owe = $bilan->getOwe();
+            $participations = $bilan->getParticipation();
+            if ($payer === $name) {
+                $bilan->setCost($cost + $amount);
+            }
+            if (in_array($name, $participants)) {
+                $bilan->setParticipation($participations + $amountByParticipants);
+            }
+        }
     }
-
-    // Methode private pour le for each expense
-
-    // Methode private pour le bilan
 }

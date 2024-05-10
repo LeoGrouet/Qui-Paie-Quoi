@@ -40,7 +40,7 @@ class HandleBalanceCommand extends Command
                 "First",
                 "Second",
                 "Third",
-                "Fourth"
+                "Fourth",
             ],
             multiSelect: true
         )[0];
