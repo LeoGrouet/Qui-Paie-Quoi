@@ -65,6 +65,7 @@ class GroupExpenseBalancer
                     $owe[$participant] = $amountByParticipants;
                 }
             }
+
             $bilan->setOwe($owe);
         }
     }

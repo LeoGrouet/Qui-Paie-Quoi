@@ -39,57 +39,51 @@ class HandleBalanceCommand extends Command
                 "First",
                 "Second",
                 "Third",
-                "Fourth",
+                "Fourth"
             ],
             multiSelect: true
         )[0];
 
-        $datas = [];
+        $datas = match ($scenario) {
+            'First' => [
+                new Expense(9 * 100, "Alice", ["Alice", "Charles", "Camille"], "Bouteille  d'eau"),
+                new Expense(6 * 100, "Charles", ["Charles"], "Sandwich"),
+                new Expense(12 * 100, "Charles", ["Alice", "Camille"], "Nourriture"),
+                new Expense(36 * 100, "Camille", ["Alice", "Charles", "Camille"], "Essence")
+            ],
+            'Second' =>
+            [
+                new Expense(10 * 100, "Pierre", ["David", "Emilie", "Florence"], "Taxi")
+            ],
+            'Third' =>
+            [
+                new Expense(10 * 100, "George", ["George", "Helene"], "Petit dèj"),
+                new Expense(15 * 100, "Helene", ["George"], "Déjeuner"),
+                new Expense(20 * 100, "George", ["Helene"], "Diner"),
+            ],
+            'Fourth' =>
+            [
+                new Expense(50 * 100, "Isabelle", ["Isabelle", "Julien", "Leo"], "Peinture"),
+                new Expense(50 * 100, "Julien", ["Isabelle", "Julien", "Leo"], "Faux gazon"),
+                new Expense(50 * 100, "Leo", ["Isabelle", "Julien", "Leo"], "Plomb"),
+            ],
+        };
 
-        switch ($scenario) {
-            case 'First':
-                array_push(
-                    $datas,
-                    $expense = new Expense(9 * 100, "Alice", ["Alice", "Charles", "Camille"], "Bouteille  d'eau"),
-                    $expense = new Expense(6 * 100, "Charles", ["Charles"], "Sandwich"),
-                    $expense = new Expense(12 * 100, "Charles", ["Alice", "Camille"], "Nourriture"),
-                    $expense = new Expense(36 * 100, "Camille", ["Alice", "Charles", "Camille"], "Essence")
-                );
-                break;
-
-            case 'Second':
-                array_push(
-                    $datas,
-                    $expense = new Expense(10 * 100, "Pierre", ["David", "Emilie", "Florence"], "Taxi")
-                );
-                break;
-
-            case 'Third':
-                array_push(
-                    $datas,
-                    $expense = new Expense(10 * 100, "George", ["George", "Helene"], "Petit dèj"),
-                    $expense = new Expense(15 * 100, "Helene", ["George"], "Déjeuner"),
-                    $expense = new Expense(20 * 100, "George", ["Helene"], "Diner"),
-                );
-                break;
-
-            case 'Fourth':
-                array_push(
-                    $datas,
-                    $expense = new Expense(50 * 100, "Isabelle", ["Isabelle", "Julien", "Leo"], "Peinture"),
-                    $expense = new Expense(50 * 100, "Julien", ["Isabelle", "Julien", "Leo"], "Faux gazon"),
-                    $expense = new Expense(50 * 100, "Leo", ["Isabelle", "Julien", "Leo"], "Plomb"),
-                );
-                break;
-            default:
-                echo "Ce scénario n'existe pas. Veuillez indiquer : first, second, third ou fourth";
-                return Command::FAILURE;
-        }
-
+        $this->entityManager->beginTransaction();
         foreach ($datas as $expense) {
             $this->entityManager->persist($expense);
         }
         $this->entityManager->flush();
+
+        $this->showBalance($output);
+
+        $this->entityManager->rollback();
+
+        return Command::SUCCESS;
+    }
+
+    private function showBalance(OutputInterface $output)
+    {
 
         $expenses = $this->expenseRepository->findAll();
 
@@ -100,22 +94,9 @@ class HandleBalanceCommand extends Command
             $owe = $bilan->getOwe();
 
             foreach ($owe as $key => $values) {
-                $output->writeln(
-                    sprintf(
-                        "%s doit %s euros à %s",
-                        $key,
-                        $values / 100,
-                        $name
-                    )
-                );
-            };
+                $formatedValue = $values / 100;
+                $output->writeln("{$key} doit {$formatedValue} euros à {$name}");
+            }
         }
-
-        foreach ($expenses as $expense) {
-            $this->entityManager->remove($expense);
-        }
-        $this->entityManager->flush();
-
-        return Command::SUCCESS;
     }
 }

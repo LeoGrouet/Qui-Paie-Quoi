@@ -12,11 +12,4 @@ class ExpenseRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Expense::class);
     }
-
-    public function getExpenses()
-    {
-        return $this->createQueryBuilder('expense')
-            ->getQuery()
-            ->getResult();
-    }
 }
