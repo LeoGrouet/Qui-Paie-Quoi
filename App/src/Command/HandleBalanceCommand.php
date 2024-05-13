@@ -96,7 +96,21 @@ class HandleBalanceCommand extends Command
 
         $bilans = $this->groupExpenseBalancer->expenseBalancer($expenses);
 
-        $output->writeln($bilans);
+        foreach ($bilans as $bilan) {
+            $name = $bilan->getName();
+            $owe = $bilan->getOwe();
+
+            foreach ($owe as $key => $values) {
+                $output->writeln(
+                    sprintf(
+                        "%s doit %s euros à %s",
+                        $key,
+                        $values / 100,
+                        $name
+                    )
+                );
+            };
+        }
 
         foreach ($expenses as $expense) {
             $this->entityManager->remove($expense);
