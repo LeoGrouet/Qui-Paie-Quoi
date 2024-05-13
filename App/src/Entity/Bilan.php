@@ -63,12 +63,4 @@ class Bilan
     {
         $this->owe = $owe;
     }
-
-    public function __toString()
-    {
-        $verb = $this->balance > 0 ? "à avancé" : "doit";
-        $balance = abs($this->balance / 100);
-
-        return "{$this->name} {$verb} {$balance} euros";
-    }
 }

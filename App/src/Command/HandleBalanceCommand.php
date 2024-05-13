@@ -3,7 +3,6 @@
 namespace App\Command;
 
 use App\Entity\Expense;
-use App\Entity\Bilan;
 use App\Repository\ExpenseRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;

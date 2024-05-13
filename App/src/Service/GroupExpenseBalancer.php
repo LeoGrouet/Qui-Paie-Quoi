@@ -36,18 +36,12 @@ class GroupExpenseBalancer
             $rest = $amount % $countParticipants;
             $amountByParticipants = ($amount - $rest) / $countParticipants;
             $payer = $expense->getPayer();
-            $names[] = $payer;
-            foreach ($participants as $participant) {
-                $names[] = $participant;
-            }
 
-            $names = array_unique($names);
-
-            $this->updateBilan($bilans, $amount, $participants, $payer, $amountByParticipants, $names);
+            $this->updateBilan($bilans, $amount, $participants, $payer, $amountByParticipants);
         }
     }
 
-    private function updateBilan($bilans, $amount, $participants, $payer, $amountByParticipants, $names)
+    private function updateBilan($bilans, $amount, $participants, $payer, $amountByParticipants)
     {
 
         foreach ($bilans as $bilan) {
@@ -64,15 +58,11 @@ class GroupExpenseBalancer
             }
 
             foreach ($participants as $participant) {
-                if ($name !== $payer) {
-                    break;
-                }
-                if ($name != $participant) {
+                if ($name === $payer && $name !== $participant) {
                     if (array_key_exists($participant, $owe)) {
                         $owe[$participant] += $amountByParticipants;
-                    } else {
-                        $owe[$participant] = $amountByParticipants;
                     }
+                    $owe[$participant] = $amountByParticipants;
                 }
             }
             $bilan->setOwe($owe);
