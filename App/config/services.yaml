@@ -6,6 +6,5 @@ services:
     autoconfigure: true
 
   App\Command\HandleBalanceCommand: ~
-  App\Command\TestCommand: ~
   App\Repository\ExpenseRepository: ~
   App\Service\GroupExpenseBalancer: ~
