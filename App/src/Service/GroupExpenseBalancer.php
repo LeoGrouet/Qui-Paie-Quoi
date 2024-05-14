@@ -28,7 +28,6 @@ class GroupExpenseBalancer
 
     private function setExpenses($expenses, $bilans)
     {
-
         foreach ($expenses as $expense) {
             $amount = $expense->getAmount();
             $participants = $expense->getParticipants();
@@ -43,7 +42,6 @@ class GroupExpenseBalancer
 
     private function updateBilan($bilans, $amount, $participants, $payer, $amountByParticipants)
     {
-
         foreach ($bilans as $bilan) {
             $name = $bilan->getName();
             $cost = $bilan->getCost();
