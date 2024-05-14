@@ -51,6 +51,7 @@ class GroupExpenseBalancer
             if ($payer === $name) {
                 $bilan->setCost($cost + $amount);
             }
+
             if (in_array($name, $participants)) {
                 $bilan->setParticipation($participations + $amountByParticipants);
             }
