@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Entity\Bilan;
 use App\Entity\Expense;
-use Error;
 
 class GroupExpenseBalancer
 {
@@ -25,7 +24,7 @@ class GroupExpenseBalancer
         );
 
         $this->setExpenses($expenses, $bilans);
-        dump($bilans);
+
         return $bilans;
     }
 
@@ -59,12 +58,15 @@ class GroupExpenseBalancer
             }
 
             foreach ($participants as $participant) {
-                if ($name !== $payer) {
-                    break;
+                if ($name !== $payer || $name === $participant) {
+                    continue;
                 }
-                if ($name !== $participant) {
-                    $owe[$participant] = ($owe[$participant] ?? 0) + $amountByParticipants;
+
+                if (array_key_exists($participant, $owe)) {
+                    $owe[$participant] += $amountByParticipants;
                 }
+
+                $owe[$participant] = $amountByParticipants;
             }
 
             $bilan->setOwe($owe);
