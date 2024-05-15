@@ -43,7 +43,7 @@ class HandleBalanceCommand extends Command
             ]
         );
 
-        $datas = match ($scenario) {
+        $data = match ($scenario) {
             'First' => [
                 new Expense(9 * 100, "Alice", ["Alice", "Charles", "Camille"], "Bouteille  d'eau"),
                 new Expense(6 * 100, "Charles", ["Charles"], "Sandwich"),
@@ -69,7 +69,7 @@ class HandleBalanceCommand extends Command
         };
 
         $this->entityManager->beginTransaction();
-        foreach ($datas as $expense) {
+        foreach ($data as $expense) {
             $this->entityManager->persist($expense);
         }
         $this->entityManager->flush();
