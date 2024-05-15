@@ -10,7 +10,6 @@ class Bilan
     protected int $balance = 0;
     protected array $owe = [];
 
-
     public function __construct(string $name)
     {
         $this->name = $name;

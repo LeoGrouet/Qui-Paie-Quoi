@@ -40,9 +40,8 @@ class HandleBalanceCommand extends Command
                 "Second",
                 "Third",
                 "Fourth"
-            ],
-            multiSelect: true
-        )[0];
+            ]
+        );
 
         $datas = match ($scenario) {
             'First' => [
