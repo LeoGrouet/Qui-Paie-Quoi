@@ -4,8 +4,7 @@ services:
   _defaults:
     autowire: true
     autoconfigure: true
-  App\:
-    resource: "../src/"
-    exclude:
-      - "../src/DependencyInjection/"
-      - "../src/Kernel.php"
+
+  App\Command\HandleBalanceCommand: ~
+  App\Repository\ExpenseRepository: ~
+  App\Service\GroupExpenseBalancer: ~
