@@ -51,12 +51,10 @@ class GroupExpenseBalancer
 
             if ($payer === $name) {
                 $bilan->setCost($cost + $amount);
-                $bilan->setBalance($cost - $participation);
             }
 
             if (in_array($name, $participants)) {
                 $bilan->setParticipation($participation + $amountByParticipants);
-                $bilan->setBalance($cost - $participation);
             }
 
             foreach ($participants as $participant) {
@@ -70,7 +68,7 @@ class GroupExpenseBalancer
 
                 $owe[$participant] = $amountByParticipants;
             }
-
+            $bilan->setBalance($cost - $participation);
             $bilan->setOwe($owe);
         }
     }
