@@ -45,15 +45,18 @@ class GroupExpenseBalancer
     {
         foreach ($bilans as $bilan) {
             $name = $bilan->getName();
-            $participations = $bilan->getParticipation();
+            $participation = $bilan->getParticipation();
+            $cost = $bilan->getCost();
             $owe = $bilan->getOwe();
 
             if ($payer === $name) {
-                $bilan->setCostAndUpdateBalance($bilan->getCost() + $amount);
+                $bilan->setCost($cost + $amount);
+                $bilan->setBalance($cost - $participation);
             }
 
             if (in_array($name, $participants)) {
-                $bilan->setParticipationAndUpdateBalance($participations + $amountByParticipants);
+                $bilan->setParticipation($participation + $amountByParticipants);
+                $bilan->setBalance($cost - $participation);
             }
 
             foreach ($participants as $participant) {

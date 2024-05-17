@@ -35,10 +35,9 @@ class Bilan
         return $this->cost;
     }
 
-    public function setCostAndUpdateBalance($cost): void
+    public function setCost($cost): void
     {
         $this->cost = $cost;
-        $this->balance = $cost - $this->participation;
     }
 
     public function getParticipation(): int
@@ -46,10 +45,9 @@ class Bilan
         return $this->participation;
     }
 
-    public function setParticipationAndUpdateBalance($participation): void
+    public function setParticipation($participation): void
     {
         $this->participation = $participation;
-        $this->balance = $this->cost - $this->participation;
     }
 
     public function getOwe(): array
