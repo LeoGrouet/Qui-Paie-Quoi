@@ -6,7 +6,9 @@ use App\Repository\ExpenseRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\OneToOne;
 
 #[ORM\Entity(repositoryClass: ExpenseRepository::class)]
 class Expense
@@ -22,13 +24,20 @@ class Expense
     public function __construct(
         #[ORM\Column(type: 'integer')]
         private int $amount,
-        // $payer should be user_id
-        #[ORM\Column(type: 'string', length: 60)]
-        private string $payer,
-        #[ORM\Column(type: 'simple_array')]
-        private array $participants,
+
         #[ORM\Column(type: 'string')]
         private string $description,
+
+        #[OneToOne(targetEntity: User::class)]
+        #[JoinColumn(name: 'user_id', referencedColumnName: 'id')]
+        private User $payer,
+
+        #[OneToMany(targetEntity: User::class, mappedBy: 'expense')]
+        private Collection $participants,
+
+        #[ManyToOne(targetEntity: Group::class)]
+        #[JoinColumn(name: 'group_id', referencedColumnName: 'id')]
+        private Group $group,
     ) {
     }
 
@@ -42,7 +51,7 @@ class Expense
         return $this->amount;
     }
 
-    public function getPayer(): string
+    public function getPayer(): User
     {
         return $this->payer;
     }
