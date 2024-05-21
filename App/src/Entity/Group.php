@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\ManyToMany;
 
 #[ORM\Entity]
 class Group
@@ -24,8 +24,8 @@ class Group
         #[ORM\Column(type: 'object')]
         private Bilan $bilan,
 
-        #[OneToMany(targetEntity: User::class, mappedBy: 'group')]
-        private Collection $user
+        #[ManyToMany(targetEntity: User::class, mappedBy: 'groups')]
+        private Collection $users
     ) {
     }
 }

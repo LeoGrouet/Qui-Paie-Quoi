@@ -33,6 +33,7 @@ class Expense
         private User $payer,
 
         #[OneToMany(targetEntity: User::class, mappedBy: 'expense')]
+        #[JoinColumn(name: 'user_id', referencedColumnName: 'id')]
         private Collection $participants,
 
         #[ManyToOne(targetEntity: Group::class)]

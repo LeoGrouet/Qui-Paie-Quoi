@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\JoinColumn;
-use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\ManyToMany;
 
 #[ORM\Entity]
 class User
@@ -24,9 +25,14 @@ class User
         #[ORM\Column(type: "string", length: 60)]
         private string $password,
 
-        #[ManyToOne(targetEntity: Group::class, inversedBy: 'users')]
-        #[JoinColumn(name: 'group_id', referencedColumnName: 'id')]
-        private Group|null $group = null
+        #[ManyToMany(targetEntity: Group::class, inversedBy: 'users')]
+        #[JoinTable(name: 'users_groups')]
+        private Collection $groups
     ) {
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

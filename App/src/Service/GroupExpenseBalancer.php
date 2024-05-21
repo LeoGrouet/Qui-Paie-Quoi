@@ -19,7 +19,7 @@ class GroupExpenseBalancer
             $expenses,
             static fn (array $bilans, Expense $expense) => array_key_exists($expense->getPayer(), $bilans)
                 ? $bilans
-                : [...$bilans, $expense->getPayer() => new Bilan($expense->getPayer())],
+                : [...$bilans, $expense->getPayer() => new Bilan($expense->getPayer()->getName())],
             []
         );
 
