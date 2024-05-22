@@ -6,6 +6,7 @@ use App\Repository\ExpenseRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\OneToOne;
@@ -36,7 +37,7 @@ class Expense
         #[JoinColumn(name: 'user_id', referencedColumnName: 'id')]
         private Collection $participants,
 
-        #[ManyToOne(targetEntity: Group::class)]
+        #[ManyToMany(targetEntity: Group::class)]
         #[JoinColumn(name: 'group_id', referencedColumnName: 'id')]
         private Group $group,
     ) {
