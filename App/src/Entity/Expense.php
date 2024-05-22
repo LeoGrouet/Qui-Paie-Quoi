@@ -6,10 +6,8 @@ use App\Repository\ExpenseRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
-use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
-use Doctrine\ORM\Mapping\OneToOne;
 
 #[ORM\Entity(repositoryClass: ExpenseRepository::class)]
 class Expense
@@ -20,7 +18,7 @@ class Expense
     private int $id;
 
     /**
-     * @param array<string> $participants
+     * @param Collection<User> $participants
      */
     public function __construct(
         #[ORM\Column(type: 'integer')]
@@ -29,16 +27,21 @@ class Expense
         #[ORM\Column(type: 'string')]
         private string $description,
 
-        #[OneToOne(targetEntity: User::class)]
+        #[ManyToOne(targetEntity: User::class, inversedBy: 'expense')]
         #[JoinColumn(name: 'user_id', referencedColumnName: 'id')]
+        // Une dépense possède un seul $payer(user)
+        // Mais plusieurs depense peuvent être du meme payer
         private User $payer,
 
-        #[OneToMany(targetEntity: User::class, mappedBy: 'expense')]
+        #[OneToMany(targetEntity: User::class, mappedBy: 'expenses')]
         #[JoinColumn(name: 'user_id', referencedColumnName: 'id')]
+        // une dépense possède un ou plusieurs participants
         private Collection $participants,
 
-        #[ManyToMany(targetEntity: Group::class)]
+        #[ManyToOne(targetEntity: Group::class)]
         #[JoinColumn(name: 'group_id', referencedColumnName: 'id')]
+        // une dépense appartient a un seul group
+        // Plusieurs dépense appartiennent au meme groupe
         private Group $group,
     ) {
     }
@@ -61,7 +64,7 @@ class Expense
     /**
      * @return array<string>
      */
-    public function getParticipants(): array
+    public function getParticipants(): Collection
     {
         return $this->participants;
     }

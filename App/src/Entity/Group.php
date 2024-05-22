@@ -26,6 +26,9 @@ class Group
 
         #[ManyToMany(targetEntity: User::class, mappedBy: 'groups')]
         private Collection $users
+
+        // Un groupe est constitué de une ou plusieurs dépenses
+        // Un groupe est constitué par un ou plusieurs user
     ) {
     }
 }

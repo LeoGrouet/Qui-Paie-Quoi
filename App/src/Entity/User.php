@@ -4,8 +4,10 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\OneToMany;
 
 #[ORM\Entity]
 class User
@@ -27,7 +29,7 @@ class User
 
         #[ManyToMany(targetEntity: Group::class, inversedBy: 'users')]
         #[JoinTable(name: 'users_groups')]
-        private Collection $groups
+        private Collection $groups,
     ) {
     }
 

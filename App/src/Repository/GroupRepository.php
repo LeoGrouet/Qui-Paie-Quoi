@@ -12,4 +12,11 @@ class GroupRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Group::class);
     }
+
+    public function getAllGroups()
+    {
+        return $this->createQueryBuilder('group')
+            ->getQuery()
+            ->getResult();
+    }
 }
