@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ExpenseRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\InverseJoinColumn;
@@ -11,7 +10,6 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\ManyToOne;
-use Doctrine\ORM\Mapping\OneToMany;
 
 #[ORM\Entity(repositoryClass: ExpenseRepository::class)]
 class Expense
@@ -20,31 +18,29 @@ class Expense
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private int $id;
-    #[ORM\Column(type: 'integer')]
-    private int $amount;
-
-    #[ORM\Column(type: 'string')]
-    private string $description;
-
-    #[ManyToOne(targetEntity: User::class, inversedBy: 'expenses')]
-    #[JoinColumn(name: 'payer', referencedColumnName: 'id')]
-    private User|null $payer = null;
     /**
      * @param Collection<User> $participants
      */
-    #[JoinTable(name: 'expenses_users')]
-    #[JoinColumn(name: 'expense_id', referencedColumnName: 'id')]
-    #[InverseJoinColumn(name: 'user_id', referencedColumnName: 'id', unique: true)]
-    #[ManyToMany(targetEntity: 'User')]
-    private Collection $participants;
+    public function __construct(
+        #[ORM\Column(type: 'integer')]
+        private int $amount,
 
-    #[ManyToOne(targetEntity: Group::class, inversedBy: 'expenses')]
-    #[JoinColumn(name: 'group_id', referencedColumnName: 'id')]
-    private Group|null $group = null;
+        #[ORM\Column(type: 'string')]
+        private string $description,
 
-    public function __construct()
-    {
-        $this->participants = new ArrayCollection();
+        #[ManyToOne(targetEntity: User::class, inversedBy: 'expenses')]
+        private User $payer,
+
+        #[JoinTable(name: 'expenses_participants')]
+        #[JoinColumn(name: 'expense_id', referencedColumnName: 'id')]
+        #[InverseJoinColumn(name: 'user_id', referencedColumnName: 'id', unique: true)]
+        #[ManyToMany(targetEntity: 'User')]
+        private Collection $participants,
+
+        #[ManyToOne(targetEntity: Group::class, inversedBy: 'expenses')]
+        #[JoinColumn(name: 'group_id', referencedColumnName: 'id')]
+        private Group $group,
+    ) {
     }
 
     public function getId(): int
@@ -63,7 +59,7 @@ class Expense
     }
 
     /**
-     * @return array<string>
+     * @return Collection<User>
      */
     public function getParticipants(): Collection
     {

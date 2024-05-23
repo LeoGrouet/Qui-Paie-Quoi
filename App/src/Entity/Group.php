@@ -22,9 +22,6 @@ class Group
         #[ORM\Column(type: 'string', length: 180)]
         private string $description,
 
-        #[ORM\Column(type: 'object')]
-        private Bilan $bilan,
-
         #[ManyToMany(targetEntity: User::class, mappedBy: 'groups')]
         private Collection $users,
 
