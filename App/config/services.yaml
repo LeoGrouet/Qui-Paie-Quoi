@@ -6,7 +6,11 @@ services:
     autoconfigure: true
 
   App\Command\HandleBalanceCommand: ~
+  App\Command\DatabaseFlushTest: ~
+
   App\Repository\ExpenseRepository: ~
   App\Repository\GroupRepository: ~
+  App\Repository\UserRepository: ~
   App\Service\GroupExpenseBalancer: ~
+
   App\Controller\GroupController: ~

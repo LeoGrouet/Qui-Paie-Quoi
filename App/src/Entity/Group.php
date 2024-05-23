@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\OneToMany;
 
 #[ORM\Entity]
+#[ORM\Table(name: "`group`")]
 class Group
 {
     #[ORM\Id]
