@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\OneToMany;
 
 #[ORM\Entity]
 class Group
@@ -25,10 +26,10 @@ class Group
         private Bilan $bilan,
 
         #[ManyToMany(targetEntity: User::class, mappedBy: 'groups')]
-        private Collection $users
+        private Collection $users,
 
-        // Un groupe est constitué de une ou plusieurs dépenses
-        // Un groupe est constitué par un ou plusieurs user
+        #[OneToMany(targetEntity: Expense::class, mappedBy: 'group')]
+        private Collection $expenses
     ) {
     }
 }

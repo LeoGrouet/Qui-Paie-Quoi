@@ -3,9 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\ExpenseRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\InverseJoinColumn;
 use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 
@@ -16,34 +20,31 @@ class Expense
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private int $id;
+    #[ORM\Column(type: 'integer')]
+    private int $amount;
 
+    #[ORM\Column(type: 'string')]
+    private string $description;
+
+    #[ManyToOne(targetEntity: User::class, inversedBy: 'expenses')]
+    #[JoinColumn(name: 'payer', referencedColumnName: 'id')]
+    private User|null $payer = null;
     /**
      * @param Collection<User> $participants
      */
-    public function __construct(
-        #[ORM\Column(type: 'integer')]
-        private int $amount,
+    #[JoinTable(name: 'expenses_users')]
+    #[JoinColumn(name: 'expense_id', referencedColumnName: 'id')]
+    #[InverseJoinColumn(name: 'user_id', referencedColumnName: 'id', unique: true)]
+    #[ManyToMany(targetEntity: 'User')]
+    private Collection $participants;
 
-        #[ORM\Column(type: 'string')]
-        private string $description,
+    #[ManyToOne(targetEntity: Group::class, inversedBy: 'expenses')]
+    #[JoinColumn(name: 'group_id', referencedColumnName: 'id')]
+    private Group|null $group = null;
 
-        #[ManyToOne(targetEntity: User::class, inversedBy: 'expense')]
-        #[JoinColumn(name: 'user_id', referencedColumnName: 'id')]
-        // Une dépense possède un seul $payer(user)
-        // Mais plusieurs depense peuvent être du meme payer
-        private User $payer,
-
-        #[OneToMany(targetEntity: User::class, mappedBy: 'expenses')]
-        #[JoinColumn(name: 'user_id', referencedColumnName: 'id')]
-        // une dépense possède un ou plusieurs participants
-        private Collection $participants,
-
-        #[ManyToOne(targetEntity: Group::class)]
-        #[JoinColumn(name: 'group_id', referencedColumnName: 'id')]
-        // une dépense appartient a un seul group
-        // Plusieurs dépense appartiennent au meme groupe
-        private Group $group,
-    ) {
+    public function __construct()
+    {
+        $this->participants = new ArrayCollection();
     }
 
     public function getId(): int
