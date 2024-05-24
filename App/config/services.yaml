@@ -7,6 +7,7 @@ services:
 
   App\Command\HandleBalanceCommand: ~
   App\Command\DatabaseFlushTest: ~
+  App\Command\ResetDB: ~
 
   App\Repository\ExpenseRepository: ~
   App\Repository\GroupRepository: ~

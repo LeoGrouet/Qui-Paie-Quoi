@@ -24,8 +24,8 @@ class User
     #[OneToMany(targetEntity: Expense::class, mappedBy: 'payer')]
     private Collection|null $expenses = null;
 
-
     public function __construct(
+
         #[ORM\Column(type: 'string', length: 60)]
         private string $name,
 
@@ -37,8 +37,18 @@ class User
     ) {
     }
 
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
     }
 }

@@ -16,18 +16,44 @@ class Group
     #[ORM\Column]
     private int $id;
 
+    #[ManyToMany(targetEntity: User::class, mappedBy: 'groups')]
+    private Collection $users;
+
+    #[OneToMany(targetEntity: Expense::class, mappedBy: 'group')]
+    private Collection $expenses;
+
     public function __construct(
         #[ORM\Column(type: 'string', length: 60)]
-        private int $name,
+        private string $name,
 
         #[ORM\Column(type: 'string', length: 180)]
         private string $description,
 
-        #[ManyToMany(targetEntity: User::class, mappedBy: 'groups')]
-        private Collection $users,
-
-        #[OneToMany(targetEntity: Expense::class, mappedBy: 'group')]
-        private Collection $expenses
     ) {
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function getUser(): Collection
+    {
+        return $this->users;
+    }
+
+    public function getExpenses(): Collection
+    {
+        return $this->expenses;
     }
 }
