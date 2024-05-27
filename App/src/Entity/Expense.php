@@ -33,9 +33,9 @@ class Expense
 
         #[JoinTable(name: 'expenses_participants')]
         #[JoinColumn(name: 'expense_id', referencedColumnName: 'id')]
-        #[InverseJoinColumn(name: 'user_id', referencedColumnName: 'id', unique: true)]
+        #[InverseJoinColumn(name: 'user_id', referencedColumnName: 'id')]
         #[ManyToMany(targetEntity: 'User')]
-        private Collection $participants,
+        private Collection|null $participants = null,
 
         #[ManyToOne(targetEntity: Group::class, inversedBy: 'expenses')]
         #[JoinColumn(name: 'group_id', referencedColumnName: 'id')]

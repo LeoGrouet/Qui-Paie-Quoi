@@ -4,8 +4,6 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\JoinTable;
-use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\OneToMany;
 
 #[ORM\Entity]
@@ -16,10 +14,6 @@ class User
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private int $id;
-
-    #[ManyToMany(targetEntity: Group::class, inversedBy: 'users')]
-    #[JoinTable(name: 'users_groups')]
-    private Collection|null $groups = null;
 
     #[OneToMany(targetEntity: Expense::class, mappedBy: 'payer')]
     private Collection|null $expenses = null;
