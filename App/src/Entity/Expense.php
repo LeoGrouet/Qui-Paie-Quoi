@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ExpenseRepository::class)]
 class Expense
@@ -31,10 +32,12 @@ class Expense
         #[ManyToOne(targetEntity: User::class, inversedBy: 'expenses')]
         private User $payer,
 
-        #[JoinTable(name: 'expenses_participants')]
-        #[JoinColumn(name: 'expense_id', referencedColumnName: 'id')]
-        #[InverseJoinColumn(name: 'user_id', referencedColumnName: 'id')]
-        #[ManyToMany(targetEntity: 'User')]
+        /**
+         * @var Collection<int, User>
+         */
+        #[ManyToMany(targetEntity: User::class, inversedBy: 'expenses')]
+        #[JoinTable(name: 'expenses_users')]
+        #[Groups(['expense.participants'])]
         private Collection|null $participants = null,
 
         #[ManyToOne(targetEntity: Group::class, inversedBy: 'expenses')]

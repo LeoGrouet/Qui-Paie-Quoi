@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\OneToMany;
 
 #[ORM\Entity]
@@ -17,6 +18,12 @@ class User
 
     #[OneToMany(targetEntity: Expense::class, mappedBy: 'payer')]
     private Collection|null $expenses = null;
+
+    /**
+     * @var Collection<int, Expense>
+     */
+    #[ManyToMany(targetEntity: Expense::class, mappedBy: 'users')]
+    private Collection $expensesparticipants;
 
     public function __construct(
 
