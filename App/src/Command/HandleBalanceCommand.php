@@ -41,19 +41,21 @@ class HandleBalanceCommand extends Command
             $groupsName[$group->getId()] = $group->getName();
         }
 
-        $name = $io->choice(
-            'Selectionner le scénario à executer:',
-            $groupsName
-        );
+        // $name = $io->choice(
+        //     'Selectionner le scénario à executer:',
+        //     $groupsName
+        // );
 
-        $id = $this->groupRepository->getIdOfGroupByName($name);
+        $name = "toto";
+
+        $id = $this->groupRepository->findByNameAndReturnId($name);
 
         $this->showBalance($id, $output);
 
         return Command::SUCCESS;
     }
 
-    private function showBalance(int $id, OutputInterface $output): void
+    protected function showBalance(int $id, OutputInterface $output): void
     {
         $expenses = $this->expenseRepository->getExpensesOfGroupById($id);
 

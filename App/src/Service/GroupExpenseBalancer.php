@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Controller\API\UserController;
 use App\Entity\Bilan;
 use App\Entity\Expense;
 use App\Entity\User;
@@ -73,20 +72,26 @@ class GroupExpenseBalancer
                 $bilan->setParticipation($participation + $amountByParticipants);
             }
 
-            foreach ($participants as $participant) {
-                $participantName = $participant->getName();
-                if ($name !== $payerName || $name === $participantName) {
-                    continue;
-                }
-
-                if (array_key_exists($participantName, $owe)) {
-                    $owe[$participantName] += $amountByParticipants;
-                }
-
-                $owe[$participantName] = $amountByParticipants;
-            }
-            $bilan->setBalance($cost - $participation);
-            $bilan->setOwe($owe);
+            $this->updateParticipantOwe($participants, $name, $payerName, $owe, $amountByParticipants, $bilan, $cost, $participation);
         }
+    }
+
+    private function updateParticipantOwe(Collection $participants, string $name, string $payerName, array $owe, int $amountByParticipants, Bilan $bilan, int $cost, int $participation)
+    {
+        foreach ($participants as $participant) {
+            $participantName = $participant->getName();
+            if ($name !== $payerName || $name === $participantName) {
+                continue;
+            }
+
+            if (array_key_exists($participantName, $owe)) {
+                $owe[$participantName] += $amountByParticipants;
+            }
+
+            $owe[$participantName] = $amountByParticipants;
+        }
+
+        $bilan->setBalance($cost - $participation);
+        $bilan->setOwe($owe);
     }
 }

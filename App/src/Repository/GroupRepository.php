@@ -13,15 +13,14 @@ class GroupRepository extends ServiceEntityRepository
         parent::__construct($registry, Group::class);
     }
 
-    public function getIdOfGroupByName(string $name): int
+    public function findByNameAndReturnId(string $name): int
     {
         $query = $this->createQueryBuilder('g')
             ->where('g.name = :name')
             ->setParameter('name', $name)
             ->getQuery()
-            // Lire la docs pour recupérer autre result
-            ->getResult();
+            ->getOneOrNullResult();
 
-        return $query[0]->getId();
+        return $query->getId();
     }
 }
