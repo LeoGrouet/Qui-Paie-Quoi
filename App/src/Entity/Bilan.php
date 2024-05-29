@@ -25,7 +25,7 @@ class Bilan
         return $this->balance;
     }
 
-    public function setBalance($balance): void
+    public function setBalance(int $balance): void
     {
         $this->balance = $balance;
     }
@@ -35,7 +35,7 @@ class Bilan
         return $this->cost;
     }
 
-    public function setCost($cost): void
+    public function setCost(int $cost): void
     {
         $this->cost = $cost;
     }
@@ -45,7 +45,7 @@ class Bilan
         return $this->participation;
     }
 
-    public function setParticipation($participation): void
+    public function setParticipation(int $participation): void
     {
         $this->participation = $participation;
     }
@@ -55,7 +55,7 @@ class Bilan
         return $this->owe;
     }
 
-    public function setOwe($owe): void
+    public function setOwe(array $owe): void
     {
         $this->owe = $owe;
     }

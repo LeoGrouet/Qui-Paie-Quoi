@@ -19,12 +19,6 @@ class User
     #[OneToMany(targetEntity: Expense::class, mappedBy: 'payer')]
     private Collection|null $expenses = null;
 
-    /**
-     * @var Collection<int, Expense>
-     */
-    #[ManyToMany(targetEntity: Expense::class, mappedBy: 'users')]
-    private Collection $expensesparticipants;
-
     public function __construct(
 
         #[ORM\Column(type: 'string', length: 60)]

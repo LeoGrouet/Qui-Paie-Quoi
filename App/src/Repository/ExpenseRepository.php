@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Expense;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
 
 class ExpenseRepository extends ServiceEntityRepository
@@ -13,20 +14,18 @@ class ExpenseRepository extends ServiceEntityRepository
         parent::__construct($registry, Expense::class);
     }
 
-    public function getAllExpenses()
+    public function getAllExpenses(): Collection
     {
         return $this->createQueryBuilder('expense')
             ->getQuery()
             ->getResult();
     }
 
-    public function getExpensesOfGroupById($id)
+    public function getExpensesOfGroupById(int $id): array
     {
-        // Should return all the expenses where the group id is : $id
         return $this->createQueryBuilder('expense')
-            ->join('expense.user', 'u')
-            ->where('u.id = :id')
-            ->setParameter('id', $id)
+            ->where('expense.group = :group')
+            ->setParameter('group', $id)
             ->getQuery()
             ->getResult();
     }

@@ -28,7 +28,7 @@ class DatabaseFlushTest extends Command
     }
     // TODO: Créer une fonction pour créer tout les users de tout les scénarios
 
-    private function loadFirstScenario()
+    private function loadFirstScenario(): void
     {
         $usersData = new ArrayCollection([
             new User("Alice", "alice@gmail.com", "alice"),
@@ -72,7 +72,7 @@ class DatabaseFlushTest extends Command
         $this->entityManager->flush();
     }
 
-    private function loadSecondScenario()
+    private function loadSecondScenario(): void
     {
 
         $usersData = new ArrayCollection([
@@ -115,7 +115,7 @@ class DatabaseFlushTest extends Command
         $this->entityManager->flush();
     }
 
-    private function loadThirdScenario()
+    private function loadThirdScenario(): void
     {
         $usersData = new ArrayCollection([
             new User("George", "george@gmail.com", "george"),
@@ -155,7 +155,7 @@ class DatabaseFlushTest extends Command
         $this->entityManager->flush();
     }
 
-    private function loadFourthScenario()
+    private function loadFourthScenario(): void
     {
         $usersData = new ArrayCollection([
             new User("Isabelle", "isabelle@gmail.com", "isabelle"),
