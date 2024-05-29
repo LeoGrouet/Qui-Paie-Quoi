@@ -37,7 +37,7 @@ class GroupExpenseBalancer
     /**
      * @param array<Expense> $expenses
      */
-    private function setExpenses(array $expenses, array $bilans)
+    private function setExpenses(array $expenses, array $bilans): void
     {
         foreach ($expenses as $expense) {
             $amount = $expense->getAmount();
@@ -55,7 +55,7 @@ class GroupExpenseBalancer
      * @param Collection<User> $participants
      * @param array<Bilan> $bilans
      */
-    private function updateBilan(array $bilans, int $amount, Collection $participants, User $payer, int $amountByParticipants)
+    private function updateBilan(array $bilans, int $amount, Collection $participants, User $payer, int $amountByParticipants): void
     {
         foreach ($bilans as $bilan) {
             $payerName = $payer->getName();
@@ -76,7 +76,7 @@ class GroupExpenseBalancer
         }
     }
 
-    private function updateParticipantOwe(Collection $participants, string $name, string $payerName, array $owe, int $amountByParticipants, Bilan $bilan, int $cost, int $participation)
+    private function updateParticipantOwe(Collection $participants, string $name, string $payerName, array $owe, int $amountByParticipants, Bilan $bilan, int $cost, int $participation): void
     {
         foreach ($participants as $participant) {
             $participantName = $participant->getName();
@@ -93,5 +93,25 @@ class GroupExpenseBalancer
 
         $bilan->setBalance($cost - $participation);
         $bilan->setOwe($owe);
+    }
+
+    public function showBalance(int $id): array
+    {
+        $expenses = $this->expenseRepository->getExpensesOfGroupById($id);
+
+        $bilans = $this->expenseBalancer($expenses);
+
+        $balances = [];
+
+        foreach ($bilans as $bilan) {
+            $name = $bilan->getName();
+            $owe = $bilan->getOwe();
+
+            foreach ($owe as $key => $values) {
+                $formatedValue = $values / 100;
+                array_push($balances, ("{$key} doit {$formatedValue} euros à {$name}"));
+            }
+        }
+        return $balances;
     }
 }

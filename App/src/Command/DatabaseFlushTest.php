@@ -26,7 +26,6 @@ class DatabaseFlushTest extends Command
     ) {
         parent::__construct();
     }
-    // TODO: Créer une fonction pour créer tout les users de tout les scénarios
 
     private function loadFirstScenario(): void
     {
@@ -95,7 +94,6 @@ class DatabaseFlushTest extends Command
 
         echo 'Group of second scenario is loaded in DB' . PHP_EOL;
 
-        // Définir dynamiquement les variables en fonction du name de chaque User pour pouvoir foreach OU map
         $pierre = $this->userRepository->getUserByName("Pierre");
         $david = $this->userRepository->getUserByName("David");
         $emilie = $this->userRepository->getUserByName("Emilie");
@@ -135,7 +133,6 @@ class DatabaseFlushTest extends Command
 
         echo 'Group of third scenario is loaded in DB' . PHP_EOL;
 
-        // Définir dynamiquement les variables en fonction du name de chaque User pour pouvoir foreach OU map
         $george = $this->userRepository->getUserByName("George");
         $helene = $this->userRepository->getUserByName("Helene");
 
@@ -176,7 +173,6 @@ class DatabaseFlushTest extends Command
 
         echo 'Group of fourth scenario is loaded in DB' . PHP_EOL;
 
-        // Définir dynamiquement les variables en fonction du name de chaque User pour pouvoir foreach OU map
         $isabelle = $this->userRepository->getUserByName("Isabelle");
         $julien = $this->userRepository->getUserByName("Julien");
         $leo = $this->userRepository->getUserByName("Leo");

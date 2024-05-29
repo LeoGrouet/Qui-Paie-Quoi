@@ -19,7 +19,7 @@ class HandleBalanceCommand extends Command
         private EntityManagerInterface $entityManager,
         private ExpenseRepository $expenseRepository,
         private GroupRepository $groupRepository,
-        private GroupExpenseBalancer $groupExpenseBalancer,
+        private GroupExpenseBalancer $groupExpenseBalancer
     ) {
         parent::__construct();
     }
@@ -41,34 +41,24 @@ class HandleBalanceCommand extends Command
             $groupsName[$group->getId()] = $group->getName();
         }
 
-        // $name = $io->choice(
-        //     'Selectionner le scénario à executer:',
-        //     $groupsName
-        // );
-
-        $name = "toto";
+        $name = $io->choice(
+            'Selectionner le scénario à executer:',
+            $groupsName
+        );
 
         $id = $this->groupRepository->findByNameAndReturnId($name);
 
-        $this->showBalance($id, $output);
+        $this->outputBalance($id, $output);
 
         return Command::SUCCESS;
     }
 
-    protected function showBalance(int $id, OutputInterface $output): void
+    protected function outputBalance(int $id, OutputInterface $output)
     {
-        $expenses = $this->expenseRepository->getExpensesOfGroupById($id);
+        $balances = $this->groupExpenseBalancer->showBalance($id);
 
-        $bilans = $this->groupExpenseBalancer->expenseBalancer($expenses);
-
-        foreach ($bilans as $bilan) {
-            $name = $bilan->getName();
-            $owe = $bilan->getOwe();
-
-            foreach ($owe as $key => $values) {
-                $formatedValue = $values / 100;
-                $output->writeln("{$key} doit {$formatedValue} euros à {$name}");
-            }
+        foreach ($balances as $balance) {
+            $output->writeln($balance) . PHP_EOL;
         }
     }
 }

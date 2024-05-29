@@ -21,13 +21,4 @@ class UserRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-
-    public function findParticipantsByExpenseId(int $id): array
-    {
-        return $this->createQueryBuilder('expenses_users')
-            ->where('expense_id = :id')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getResult();
-    }
 }
