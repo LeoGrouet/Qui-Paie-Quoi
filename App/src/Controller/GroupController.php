@@ -25,7 +25,7 @@ class GroupController extends AbstractController
         try {
             $balances = $groupExpenseBalancer->showBalance($id);
         } catch (Exception) {
-            new Error("Ce groupe n'existe pas !", 204);
+            new Error("Ce groupe n'existe pas !", 404);
         }
 
         return $this->render(
