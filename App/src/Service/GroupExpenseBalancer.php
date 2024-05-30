@@ -109,7 +109,7 @@ class GroupExpenseBalancer
 
             foreach ($owe as $key => $values) {
                 $formatedValue = $values / 100;
-                array_push($balances, ("{$key} doit {$formatedValue} euros à {$name}"));
+                array_push($balances, ["userOwe" => $key, "amount" => $formatedValue, "to" => $name]);
             }
         }
         return $balances;

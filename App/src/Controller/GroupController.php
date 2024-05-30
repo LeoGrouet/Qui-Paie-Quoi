@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\GroupRepository;
 use App\Service\GroupExpenseBalancer;
 use Error;
 use Exception;
@@ -20,10 +21,11 @@ class GroupController extends AbstractController
     }
 
     #[Route('/{id}', name: '_id', methods: ["GET"], requirements: ['id' => Requirement::DIGITS])]
-    public function showGroup(int $id, GroupExpenseBalancer $groupExpenseBalancer)
+    public function showGroup(int $id, GroupRepository $groupRepository, GroupExpenseBalancer $groupExpenseBalancer)
     {
         try {
             $balances = $groupExpenseBalancer->showBalance($id);
+            $groupName = $groupRepository->findById($id)->getName();
         } catch (Exception) {
             new Error("Ce groupe n'existe pas !", 404);
         }
@@ -31,6 +33,7 @@ class GroupController extends AbstractController
         return $this->render(
             'group.html.twig',
             [
+                'groupName' => $groupName,
                 'balances' => $balances
             ]
         );

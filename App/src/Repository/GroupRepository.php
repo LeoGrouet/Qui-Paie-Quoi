@@ -23,4 +23,13 @@ class GroupRepository extends ServiceEntityRepository
 
         return $query->getId();
     }
+
+    public function findById(int $id): Group
+    {
+        return $this->createQueryBuilder('g')
+            ->where('g.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

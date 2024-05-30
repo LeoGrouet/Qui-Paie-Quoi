@@ -1,7 +1,11 @@
 {% extends "base.html.twig" %}
 {% block group %}
-  {% for balance in balances %}
-    <p>{{balance}}</p>
-  {% endfor %}
+    <h2 class="group_title">{{groupName}}</h2>
+    <h3 class="group_subtitle">Equilibre</h3>
+    <div class="group_balance_container">
+      {% for balance in balances %}
+        <p class="group_balance_sentence">{{balance["userOwe"]}} doit à {{balance["to"]}} : {{balance["amount"]}} euros</p>
+      {% endfor %}
+    </div>
+  
 {% endblock %}
-    

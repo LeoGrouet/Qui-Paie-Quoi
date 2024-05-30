@@ -47,6 +47,7 @@ class HandleBalanceCommand extends Command
         );
 
         $id = $this->groupRepository->findByNameAndReturnId($name);
+        $test = $this->groupRepository->findById($id);
 
         $this->outputBalance($id, $output);
 
