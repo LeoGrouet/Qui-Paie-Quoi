@@ -1,11 +1,17 @@
 {% extends "base.html.twig" %}
 {% block group %}
+<div class="group_container">
     <h2 class="group_title">{{groupName}}</h2>
-    <h3 class="group_subtitle">Equilibre</h3>
-    <div class="group_balance_container">
-      {% for balance in balances %}
-        <p class="group_balance_sentence">{{balance["userOwe"]}} doit à {{balance["to"]}} : {{balance["amount"]}} euros</p>
-      {% endfor %}
-    </div>
-  
+      <div class="group_parameter">
+          <div class="group_parameter_expense">Dépenses</div>
+          <div class="group_parameter_balance group_parameter_active">Equilibre</div>
+      </div>
+        <div class="group_info_container">
+          {% for balance in balances %}
+            <div class="group_info">
+            <p class="group_info_text">{{balance["userOwe"]}} doit à {{balance["to"]}} </p><p class="group_info_amount">{{balance["amount"]}} €</p>
+            </div>
+          {% endfor %}
+        </div>
+</div> 
 {% endblock %}

@@ -26,6 +26,7 @@ class GroupController extends AbstractController
         try {
             $balances = $groupExpenseBalancer->showBalance($id);
             $groupName = $groupRepository->findById($id)->getName();
+            asort($balances);
         } catch (Exception) {
             new Error("Ce groupe n'existe pas !", 404);
         }

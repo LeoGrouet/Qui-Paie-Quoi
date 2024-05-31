@@ -18,9 +18,12 @@ class Expense
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private int $id;
-    /**
-     * @param Collection<User> $participants
-     */
+
+    // This @param seems to be Deprecated: Optional parameter $participants declared before required parameter $group is implicitly treated as a required parameter in /Users/leogrouet/Desktop/Work/Qui-Paie-Quoi/App/src/Entity/Expense.php on line 27
+    // /**
+    //  * @param Collection<User> $participants
+    //  */
+
     public function __construct(
         #[ORM\Column(type: 'integer')]
         private int $amount,
