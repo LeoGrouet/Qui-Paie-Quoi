@@ -27,13 +27,28 @@ class DatabaseFlushTest extends Command
         parent::__construct();
     }
 
+    private function newUser(array $names)
+    {
+        // return array_map(
+        //     function (string $name): User {
+        //         $nameToLower = strtolower($name);
+        //         return new User($name, `$nameToLower@gmail.com`, $nameToLower);
+        //     },
+        //     $names
+        // );
+        $test = "test";
+        return array_map(
+            fn (string $name): User => new User($name, `strtolower($test)@gmail.com`, strtolower($name)),
+            $names
+        );
+    }
+
     private function createUsers()
     {
+        // Crée une fonction de création d'user prénant en parametres le Nom $name du User et determinant $user@gmail.com et tolowerstring($name)
         $usersData = [
             "First Group" => new ArrayCollection([
-                new User("Alice", "alice@gmail.com", "alice"),
-                new User("Charles", "charles@gmail.com", "charles"),
-                new User("Camille", "camille@gmail.com", "camille")
+                $this->newUser(["Alice", "Charles", "Camille"])
             ]),
 
             "Second Group" => new ArrayCollection([
@@ -57,15 +72,14 @@ class DatabaseFlushTest extends Command
 
         foreach ($usersData as $key => $value) {
 
-            $usersToFlush = $this->entityManager->persist($value);
-            $this->createGroup($value, $key, $usersToFlush);
+            $this->persistAndFlush($value);
+            $this->createGroup($value, $key);
         }
     }
 
-    private function createGroup($usersData, $groupId, $usersToFlush)
+    private function createGroup($usersData, string $groupId)
     {
         $group = new Group($groupId, "{$groupId} test", $usersData);
-        dump($group);
         $this->persistAndFlush($group);
     }
 

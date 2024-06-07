@@ -21,13 +21,13 @@ class GroupController extends AbstractController
     #[Route('/{id}', name: '_id', methods: ["GET"], requirements: ['id' => Requirement::DIGITS])]
     public function showGroup(int $id, GroupRepository $groupRepository, GroupExpenseBalancer $groupExpenseBalancer)
     {
-        $group = $groupRepository->findById($id);
+        $group = $groupRepository->findOneById($id);
 
         if ($group === null) {
             return $this->render('error.html.twig');
         }
 
-        $groupName = $groupRepository->findById($id)->getName();
+        $groupName = $groupRepository->findOneById($id)->getName();
         $balances = $groupExpenseBalancer->showBalance($id);
         asort($balances);
 
