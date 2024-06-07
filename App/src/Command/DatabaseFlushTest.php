@@ -27,46 +27,37 @@ class DatabaseFlushTest extends Command
         parent::__construct();
     }
 
-    private function newUser(array $names)
+    private function createUsers(array $names)
     {
-        // return array_map(
-        //     function (string $name): User {
-        //         $nameToLower = strtolower($name);
-        //         return new User($name, `$nameToLower@gmail.com`, $nameToLower);
-        //     },
-        //     $names
-        // );
-        $test = "test";
         return array_map(
-            fn (string $name): User => new User($name, `strtolower($test)@gmail.com`, strtolower($name)),
+            fn (string $name): User => new User($name, `strtolower($name)@gmail.com`, strtolower($name)),
             $names
         );
     }
 
-    private function createUsers()
+    private function createGroup($usersData, string $groupId)
     {
-        // Crée une fonction de création d'user prénant en parametres le Nom $name du User et determinant $user@gmail.com et tolowerstring($name)
+        $group = new Group($groupId, "{$groupId} test", $usersData);
+        $this->persistAndFlush($group);
+    }
+
+    private function addUsersAndGroupsInDB()
+    {
         $usersData = [
             "First Group" => new ArrayCollection([
                 $this->newUser(["Alice", "Charles", "Camille"])
             ]),
 
             "Second Group" => new ArrayCollection([
-                new User("Pierre", "pierre@gmail.com", "pierre"),
-                new User("David", "david@gmail.com", "david"),
-                new User("Emilie", "emilie@gmail.com", "emilie"),
-                new User("Florence", "florence@gmail.com", "florence")
+                $this->newUser(["Pierre", "David", "Emilie","Florence"])
             ]),
 
             "Third Group" => new ArrayCollection([
-                new User("George", "george@gmail.com", "george"),
-                new User("Helene", "helene@gmail.com", "helene"),
+                $this->newUser(["Helene", "George"])
             ]),
 
             "Fourth Group" => new ArrayCollection([
-                new User("Isabelle", "isabelle@gmail.com", "isabelle"),
-                new User("Julien", "julien@gmail.com", "julien"),
-                new User("Leo", "leo@gmail.com", "leo")
+                $this->newUser(["Isabelle", "Julien", "Leo"])
             ])
         ];
 
@@ -75,12 +66,6 @@ class DatabaseFlushTest extends Command
             $this->persistAndFlush($value);
             $this->createGroup($value, $key);
         }
-    }
-
-    private function createGroup($usersData, string $groupId)
-    {
-        $group = new Group($groupId, "{$groupId} test", $usersData);
-        $this->persistAndFlush($group);
     }
 
     private function persistAndFlush($data)
@@ -266,7 +251,7 @@ class DatabaseFlushTest extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->createUsers();
+        $this->addUsersAndGroupsInDB();
 
         return Command::SUCCESS;
     }
