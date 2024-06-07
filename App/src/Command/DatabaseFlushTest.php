@@ -19,12 +19,61 @@ use Symfony\Component\Console\Output\OutputInterface;
 class DatabaseFlushTest extends Command
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private ExpenseRepository $expenseRepository,
-        private GroupRepository $groupRepository,
-        private UserRepository $userRepository
+        readonly private EntityManagerInterface $entityManager,
+        readonly private ExpenseRepository $expenseRepository,
+        readonly private GroupRepository $groupRepository,
+        readonly private UserRepository $userRepository
     ) {
         parent::__construct();
+    }
+
+    private function createUsers()
+    {
+        $usersData = [
+            "First Group" => new ArrayCollection([
+                new User("Alice", "alice@gmail.com", "alice"),
+                new User("Charles", "charles@gmail.com", "charles"),
+                new User("Camille", "camille@gmail.com", "camille")
+            ]),
+
+            "Second Group" => new ArrayCollection([
+                new User("Pierre", "pierre@gmail.com", "pierre"),
+                new User("David", "david@gmail.com", "david"),
+                new User("Emilie", "emilie@gmail.com", "emilie"),
+                new User("Florence", "florence@gmail.com", "florence")
+            ]),
+
+            "Third Group" => new ArrayCollection([
+                new User("George", "george@gmail.com", "george"),
+                new User("Helene", "helene@gmail.com", "helene"),
+            ]),
+
+            "Fourth Group" => new ArrayCollection([
+                new User("Isabelle", "isabelle@gmail.com", "isabelle"),
+                new User("Julien", "julien@gmail.com", "julien"),
+                new User("Leo", "leo@gmail.com", "leo")
+            ])
+        ];
+
+        foreach ($usersData as $key => $value) {
+
+            $usersToFlush = $this->entityManager->persist($value);
+            $this->createGroup($value, $key, $usersToFlush);
+        }
+    }
+
+    private function createGroup($usersData, $groupId, $usersToFlush)
+    {
+        $group = new Group($groupId, "{$groupId} test", $usersData);
+        dump($group);
+        $this->persistAndFlush($group);
+    }
+
+    private function persistAndFlush($data)
+    {
+
+        $this->entityManager->persist($data);
+        $this->entityManager->flush();
     }
 
     private function loadFirstScenario(): void
@@ -48,9 +97,11 @@ class DatabaseFlushTest extends Command
 
         echo 'Group of first scenario is loaded in DB' . PHP_EOL;
 
-        $alice = $this->userRepository->getUserByName("Alice");
-        $charles = $this->userRepository->getUserByName("Charles");
-        $camille = $this->userRepository->getUserByName("Camille");
+        $users = $group->getUser();
+        foreach ($users as $user) {
+            $name = strtolower($user->getName());
+            $$name = $user;
+        }
 
         $collection1 = new ArrayCollection([$alice, $charles, $camille]);
         $collection2 = new ArrayCollection([$charles]);
@@ -94,10 +145,11 @@ class DatabaseFlushTest extends Command
 
         echo 'Group of second scenario is loaded in DB' . PHP_EOL;
 
-        $pierre = $this->userRepository->getUserByName("Pierre");
-        $david = $this->userRepository->getUserByName("David");
-        $emilie = $this->userRepository->getUserByName("Emilie");
-        $florence = $this->userRepository->getUserByName("Florence");
+        $users = $group->getUser();
+        foreach ($users as $user) {
+            $name = strtolower($user->getName());
+            $$name = $user;
+        }
 
         $participantsCollectionOne = new ArrayCollection([$david, $emilie, $florence]);
 
@@ -133,8 +185,11 @@ class DatabaseFlushTest extends Command
 
         echo 'Group of third scenario is loaded in DB' . PHP_EOL;
 
-        $george = $this->userRepository->getUserByName("George");
-        $helene = $this->userRepository->getUserByName("Helene");
+        $$users = $group->getUser();
+        foreach ($users as $user) {
+            $name = strtolower($user->getName());
+            $$name = $user;
+        }
 
         $participantsCollectionOne = new ArrayCollection([$george, $helene]);
 
@@ -173,9 +228,11 @@ class DatabaseFlushTest extends Command
 
         echo 'Group of fourth scenario is loaded in DB' . PHP_EOL;
 
-        $isabelle = $this->userRepository->getUserByName("Isabelle");
-        $julien = $this->userRepository->getUserByName("Julien");
-        $leo = $this->userRepository->getUserByName("Leo");
+        $users = $group->getUser();
+        foreach ($users as $user) {
+            $name = strtolower($user->getName());
+            $$name = $user;
+        }
 
         $participantsCollection = new ArrayCollection([$isabelle, $julien, $leo]);
 
@@ -195,10 +252,7 @@ class DatabaseFlushTest extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->loadFirstScenario();
-        $this->loadSecondScenario();
-        $this->loadThirdScenario();
-        $this->loadFourthScenario();
+        $this->createUsers();
 
         return Command::SUCCESS;
     }

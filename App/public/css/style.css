@@ -1,21 +1,31 @@
-.group_container{
+:root{
+    --space-xs: 0.5em;
+    --space-s: 0.8em;
+    --space-m: 1em;
+    --space-l: 1.5em;
+    --space-xl: 1.8em;
+
     font-size: 35px;
+}
+
+.group_container{
+    font-size: 1em;
     display: grid;
-    gap: 2vh;
+    gap: 1em;
 }
 
 .group_title{
-    font-size:2vh;
+    font-size:1em;
     text-align: center;
-    margin: 2vh 1vh;
+    margin: var(--space-s) var(--space-xs);
 }
 
 .group_parameter{
     display: flex;
-    font-size: 2.5vh;
-    gap:3.5vh;
+    font-size: var(--space-m);
+    gap:var(--space-l);
     justify-content: center;
-    margin: 1vh 1vh;
+    margin: var(--space-xs);
 }
 
 .group_parameter_active{
@@ -24,10 +34,11 @@
 }
 
 .group_parameter > div{
+    font-size: 1em;
     border: solid #2e1e59 2px;
     text-align: center;
     align-content: center;
-    height: 3vh;
+    height:var(--space-l);
     width: 43%;
     border-radius: 60px;
 }
@@ -35,8 +46,8 @@
 .group_info_container{
     display: flex;
     flex-direction: column;
-    font-size: 2.5vh;
-    row-gap: 1vh;
+    font-size: var(--space-m);
+    row-gap: var(--space-xs);
     width: 90%;
     justify-self: center;
 }
@@ -44,21 +55,23 @@
 .group_info{
     border: solid #2e1e59 2px;
     width: 100%;
-    height: 6vh;
+    height: var(--space-xl);
     border-radius: 60px;
     text-align: center;
     display: flex;
     justify-content: space-around;
 }
 .group_info_text{
+    font-size: var(--space-s);
     text-align: left;
     width: 63%;
-    margin-left: 5%;
+    margin-left: var(--space-m);
 }
 
 .group_info_amount{
+    font-size: var(--space-s);
     width: 20%;
-    margin-left: 2vh;
+    margin-left: var(--space-m);
     text-align: left;
 }
 

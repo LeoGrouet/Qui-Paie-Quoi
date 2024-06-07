@@ -16,10 +16,10 @@ use App\Service\GroupExpenseBalancer;
 class HandleBalanceCommand extends Command
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private ExpenseRepository $expenseRepository,
-        private GroupRepository $groupRepository,
-        private GroupExpenseBalancer $groupExpenseBalancer
+        readonly private EntityManagerInterface $entityManager,
+        readonly private ExpenseRepository $expenseRepository,
+        readonly private GroupRepository $groupRepository,
+        readonly private GroupExpenseBalancer $groupExpenseBalancer
     ) {
         parent::__construct();
     }

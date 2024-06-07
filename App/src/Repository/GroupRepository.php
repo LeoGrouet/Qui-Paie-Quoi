@@ -23,7 +23,7 @@ class GroupRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
-    public function findById(int $id): ?Group
+    public function findOneById(int $id): ?Group
     {
         return $this->createQueryBuilder('g')
             ->where('g.id = :id')

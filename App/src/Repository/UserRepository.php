@@ -13,12 +13,14 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function getUserByName(string $name): User
+    public function findOneByName(string $name): User
     {
-        return $this->createQueryBuilder('user')
+        $query = $this->createQueryBuilder('user')
             ->where('user.name = :name')
             ->setParameter('name', $name)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getResult();
+        dump($query);
+        return $query;
     }
 }

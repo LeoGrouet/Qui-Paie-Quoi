@@ -56,3 +56,14 @@ Dépenses :
 
 Attentes :
 Vérifier que l'application affiche correctement que personne ne doit rien à personne.
+
+---
+
+Pour installer le projet sur votre machine :
+
+- Installer docker engine
+- Clonez le projet github
+- Accedez au repertoire du projet : cd ......./Qui-paie-quoi/App
+- Lancer la stack docker : docker compose up
+- Installez les dépendances PHP en executant : composer install
+- Installez le module PHP php8.3-xml en exécutant la commande : sudo apt install php8.3-xml.

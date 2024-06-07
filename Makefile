@@ -4,10 +4,10 @@ start:
 
 .PHONY=reset
 reset:
-	php app/bin/console do:da:dr -f
-	php app/bin/console do:da:cr --no-interaction
+	php bin/console do:da:dr -f
+	php bin/console do:da:cr --no-interaction
 	@make migrate
 
 .PHONY=migrate
 migrate:
-	php app/bin/console do:mi:mi --no-interaction
+	php bin/console do:mi:mi --no-interaction
