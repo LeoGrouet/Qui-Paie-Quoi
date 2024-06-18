@@ -14,93 +14,40 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Psr\Log\LoggerInterface;
 
 #[AsCommand(name: 'app:upsertInDB')]
 class DatabaseFlushTest extends Command
 {
     public function __construct(
-        readonly private EntityManagerInterface $entityManager,
-        readonly private ExpenseRepository $expenseRepository,
-        readonly private GroupRepository $groupRepository,
-        readonly private UserRepository $userRepository
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ExpenseRepository $expenseRepository,
+        private readonly GroupRepository $groupRepository,
+        private readonly UserRepository $userRepository,
+        private readonly LoggerInterface $logger
     ) {
         parent::__construct();
-    }
-
-    private function createUsers(array $names)
-    {
-        return array_map(
-            fn (string $name): User => new User($name, `strtolower($name)@gmail.com`, strtolower($name)),
-            $names
-        );
-    }
-
-    private function createGroup($usersData, string $groupId)
-    {
-        $group = new Group($groupId, "{$groupId} test", $usersData);
-        $this->persistAndFlush($group);
-    }
-
-    private function addUsersAndGroupsInDB()
-    {
-        $usersData = [
-            "First Group" => new ArrayCollection([
-                $this->newUser(["Alice", "Charles", "Camille"])
-            ]),
-
-            "Second Group" => new ArrayCollection([
-                $this->newUser(["Pierre", "David", "Emilie","Florence"])
-            ]),
-
-            "Third Group" => new ArrayCollection([
-                $this->newUser(["Helene", "George"])
-            ]),
-
-            "Fourth Group" => new ArrayCollection([
-                $this->newUser(["Isabelle", "Julien", "Leo"])
-            ])
-        ];
-
-        foreach ($usersData as $key => $value) {
-
-            $this->persistAndFlush($value);
-            $this->createGroup($value, $key);
-        }
-    }
-
-    private function persistAndFlush($data)
-    {
-
-        $this->entityManager->persist($data);
-        $this->entityManager->flush();
     }
 
     private function loadFirstScenario(): void
     {
         $usersData = new ArrayCollection([
-            new User("Alice", "alice@gmail.com", "alice"),
-            new User("Charles", "charles@gmail.com", "charles"),
-            new User("Camille", "camille@gmail.com", "camille")
+            $alice = new User("Alice", "alice@gmail.com"),
+            $charles = new User("Charles", "charles@gmail.com"),
+            $camille = new User("Camille", "camille@gmail.com")
         ]);
 
-        foreach ($usersData as $user) {
-            $this->entityManager->persist($user);
-        }
+        $this->entityManager->persist($alice);
+        $this->entityManager->persist($charles);
+        $this->entityManager->persist($camille);
 
-        echo 'User of first scenario are loaded in DB' . PHP_EOL;
+        $this->logger->info('User of first scenario are loaded in DB');
 
         $group = new Group("First groupe", "groupe test numero 1", $usersData);
+
         $this->entityManager->persist($group);
 
-        $this->entityManager->flush();
-
-        echo 'Group of first scenario is loaded in DB' . PHP_EOL;
-
-        $users = $group->getUser();
-        foreach ($users as $user) {
-            $name = strtolower($user->getName());
-            $$name = $user;
-        }
+        $this->logger->info('Group of first scenario is loaded in DB');
 
         $collection1 = new ArrayCollection([$alice, $charles, $camille]);
         $collection2 = new ArrayCollection([$charles]);
@@ -116,39 +63,32 @@ class DatabaseFlushTest extends Command
         foreach ($expenses as $expense) {
             $this->entityManager->persist($expense);
         }
-        echo "Expenses of first scenario are loaded in DB" . PHP_EOL;
 
-        $this->entityManager->flush();
+        $this->logger->info("Expenses of first scenario are loaded in DB");
     }
 
     private function loadSecondScenario(): void
     {
 
         $usersData = new ArrayCollection([
-            new User("Pierre", "pierre@gmail.com", "pierre"),
-            new User("David", "david@gmail.com", "david"),
-            new User("Emilie", "emilie@gmail.com", "emilie"),
-            new User("Florence", "florence@gmail.com", "florence")
+            $pierre = new User("Pierre", "pierre@gmail.com"),
+            $david = new User("David", "david@gmail.com"),
+            $emilie = new User("Emilie", "emilie@gmail.com"),
+            $florence = new User("Florence", "florence@gmail.com")
         ]);
 
-        foreach ($usersData as $user) {
-            $this->entityManager->persist($user);
-        }
+        $this->entityManager->persist($pierre);
+        $this->entityManager->persist($david);
+        $this->entityManager->persist($emilie);
+        $this->entityManager->persist($florence);
 
-        echo 'User of second scenario are loaded in DB' . PHP_EOL;
+        $this->logger->info('User of second scenario are loaded in DB');
 
         $group = new Group("Second groupe", "groupe test numero 2", $usersData);
+
         $this->entityManager->persist($group);
 
-        $this->entityManager->flush();
-
-        echo 'Group of second scenario is loaded in DB' . PHP_EOL;
-
-        $users = $group->getUser();
-        foreach ($users as $user) {
-            $name = strtolower($user->getName());
-            $$name = $user;
-        }
+        $this->logger->info('Group of second scenario is loaded in DB');
 
         $participantsCollectionOne = new ArrayCollection([$david, $emilie, $florence]);
 
@@ -159,36 +99,26 @@ class DatabaseFlushTest extends Command
         foreach ($expenses as $expense) {
             $this->entityManager->persist($expense);
         }
-        echo 'Expenses of first scenario are loaded in DB' . PHP_EOL;
 
-        $this->entityManager->flush();
+        $this->logger->info('Expenses of first scenario are loaded in DB');
     }
 
     private function loadThirdScenario(): void
     {
         $usersData = new ArrayCollection([
-            new User("George", "george@gmail.com", "george"),
-            new User("Helene", "helene@gmail.com", "helene"),
+            $george = new User("George", "george@gmail.com"),
+            $helene = new User("Helene", "helene@gmail.com"),
         ]);
 
-        foreach ($usersData as $user) {
-            $this->entityManager->persist($user);
-        }
+        $this->entityManager->persist($george);
+        $this->entityManager->persist($helene);
 
-        echo 'User of third scenario are loaded in DB' . PHP_EOL;
+        $this->logger->info('User of third scenario are loaded in DB');
 
         $group = new Group("Third groupe", "groupe test numero 3", $usersData);
         $this->entityManager->persist($group);
 
-        $this->entityManager->flush();
-
-        echo 'Group of third scenario is loaded in DB' . PHP_EOL;
-
-        $$users = $group->getUser();
-        foreach ($users as $user) {
-            $name = strtolower($user->getName());
-            $$name = $user;
-        }
+        $this->logger->info('Group of third scenario is loaded in DB');
 
         $participantsCollectionOne = new ArrayCollection([$george, $helene]);
 
@@ -201,37 +131,28 @@ class DatabaseFlushTest extends Command
         foreach ($expenses as $expense) {
             $this->entityManager->persist($expense);
         }
-        echo 'Expenses of third scenario are loaded in DB' . PHP_EOL;
-
-        $this->entityManager->flush();
+        $this->logger->info('Expenses of third scenario are loaded in DB');
     }
 
     private function loadFourthScenario(): void
     {
         $usersData = new ArrayCollection([
-            new User("Isabelle", "isabelle@gmail.com", "isabelle"),
-            new User("Julien", "julien@gmail.com", "julien"),
-            new User("Leo", "leo@gmail.com", "leo")
+            $isabelle = new User("Isabelle", "isabelle@gmail.com"),
+            $julien = new User("Julien", "julien@gmail.com"),
+            $leo = new User("Leo", "leo@gmail.com")
         ]);
 
-        foreach ($usersData as $user) {
-            $this->entityManager->persist($user);
-        }
+        $this->entityManager->persist($isabelle);
+        $this->entityManager->persist($julien);
+        $this->entityManager->persist($leo);
 
-        echo 'User of fourth scenario are loaded in DB' . PHP_EOL;
+        $this->logger->info('User of fourth scenario are loaded in DB');
 
         $group = new Group("Fourth groupe", "groupe test numero 4", $usersData);
+
         $this->entityManager->persist($group);
 
-        $this->entityManager->flush();
-
-        echo 'Group of fourth scenario is loaded in DB' . PHP_EOL;
-
-        $users = $group->getUser();
-        foreach ($users as $user) {
-            $name = strtolower($user->getName());
-            $$name = $user;
-        }
+        $this->logger->info('Group of fourth scenario is loaded in DB');
 
         $participantsCollection = new ArrayCollection([$isabelle, $julien, $leo]);
 
@@ -244,14 +165,17 @@ class DatabaseFlushTest extends Command
         foreach ($expenses as $expense) {
             $this->entityManager->persist($expense);
         }
-        echo 'Expenses of fourth scenario are loaded in DB' . PHP_EOL;
 
-        $this->entityManager->flush();
+        $this->logger->info('Expenses of fourth scenario are loaded in DB');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->addUsersAndGroupsInDB();
+        $this->loadFirstScenario();
+        $this->loadSecondScenario();
+        $this->loadThirdScenario();
+        $this->loadFourthScenario();
+        $this->entityManager->flush();
 
         return Command::SUCCESS;
     }

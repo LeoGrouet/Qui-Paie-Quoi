@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use App\Service\GroupExpenseBalancer;
+use Symfony\Component\Console\Question\ChoiceQuestion;
 
 #[AsCommand(name: 'app:handle-balance')]
 class HandleBalanceCommand extends Command
@@ -46,7 +47,7 @@ class HandleBalanceCommand extends Command
             $groupsName
         );
 
-        $id = $this->groupRepository->findByNameAndReturnId($name);
+        $id = $this->groupRepository->findIdByName($name);
 
         $this->outputBalance($id, $output);
 

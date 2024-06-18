@@ -2,12 +2,13 @@
 
 namespace App\Controller;
 
-use App\Repository\GroupRepository;
+use App\Entity\Group;
 use App\Service\GroupExpenseBalancer;
+use Symfony\Bridge\Doctrine\ArgumentResolver\EntityValueResolver;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Routing\Requirement\Requirement;
 
 #[Route('/group', name: 'group', methods: ["GET"])]
 class GroupController extends AbstractController
@@ -18,23 +19,20 @@ class GroupController extends AbstractController
         return $this->render('group.html.twig');
     }
 
-    #[Route('/{id}', name: '_id', methods: ["GET"], requirements: ['id' => Requirement::DIGITS])]
-    public function showGroup(int $id, GroupRepository $groupRepository, GroupExpenseBalancer $groupExpenseBalancer)
-    {
-        $group = $groupRepository->findOneById($id);
+    #[Route('/{id}')]
+    public function show(
+        Group $group,
+        GroupExpenseBalancer $groupExpenseBalancer,
+    ): Response {
 
-        if ($group === null) {
-            return $this->render('error.html.twig');
-        }
+        $balances = $groupExpenseBalancer->showBalance($group->getId());
 
-        $groupName = $groupRepository->findOneById($id)->getName();
-        $balances = $groupExpenseBalancer->showBalance($id);
         asort($balances);
 
         return $this->render(
             'group.html.twig',
             [
-                'groupName' => $groupName,
+                'groupName' => $group->getName(),
                 'balances' => $balances
             ]
         );

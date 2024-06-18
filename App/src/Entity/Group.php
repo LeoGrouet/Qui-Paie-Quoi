@@ -52,7 +52,7 @@ class Group
         return $this->description;
     }
 
-    public function getUser(): Collection
+    public function getUsers(): Collection
     {
         return $this->users;
     }
@@ -60,5 +60,10 @@ class Group
     public function getExpenses(): Collection
     {
         return $this->expenses;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

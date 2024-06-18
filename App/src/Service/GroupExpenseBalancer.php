@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\Collection;
 class GroupExpenseBalancer
 {
     public function __construct(
-        private ExpenseRepository $expenseRepository
+        readonly private ExpenseRepository $expenseRepository
     ) {
     }
     /**
@@ -55,8 +55,13 @@ class GroupExpenseBalancer
      * @param Collection<User> $participants
      * @param array<Bilan> $bilans
      */
-    private function updateBilan(array $bilans, int $amount, Collection $participants, User $payer, int $amountByParticipants): void
-    {
+    private function updateBilan(
+        array $bilans,
+        int $amount,
+        Collection $participants,
+        User $payer,
+        int $amountByParticipants
+    ): void {
         foreach ($bilans as $bilan) {
             $payerName = $payer->getName();
             $name = $bilan->getName();
@@ -76,8 +81,16 @@ class GroupExpenseBalancer
         }
     }
 
-    private function updateParticipantOwe(Collection $participants, string $name, string $payerName, array $owe, int $amountByParticipants, Bilan $bilan, int $cost, int $participation): void
-    {
+    private function updateParticipantOwe(
+        Collection $participants,
+        string $name,
+        string $payerName,
+        array $owe,
+        int $amountByParticipants,
+        Bilan $bilan,
+        int $cost,
+        int $participation
+    ): void {
         foreach ($participants as $participant) {
             $participantName = $participant->getName();
             if ($name !== $payerName || $name === $participantName) {
@@ -97,11 +110,11 @@ class GroupExpenseBalancer
 
     public function showBalance(int $id): array
     {
-        $expenses = $this->expenseRepository->getExpensesOfGroupById($id);
+        $expenses = $this->expenseRepository->findByGroupId($id);
 
         $bilans = $this->expenseBalancer($expenses);
 
-        $balances = [];
+
 
         foreach ($bilans as $bilan) {
             $name = $bilan->getName();
@@ -109,7 +122,11 @@ class GroupExpenseBalancer
 
             foreach ($owe as $key => $values) {
                 $formatedValue = $values / 100;
-                array_push($balances, ["userOwe" => $key, "amount" => $formatedValue, "to" => $name]);
+                $balances[] = [
+                    "userOwe" => $key,
+                    "amount" => $formatedValue,
+                    "to" => $name
+                ];
             }
         }
         return $balances;

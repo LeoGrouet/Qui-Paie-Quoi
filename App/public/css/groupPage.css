@@ -4,18 +4,16 @@
     --space-m: 1em;
     --space-l: 1.5em;
     --space-xl: 1.8em;
-
-    font-size: 35px;
 }
 
 .group_container{
-    font-size: 1em;
+    font-size: 2rem;
     display: grid;
     gap: 1em;
 }
 
 .group_title{
-    font-size:1em;
+    font-size:2rem;
     text-align: center;
     margin: var(--space-s) var(--space-xs);
 }
@@ -34,7 +32,7 @@
 }
 
 .group_parameter > div{
-    font-size: 1em;
+    font-size: 2rem;
     border: solid #2e1e59 2px;
     text-align: center;
     align-content: center;
