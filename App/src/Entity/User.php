@@ -16,7 +16,7 @@ class User
     private int $id;
 
     #[OneToMany(targetEntity: Expense::class, mappedBy: 'payer')]
-    private Collection|null $expenses = null;
+    private Collection $expenses;
 
     public function __construct(
 
