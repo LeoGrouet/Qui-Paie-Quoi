@@ -1,11 +1,3 @@
-:root{
-    --space-xs: 0.5em;
-    --space-s: 0.8em;
-    --space-m: 1em;
-    --space-l: 1.5em;
-    --space-xl: 1.8em;
-}
-
 .group_container{
     font-size: 2rem;
     display: grid;
@@ -51,26 +43,27 @@
 }
 
 .group_info{
+    box-sizing: border-box;
     border: solid #2e1e59 2px;
     width: 100%;
     height: var(--space-xl);
     border-radius: 60px;
     text-align: center;
-    display: flex;
+    display: grid;
+    gap: 2vh;
+    padding: 0vh 14vw;
+    grid-template-columns: 1fr 1fr;
     justify-content: space-around;
 }
 .group_info_text{
     font-size: var(--space-s);
     text-align: left;
-    width: 63%;
-    margin-left: var(--space-m);
 }
 
 .group_info_amount{
     font-size: var(--space-s);
-    width: 20%;
-    margin-left: var(--space-m);
-    text-align: left;
+    width: 100%;
+    text-align: right;
 }
 
 .group_info>p{

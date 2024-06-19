@@ -26,7 +26,6 @@ class GroupController extends AbstractController
     ): Response {
 
         $balances = $groupExpenseBalancer->showBalance($group->getId());
-
         asort($balances);
 
         return $this->render(

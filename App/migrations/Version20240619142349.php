@@ -7,11 +7,11 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20240603130254 extends AbstractMigration
+final class Version20240619142349 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Create group, user and relation table between group, user and expense';
+        return 'Create tables for groups and users and link them to expenses';
     }
 
     public function up(Schema $schema): void
@@ -25,7 +25,7 @@ final class Version20240603130254 extends AbstractMigration
         $this->addSql('CREATE TABLE groups_users (group_id INT NOT NULL, user_id INT NOT NULL, PRIMARY KEY(group_id, user_id))');
         $this->addSql('CREATE INDEX IDX_4520C24DFE54D947 ON groups_users (group_id)');
         $this->addSql('CREATE INDEX IDX_4520C24DA76ED395 ON groups_users (user_id)');
-        $this->addSql('CREATE TABLE "user" (id INT NOT NULL, name VARCHAR(60) NOT NULL, email VARCHAR(60) NOT NULL, password VARCHAR(60) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE "user" (id INT NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(60) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('ALTER TABLE expenses_users ADD CONSTRAINT FK_5009CB88F395DB7B FOREIGN KEY (expense_id) REFERENCES expense (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE expenses_users ADD CONSTRAINT FK_5009CB88A76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE groups_users ADD CONSTRAINT FK_4520C24DFE54D947 FOREIGN KEY (group_id) REFERENCES "group" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
