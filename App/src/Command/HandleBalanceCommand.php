@@ -17,10 +17,10 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 class HandleBalanceCommand extends Command
 {
     public function __construct(
-        readonly private EntityManagerInterface $entityManager,
-        readonly private ExpenseRepository $expenseRepository,
-        readonly private GroupRepository $groupRepository,
-        readonly private GroupExpenseBalancer $groupExpenseBalancer
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ExpenseRepository $expenseRepository,
+        private readonly GroupRepository $groupRepository,
+        private readonly GroupExpenseBalancer $groupExpenseBalancer
     ) {
         parent::__construct();
     }
