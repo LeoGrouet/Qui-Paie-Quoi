@@ -16,7 +16,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'app:upsertInDB')]
+#[AsCommand(name: 'app:insertInDB')]
 class DatabaseFlushTest extends Command
 {
     public function __construct(
