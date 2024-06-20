@@ -12,4 +12,13 @@ class ExpenseRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Expense::class);
     }
+
+    public function findByGroupId(int $groupId): array
+    {
+        return $this->createQueryBuilder('expense')
+            ->where('expense.group = :groupId')
+            ->setParameter('groupId', $groupId)
+            ->getQuery()
+            ->getResult();
+    }
 }

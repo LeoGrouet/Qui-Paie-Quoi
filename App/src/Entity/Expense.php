@@ -3,7 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\ExpenseRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ExpenseRepository::class)]
 class Expense
@@ -14,17 +20,29 @@ class Expense
     private int $id;
 
     /**
-     * @param array<string> $participants
+     * @param Collection<User> $participants
      */
     public function __construct(
         #[ORM\Column(type: 'integer')]
         private int $amount,
-        #[ORM\Column(type: 'string', length: 60)]
-        private string $payer,
-        #[ORM\Column(type: 'simple_array')]
-        private array $participants,
+
         #[ORM\Column(type: 'string')]
-        private string $description
+        private string $description,
+
+        #[ManyToOne(targetEntity: User::class, inversedBy: 'expenses')]
+        private User $payer,
+
+        /**
+         * @var Collection<int, User>
+         */
+        #[ManyToMany(targetEntity: User::class, inversedBy: 'expenses')]
+        #[JoinTable(name: 'expenses_users')]
+        #[Groups(['expense.participants'])]
+        private Collection $participants,
+
+        #[ManyToOne(targetEntity: Group::class, inversedBy: 'expenses')]
+        #[JoinColumn(name: 'group_id', referencedColumnName: 'id')]
+        private Group $group,
     ) {
     }
 
@@ -38,15 +56,15 @@ class Expense
         return $this->amount;
     }
 
-    public function getPayer(): string
+    public function getPayer(): User
     {
         return $this->payer;
     }
 
     /**
-     * @return array<string>
+     * @return Collection<User>
      */
-    public function getParticipants(): array
+    public function getParticipants(): Collection
     {
         return $this->participants;
     }
