@@ -10,11 +10,11 @@ use App\Repository\GroupRepository;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Psr\Log\LoggerInterface;
 
 #[AsCommand(name: 'app:upsertInDB')]
 class DatabaseFlushTest extends Command
@@ -32,9 +32,9 @@ class DatabaseFlushTest extends Command
     private function loadFirstScenario(): void
     {
         $usersData = new ArrayCollection([
-            $alice = new User("Alice", "alice@gmail.com"),
-            $charles = new User("Charles", "charles@gmail.com"),
-            $camille = new User("Camille", "camille@gmail.com")
+            $alice = new User('Alice', 'alice@gmail.com'),
+            $charles = new User('Charles', 'charles@gmail.com'),
+            $camille = new User('Camille', 'camille@gmail.com'),
         ]);
 
         $this->entityManager->persist($alice);
@@ -43,7 +43,7 @@ class DatabaseFlushTest extends Command
 
         $this->logger->info('User of first scenario are loaded in DB');
 
-        $group = new Group("First groupe", "groupe test numero 1", $usersData);
+        $group = new Group('First groupe', 'groupe test numero 1', $usersData);
 
         $this->entityManager->persist($group);
 
@@ -55,26 +55,25 @@ class DatabaseFlushTest extends Command
 
         $expenses = [
             new Expense(9 * 100, "Bouteille d'eau", $alice, $collection1, $group),
-            new Expense(6 * 100, "Sandwich", $charles, $collection2, $group),
-            new Expense(12 * 100, "Nourriture", $charles, $collection3, $group),
-            new Expense(36 * 100, "Essence", $camille, $collection1, $group)
+            new Expense(6 * 100, 'Sandwich', $charles, $collection2, $group),
+            new Expense(12 * 100, 'Nourriture', $charles, $collection3, $group),
+            new Expense(36 * 100, 'Essence', $camille, $collection1, $group),
         ];
 
         foreach ($expenses as $expense) {
             $this->entityManager->persist($expense);
         }
 
-        $this->logger->info("Expenses of first scenario are loaded in DB");
+        $this->logger->info('Expenses of first scenario are loaded in DB');
     }
 
     private function loadSecondScenario(): void
     {
-
         $usersData = new ArrayCollection([
-            $pierre = new User("Pierre", "pierre@gmail.com"),
-            $david = new User("David", "david@gmail.com"),
-            $emilie = new User("Emilie", "emilie@gmail.com"),
-            $florence = new User("Florence", "florence@gmail.com")
+            $pierre = new User('Pierre', 'pierre@gmail.com'),
+            $david = new User('David', 'david@gmail.com'),
+            $emilie = new User('Emilie', 'emilie@gmail.com'),
+            $florence = new User('Florence', 'florence@gmail.com'),
         ]);
 
         $this->entityManager->persist($pierre);
@@ -84,7 +83,7 @@ class DatabaseFlushTest extends Command
 
         $this->logger->info('User of second scenario are loaded in DB');
 
-        $group = new Group("Second groupe", "groupe test numero 2", $usersData);
+        $group = new Group('Second groupe', 'groupe test numero 2', $usersData);
 
         $this->entityManager->persist($group);
 
@@ -93,7 +92,7 @@ class DatabaseFlushTest extends Command
         $participantsCollectionOne = new ArrayCollection([$david, $emilie, $florence]);
 
         $expenses = [
-            new Expense(10 * 100, "Taxi", $pierre, $participantsCollectionOne, $group)
+            new Expense(10 * 100, 'Taxi', $pierre, $participantsCollectionOne, $group),
         ];
 
         foreach ($expenses as $expense) {
@@ -106,8 +105,8 @@ class DatabaseFlushTest extends Command
     private function loadThirdScenario(): void
     {
         $usersData = new ArrayCollection([
-            $george = new User("George", "george@gmail.com"),
-            $helene = new User("Helene", "helene@gmail.com"),
+            $george = new User('George', 'george@gmail.com'),
+            $helene = new User('Helene', 'helene@gmail.com'),
         ]);
 
         $this->entityManager->persist($george);
@@ -115,7 +114,7 @@ class DatabaseFlushTest extends Command
 
         $this->logger->info('User of third scenario are loaded in DB');
 
-        $group = new Group("Third groupe", "groupe test numero 3", $usersData);
+        $group = new Group('Third groupe', 'groupe test numero 3', $usersData);
         $this->entityManager->persist($group);
 
         $this->logger->info('Group of third scenario is loaded in DB');
@@ -123,9 +122,9 @@ class DatabaseFlushTest extends Command
         $participantsCollectionOne = new ArrayCollection([$george, $helene]);
 
         $expenses = [
-            new Expense(10 * 100, "Petit dèj", $george, $participantsCollectionOne, $group),
-            new Expense(15 * 100, "Déjeuner", $helene, new ArrayCollection([$george]), $group),
-            new Expense(20 * 100, "Diner", $george, new ArrayCollection([$helene]), $group),
+            new Expense(10 * 100, 'Petit dèj', $george, $participantsCollectionOne, $group),
+            new Expense(15 * 100, 'Déjeuner', $helene, new ArrayCollection([$george]), $group),
+            new Expense(20 * 100, 'Diner', $george, new ArrayCollection([$helene]), $group),
         ];
 
         foreach ($expenses as $expense) {
@@ -137,9 +136,9 @@ class DatabaseFlushTest extends Command
     private function loadFourthScenario(): void
     {
         $usersData = new ArrayCollection([
-            $isabelle = new User("Isabelle", "isabelle@gmail.com"),
-            $julien = new User("Julien", "julien@gmail.com"),
-            $leo = new User("Leo", "leo@gmail.com")
+            $isabelle = new User('Isabelle', 'isabelle@gmail.com'),
+            $julien = new User('Julien', 'julien@gmail.com'),
+            $leo = new User('Leo', 'leo@gmail.com'),
         ]);
 
         $this->entityManager->persist($isabelle);
@@ -148,7 +147,7 @@ class DatabaseFlushTest extends Command
 
         $this->logger->info('User of fourth scenario are loaded in DB');
 
-        $group = new Group("Fourth groupe", "groupe test numero 4", $usersData);
+        $group = new Group('Fourth groupe', 'groupe test numero 4', $usersData);
 
         $this->entityManager->persist($group);
 
@@ -157,9 +156,9 @@ class DatabaseFlushTest extends Command
         $participantsCollection = new ArrayCollection([$isabelle, $julien, $leo]);
 
         $expenses = [
-            new Expense(50 * 100, "Peinture", $isabelle, $participantsCollection, $group),
-            new Expense(50 * 100, "Faux gazon", $julien, $participantsCollection, $group),
-            new Expense(50 * 100, "Plomb", $leo, $participantsCollection, $group),
+            new Expense(50 * 100, 'Peinture', $isabelle, $participantsCollection, $group),
+            new Expense(50 * 100, 'Faux gazon', $julien, $participantsCollection, $group),
+            new Expense(50 * 100, 'Plomb', $leo, $participantsCollection, $group),
         ];
 
         foreach ($expenses as $expense) {

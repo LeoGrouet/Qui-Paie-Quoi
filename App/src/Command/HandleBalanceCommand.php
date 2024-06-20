@@ -4,13 +4,13 @@ namespace App\Command;
 
 use App\Repository\ExpenseRepository;
 use App\Repository\GroupRepository;
+use App\Service\GroupExpenseBalancer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use App\Service\GroupExpenseBalancer;
 
 #[AsCommand(name: 'app:handle-balance')]
 class HandleBalanceCommand extends Command
@@ -58,7 +58,7 @@ class HandleBalanceCommand extends Command
         $balances = $this->groupExpenseBalancer->showBalance($id);
 
         foreach ($balances as $balance) {
-            $output->writeln($balance) . PHP_EOL;
+            $output->writeln($balance).PHP_EOL;
         }
     }
 }

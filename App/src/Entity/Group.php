@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\OneToMany;
 
 #[ORM\Entity]
-#[ORM\Table(name: "`group`")]
+#[ORM\Table(name: '`group`')]
 class Group
 {
     #[ORM\Id]
@@ -20,7 +20,7 @@ class Group
     private int $id;
 
     #[OneToMany(targetEntity: Expense::class, mappedBy: 'group')]
-    private Collection|null $expenses = null;
+    private ?Collection $expenses = null;
 
     public function __construct(
         #[ORM\Column(type: 'string', length: 60)]

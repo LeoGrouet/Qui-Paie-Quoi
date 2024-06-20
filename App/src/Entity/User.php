@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OneToMany;
 
 #[ORM\Entity]
-#[ORM\Table(name: "`user`")]
+#[ORM\Table(name: '`user`')]
 class User
 {
     #[ORM\Id]
@@ -19,11 +19,10 @@ class User
     private Collection $expenses;
 
     public function __construct(
-
         #[ORM\Column(type: 'string', length: 255)]
         private string $name,
 
-        #[ORM\Column(type: "string", length: 60)]
+        #[ORM\Column(type: 'string', length: 60)]
         private string $email
     ) {
     }

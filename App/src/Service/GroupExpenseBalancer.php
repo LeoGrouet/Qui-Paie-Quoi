@@ -14,6 +14,7 @@ class GroupExpenseBalancer
         readonly private ExpenseRepository $expenseRepository
     ) {
     }
+
     /**
      * @return array<string, Bilan>
      */
@@ -53,7 +54,7 @@ class GroupExpenseBalancer
 
     /**
      * @param Collection<User> $participants
-     * @param array<Bilan> $bilans
+     * @param array<Bilan>     $bilans
      */
     private function updateBilan(
         array $bilans,
@@ -121,12 +122,13 @@ class GroupExpenseBalancer
             foreach ($owe as $key => $values) {
                 $formatedValue = $values / 100;
                 $balances[] = [
-                    "userOwe" => $key,
-                    "amount" => $formatedValue,
-                    "to" => $name
+                    'userOwe' => $key,
+                    'amount' => $formatedValue,
+                    'to' => $name,
                 ];
             }
         }
+
         return $balances;
     }
 }

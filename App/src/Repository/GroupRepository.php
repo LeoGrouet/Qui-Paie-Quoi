@@ -16,7 +16,7 @@ class GroupRepository extends ServiceEntityRepository
     public function findIdByName(string $name): int
     {
         return $this->createQueryBuilder('g')
-            ->select("g.id")
+            ->select('g.id')
             ->where('g.name = :name')
             ->setParameter('name', $name)
             ->getQuery()
