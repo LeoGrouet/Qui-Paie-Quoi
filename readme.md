@@ -63,13 +63,10 @@ Pour installer le projet sur votre machine :
 
 - Installer docker engine
 - Clonez le projet github
-- Accedez au repertoire du projet : cd ......./Qui-paie-quoi
-- Lancer la stack docker : docker compose up
-- Installez les dépendances PHP en executant : composer install
-- Installez le module PHP php8.3-xml en exécutant la commande : sudo apt install php8.3-xml.
-
+- Accedez au repertoire du projet : `cd <PATH>/Qui-paie-quoi`
+- Lancer la stack docker : `docker compose up`
+- Installez les dépendances PHP en executant : `composer install`
+- Installez le module PHP php8.3-xml en exécutant la commande : `sudo apt install php8.3-xml`
 - Vous pouvez lancer votre serveur local en executant : `php -S localhost:3000 -t public`
-
 - Pour populer la base de données : `php App/bin/console app:upsertInDB`
-
--Pour reset la base de données : `make reset`
+- Pour reset la base de données : `make reset`
