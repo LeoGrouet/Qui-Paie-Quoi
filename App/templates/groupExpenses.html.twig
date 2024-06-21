@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+{% block stylesheets %}
+  <link rel="stylesheet" href="/css/groupPage.css">
+{% endblock %}
+{% block body %}
+<div class="group_container">
+    <h2 class="group_title">{{groupName}}</h2>
+      <div class="group_parameter">
+          <div class="group_parameter_expense">Dépenses</div>
+          <div class="group_parameter_balance group_parameter_active">Equilibre</div>
+      </div>
+        <div class="group_info_container">
+          {% for expense in expenses %}
+            <div class="group_info">
+            <p class="group_info_text">{{expense.name}} </p><p class="group_info_amount">{{expense.amount / 100}} €</p>
+            <p class="group_info_text">Payé par {{expense.payer}} </p
+            </div>
+          {% endfor %}
+        </div>
+</div> 
+{% endblock %}

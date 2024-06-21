@@ -22,14 +22,37 @@ class GroupController extends AbstractController
         Group $group,
         GroupExpenseBalancer $groupExpenseBalancer,
     ): Response {
+
         $balances = $groupExpenseBalancer->showBalance($group->getId());
+
         asort($balances);
 
         return $this->render(
-            'group.html.twig',
+            'groupBalances.html.twig',
             [
                 'groupName' => $group->getName(),
+                'groupId' => $group->getId(),
                 'balances' => $balances,
+            ]
+        );
+    }
+
+    #[Route('/{id}/expense')]
+    public function showExpenses(
+        Group $group,
+    ): Response {
+
+        $expenses = $group->getExpenses();
+
+        foreach ($expenses as $expense) {
+            dump($expense);
+        }
+
+        return $this->render(
+            'groupExpenses.html.twig',
+            [
+                'groupName' => $group->getName(),
+                'expenses' => $expenses,
             ]
         );
     }
