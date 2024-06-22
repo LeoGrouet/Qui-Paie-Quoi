@@ -6,14 +6,14 @@
 <div class="group_container">
     <h2 class="group_title">{{groupName}}</h2>
       <div class="group_parameter">
-          <div class="group_parameter_expense">Dépenses</div>
-          <div class="group_parameter_balance group_parameter_active">Equilibre</div>
+          <div class="group_parameter_expense group_parameter_active">Dépenses</div>
+          <div class="group_parameter_balance"><a href="/group/{{groupId}}">Equilibre</a></div>
       </div>
         <div class="group_info_container">
           {% for expense in expenses %}
             <div class="group_info">
-            <p class="group_info_text">{{expense.name}} </p><p class="group_info_amount">{{expense.amount / 100}} €</p>
-            <p class="group_info_text">Payé par {{expense.payer}} </p
+            <p class="group_info_text">{{expense.description}} </p> <p class="group_info_amount">{{expense.amount / 100}} €</p>
+            <p class="group_info_payer">Payé par {{expense.payer.name}} </p>
             </div>
           {% endfor %}
         </div>

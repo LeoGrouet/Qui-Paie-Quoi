@@ -45,13 +45,14 @@ class GroupController extends AbstractController
         $expenses = $group->getExpenses();
 
         foreach ($expenses as $expense) {
-            dump($expense);
+            $expense;
         }
 
         return $this->render(
             'groupExpenses.html.twig',
             [
                 'groupName' => $group->getName(),
+                'groupId' => $group->getId(),
                 'expenses' => $expenses,
             ]
         );

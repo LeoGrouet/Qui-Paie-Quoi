@@ -50,11 +50,11 @@
     border-radius: 60px;
     text-align: center;
     display: grid;
-    gap: 2vh;
     padding: 0vh 14vw;
     grid-template-columns: 1fr 1fr;
     justify-content: space-around;
 }
+
 .group_info_text{
     font-size: var(--space-s);
     text-align: left;
@@ -66,6 +66,16 @@
     text-align: right;
 }
 
+.group_info_payer{
+    font-size: var(--space-xs);
+    align-content: center;
+    text-align: left;
+}
+
 .group_info>p{
     align-content: center;
+}
+
+a{
+    text-decoration: none;
 }
