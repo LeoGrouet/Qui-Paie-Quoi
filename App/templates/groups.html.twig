@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+{% block stylesheets %}
+  <link rel="stylesheet" href="/css/groupPage.css">
+{% endblock %}
+{% block body %}
+    <div class="group_container">
+    <h2 class="group_title">Hello you</h2>
+        <div class="group_info_container">
+          {% for group in groups %}
+            <div class="group_info">
+            <p class="group_info_text"><a href="/groups/{{group.id}}">{{group.name}}</a></p>
+            </div>
+          {% endfor %}
+        </div>
+</div> 
+{% endblock %}
