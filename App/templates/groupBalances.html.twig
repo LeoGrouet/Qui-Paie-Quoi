@@ -4,9 +4,12 @@
 {% endblock %}
 {% block body %}
 <div class="group_container">
-    <h2 class="group_title">{{groupName}}</h2>
+ <div class="group_container_title">
+        <a class="back_arrow" href="/groups"><img src="/image/back_arrow.svg" alt="home page"></a>
+        <h2 class="group_title">{{groupName}}</h2>
+      </div>
       <div class="group_parameter">
-          <div class="group_parameter_expense"><a href="/group/{{groupId}}/expense">Dépenses</a></div>
+          <div class="group_parameter_expense"><a href="/groups/{{groupId}}/expense">Dépenses</a></div>
           <div class="group_parameter_balance group_parameter_active"><a href="">Equilibre</a></div>
       </div>
         <div class="group_info_container">

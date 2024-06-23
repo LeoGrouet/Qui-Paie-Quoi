@@ -79,3 +79,19 @@
 a{
     text-decoration: none;
 }
+
+.group_container_title{
+    display: grid;
+    height: 5rem;
+    justify-content: center;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.back_arrow{
+    justify-self: center;
+    align-self: center;
+}
+
+.back_arrow>img{
+    height: 2rem;
+}
