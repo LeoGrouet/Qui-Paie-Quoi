@@ -4,26 +4,24 @@
 {% endblock %}
 {% block body %}
 <div class="group_container">
-    <div class="group_container_title">
+ <div class="group_container_title">
         <a class="back_arrow" href="{{ path ('groups_home') }}">
-          <img src="{{ asset('image/back_arrow.svg') }}" alt="home page">
+          <img src="/image/back_arrow.svg" alt="home page">
         </a>
         <h2 class="group_title">{{groupName}}</h2>
       </div>
       <div class="group_parameter">
-          <div class="group_parameter_expense group_parameter_active">
+          <div class="group_parameter_expense">
             <a href="{{ path ('groups_expenses', {id:groupId}) }}">Dépenses</a>
           </div>
-          <div class="group_parameter_balance">
+          <div class="group_parameter_balance group_parameter_active">
             <a href="{{ path ('groups_balance', {id:groupId}) }}">Equilibre</a>
           </div>
       </div>
         <div class="group_info_container">
-          {% for expense in expenses %}
+          {% for balance in balances %}
             <div class="group_info">
-            <p class="group_info_text">{{expense.description}}</p>
-            <p class="group_info_amount">{{expense.amount / 100}} €</p>
-            <p class="group_info_payer">Payé par {{expense.payer.name}} </p>
+              <p class="group_info_text">{{balance["userOwe"]}} doit à {{balance["to"]}} </p><p class="group_info_amount">{{balance["amount"]}} €</p>
             </div>
           {% endfor %}
         </div>

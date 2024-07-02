@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/groups', name: 'group', methods: ['GET'])]
+#[Route('/groups', name: 'groups', methods: ['GET'])]
 class GroupController extends AbstractController
 {
     #[Route('/', name: '_home', methods: ['GET'])]
@@ -25,8 +25,8 @@ class GroupController extends AbstractController
         );
     }
 
-    #[Route('/{id}')]
-    public function showBalances(
+    #[Route('/{id}', name: "_balance")]
+    public function showBalance(
         Group $group,
         GroupExpenseBalancer $groupExpenseBalancer,
     ): Response {
@@ -36,7 +36,7 @@ class GroupController extends AbstractController
         asort($balances);
 
         return $this->render(
-            'groupBalances.html.twig',
+            'groupBalance.html.twig',
             [
                 'groupName' => $group->getName(),
                 'groupId' => $group->getId(),
@@ -45,23 +45,17 @@ class GroupController extends AbstractController
         );
     }
 
-    #[Route('/{id}/expense')]
+    #[Route('/{id}/expense', name: "_expenses")]
     public function showExpenses(
         Group $group,
     ): Response {
-
-        $expenses = $group->getExpenses();
-
-        foreach ($expenses as $expense) {
-            $expense;
-        }
 
         return $this->render(
             'groupExpenses.html.twig',
             [
                 'groupName' => $group->getName(),
                 'groupId' => $group->getId(),
-                'expenses' => $expenses,
+                'expenses' => $group->getExpenses(),
             ]
         );
     }

@@ -8,7 +8,9 @@
         <div class="group_info_container">
           {% for group in groups %}
             <div class="group_info">
-            <p class="group_info_text"><a href="/groups/{{group.id}}">{{group.name}}</a></p>
+              <p class="group_info_text">
+                <a href="{{ path ('groups_balance', {id:group.id}) }}">{{group.name}}</a>
+              </p>
             </div>
           {% endfor %}
         </div>
