@@ -22,7 +22,7 @@
           {% for expense in expenses %}
             <div class="group_info">
             <p class="group_info_text">{{expense.description}}</p>
-            <p class="group_info_amount">{{(expense.amount / 100) |format_number({fraction_digit: 2}) }} €</p>
+            <p class="group_info_amount">{{ area(expense.amount / 100) }} €</p>
             <p class="group_info_payer">Payé par {{expense.payer.name}} </p>
             </div>
           {% endfor %}

@@ -21,7 +21,7 @@
         <div class="group_info_container">
           {% for balance in balances %}
             <div class="group_info">
-              <p class="group_info_text">{{balance["userOwe"]}} doit à {{balance["to"]}} </p><p class="group_info_amount">{{balance["amount"] | format_number({fraction_digit: 2}) }} €</p>
+              <p class="group_info_text">{{balance["userOwe"]}} doit à {{balance["to"]}} </p><p class="group_info_amount">{{ area(balance["amount"]) }} €</p>
             </div>
           {% endfor %}
         </div>
