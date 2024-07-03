@@ -16,5 +16,5 @@ services:
 
   App\Service\GroupExpenseBalancer: ~
 
-  AppBundle\Twig\FormatNumber:
-        tags: ['twig.extension']
+  App\Twig\FormatNumber:
+    tags: ['twig.extension']

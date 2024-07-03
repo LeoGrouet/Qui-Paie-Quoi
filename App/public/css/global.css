@@ -1,7 +1,14 @@
 :root{
+     /* Gap size */
     --space-xs: 0.5em;
     --space-s: 0.8em;
     --space-m: 1em;
     --space-l: 1.5em;
     --space-xl: 1.8em;
+
+    /* Font size */
+    --font-title: 1.5em;
+    --font-text: 0.8em;
+    --font-enphasis: 0.6em;
+
 }

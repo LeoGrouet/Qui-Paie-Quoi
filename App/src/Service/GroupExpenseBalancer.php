@@ -120,7 +120,7 @@ class GroupExpenseBalancer
             $owe = $bilan->getOwe();
 
             foreach ($owe as $key => $values) {
-                $formatedValue = $values / 100;
+                $formatedValue = $values;
                 $balances[] = [
                     'userOwe' => $key,
                     'amount' => $formatedValue,
