@@ -37,6 +37,8 @@ class HandleBalanceCommand extends Command
 
         $groupsData = $this->groupRepository->findAll();
 
+        $groupsName = [];
+
         foreach ($groupsData as $group) {
             $groupsName[$group->getId()] = $group->getName();
         }
@@ -58,7 +60,7 @@ class HandleBalanceCommand extends Command
         $balances = $this->groupExpenseBalancer->showBalance($id);
 
         foreach ($balances as $balance) {
-            $output->writeln($balance).PHP_EOL;
+            $output->writeln($balance) . PHP_EOL;
         }
     }
 }

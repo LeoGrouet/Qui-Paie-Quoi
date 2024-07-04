@@ -115,6 +115,8 @@ class GroupExpenseBalancer
 
         $bilans = $this->expenseBalancer($expenses);
 
+        $balances = [];
+
         foreach ($bilans as $bilan) {
             $name = $bilan->getName();
             $owe = $bilan->getOwe();

@@ -4,11 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
-    "content-hash": "ead181a7f72f5c033a09173ad68e62ad",
-=======
     "content-hash": "67d2b783197bf3ab5c3bbe0d3c9ce15d",
->>>>>>> d480107 (chore: install phpstan lvl 1)
     "packages": [
         {
             "name": "doctrine/cache",
