@@ -55,12 +55,12 @@ class HandleBalanceCommand extends Command
         return Command::SUCCESS;
     }
 
-    protected function outputBalance(int $id, OutputInterface $output)
+    protected function outputBalance(int $id, OutputInterface $output): void
     {
         $balances = $this->groupExpenseBalancer->showBalance($id);
 
         foreach ($balances as $balance) {
-            $output->writeln($balance) . PHP_EOL;
+            $output->writeln($balance . PHP_EOL);
         }
     }
 }
