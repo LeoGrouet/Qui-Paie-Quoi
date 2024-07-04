@@ -56,7 +56,7 @@ class HandleBalanceCommand extends Command
         $balances = $this->groupExpenseBalancer->showBalance($id);
 
         foreach ($balances as $balance) {
-            $output->writeln($balance . PHP_EOL);
+            $output->writeln($balance);
         }
     }
 }

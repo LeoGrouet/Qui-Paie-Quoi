@@ -32,7 +32,7 @@ class Group
         #[JoinTable(name: 'groups_users')]
         #[JoinColumn(name: 'group_id', referencedColumnName: 'id')]
         #[InverseJoinColumn(name: 'user_id', referencedColumnName: 'id')]
-        #[ManyToMany(targetEntity: 'User')]
+        #[ManyToMany(targetEntity: User::class)]
         private Collection $users,
     ) {
     }
