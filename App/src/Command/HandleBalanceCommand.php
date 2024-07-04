@@ -2,10 +2,8 @@
 
 namespace App\Command;
 
-use App\Repository\ExpenseRepository;
 use App\Repository\GroupRepository;
 use App\Service\GroupExpenseBalancer;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,8 +14,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class HandleBalanceCommand extends Command
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly ExpenseRepository $expenseRepository,
         private readonly GroupRepository $groupRepository,
         private readonly GroupExpenseBalancer $groupExpenseBalancer
     ) {

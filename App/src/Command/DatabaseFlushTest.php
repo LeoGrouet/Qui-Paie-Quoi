@@ -5,9 +5,6 @@ namespace App\Command;
 use App\Entity\Expense;
 use App\Entity\Group;
 use App\Entity\User;
-use App\Repository\ExpenseRepository;
-use App\Repository\GroupRepository;
-use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -21,9 +18,6 @@ class DatabaseFlushTest extends Command
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly ExpenseRepository $expenseRepository,
-        private readonly GroupRepository $groupRepository,
-        private readonly UserRepository $userRepository,
         private readonly LoggerInterface $logger
     ) {
         parent::__construct();

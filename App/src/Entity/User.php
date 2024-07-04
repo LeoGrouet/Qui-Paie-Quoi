@@ -32,6 +32,16 @@ class User
         return $this->id;
     }
 
+    public function getExpenses(): Collection
+    {
+        return $this->expenses;
+    }
+
+    public function setExpenses(Collection $expenses): void
+    {
+        $this->expenses = $expenses;
+    }
+
     public function getName(): string
     {
         return $this->name;

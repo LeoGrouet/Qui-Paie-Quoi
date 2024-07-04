@@ -1,8 +1,11 @@
 parameters:
-    level: 3
+    level: 4
     paths:
         - bin/
         - config/
         - public/
         - src/
         - tests/
+    doctrine:
+        ormRepositoryClass: App\Entity
+        odmRepositoryClass: App\Entity
