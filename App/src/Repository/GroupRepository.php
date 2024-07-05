@@ -16,14 +16,19 @@ class GroupRepository extends ServiceEntityRepository
         parent::__construct($registry, Group::class);
     }
 
-    public function findIdByName(string $name): int
+    public function findIdByName(string $name): ?int
     {
-        return $this->createQueryBuilder('g')
+        $result = $this->createQueryBuilder('g')
             ->select('g.id')
             ->where('g.name = :name')
             ->setParameter('name', $name)
             ->getQuery()
             ->getSingleScalarResult();
+
+        if (!is_int($result)) {
+            return null;
+        }
+        return $result;
     }
 
     public function findOneById(int $id): ?Group
