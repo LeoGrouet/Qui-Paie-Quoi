@@ -22,10 +22,15 @@ class ExpenseRepository extends ServiceEntityRepository
      */
     public function findByGroupId(int $groupId): array
     {
-        return $this->createQueryBuilder('expense')
+        $result = $this->createQueryBuilder('expense')
             ->where('expense.group = :groupId')
             ->setParameter('groupId', $groupId)
             ->getQuery()
             ->getResult();
+
+        if (!is_array($result)) {
+            return [];
+        }
+        return $result;
     }
 }

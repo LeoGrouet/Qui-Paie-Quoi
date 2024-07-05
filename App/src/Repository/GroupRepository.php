@@ -33,10 +33,16 @@ class GroupRepository extends ServiceEntityRepository
 
     public function findOneById(int $id): ?Group
     {
-        return $this->createQueryBuilder('g')
+        $group = $this->createQueryBuilder('g')
             ->where('g.id = :id')
             ->setParameter('id', $id)
             ->getQuery()
             ->getOneOrNullResult();
+
+        if ($group !== null && !$group instanceof Group) {
+            return null;
+        }
+
+        return $group;
     }
 }

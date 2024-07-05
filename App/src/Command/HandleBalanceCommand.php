@@ -44,6 +44,11 @@ class HandleBalanceCommand extends Command
             $groupsName
         );
 
+        if (!is_string($name)) {
+            $io->error('Invalid group name selected.');
+            return Command::FAILURE;
+        }
+
         $id = $this->groupRepository->findIdByName($name);
 
         $this->outputBalance($id | null, $output);
