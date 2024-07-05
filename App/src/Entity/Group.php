@@ -69,7 +69,7 @@ class Group
     /**
      * @return Collection<int, Expense>
      */
-    public function getExpenses(): Collection
+    public function getExpenses(): ?Collection
     {
         return $this->expenses;
     }
