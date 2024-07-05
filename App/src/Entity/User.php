@@ -15,6 +15,9 @@ class User
     #[ORM\Column]
     private int $id;
 
+    /**
+     * @var Collection<int, Expense>
+     */
     #[OneToMany(targetEntity: Expense::class, mappedBy: 'payer')]
     private Collection $expenses;
 
@@ -32,11 +35,17 @@ class User
         return $this->id;
     }
 
+    /**
+     * @return Collection<int, Expense>
+     */
     public function getExpenses(): Collection
     {
         return $this->expenses;
     }
 
+    /**
+     * @param Collection<int, Expense> $expenses
+     */
     public function setExpenses(Collection $expenses): void
     {
         $this->expenses = $expenses;

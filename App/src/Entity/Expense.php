@@ -62,7 +62,7 @@ class Expense
     }
 
     /**
-     * @return Collection<User>
+     * @return Collection<int, User>
      */
     public function getParticipants(): Collection
     {

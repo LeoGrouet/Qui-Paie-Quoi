@@ -6,6 +6,9 @@ use App\Entity\Expense;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<Expense>
+ */
 class ExpenseRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -13,6 +16,10 @@ class ExpenseRepository extends ServiceEntityRepository
         parent::__construct($registry, Expense::class);
     }
 
+    /**
+     * @param int $groupId
+     * @return Expense[]
+     */
     public function findByGroupId(int $groupId): array
     {
         return $this->createQueryBuilder('expense')

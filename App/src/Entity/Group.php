@@ -19,6 +19,9 @@ class Group
     #[ORM\Column]
     private int $id;
 
+    /**
+     * @var Collection<int, Expense>
+     */
     #[OneToMany(targetEntity: Expense::class, mappedBy: 'group')]
     private ?Collection $expenses = null;
 
@@ -29,6 +32,9 @@ class Group
         #[ORM\Column(type: 'string', length: 180)]
         private string $description,
 
+        /**
+         * @var Collection<int, User>
+         */
         #[JoinTable(name: 'groups_users')]
         #[JoinColumn(name: 'group_id', referencedColumnName: 'id')]
         #[InverseJoinColumn(name: 'user_id', referencedColumnName: 'id')]
@@ -52,11 +58,17 @@ class Group
         return $this->description;
     }
 
+    /**
+     * @return Collection<int, User>
+     */
     public function getUsers(): Collection
     {
         return $this->users;
     }
 
+    /**
+     * @return Collection<int, Expense>
+     */
     public function getExpenses(): Collection
     {
         return $this->expenses;
