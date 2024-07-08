@@ -5,7 +5,7 @@
 {% block body %}
 <div class="group_container">
   <h2 class="group_title">Hello you</h2>
-    <div class="group_info_container">
+    <div class="group_info_container_general">
       {% for group in groups %}
           <a class="group_info" href="{{ path ('groups_balance', {id:group.id}) }}">{{group.name}}</a>
       {% endfor %}
