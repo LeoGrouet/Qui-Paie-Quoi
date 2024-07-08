@@ -24,7 +24,6 @@ class User
     public function __construct(
         #[ORM\Column(type: 'string', length: 255)]
         private string $name,
-
         #[ORM\Column(type: 'string', length: 60)]
         private string $email
     ) {

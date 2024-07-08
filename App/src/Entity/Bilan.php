@@ -2,17 +2,17 @@
 
 namespace App\Entity;
 
-
 class Bilan
 {
-    protected string $name;
-    protected int $cost = 0;
-    protected int $participation = 0;
-    protected int $balance = 0;
+    private string $name;
+    private int $cost = 0;
+    private int $participation = 0;
+    private int $balance = 0;
+
     /**
-     * @var array<string, int> $owe
+     * @var array<string, int>
      */
-    protected array $owe = [];
+    private array $owe = [];
 
     public function __construct(string $name)
     {

@@ -18,13 +18,13 @@ class UserRepository extends ServiceEntityRepository
 
     public function findOneByname(string $name): ?User
     {
-        $user =  $this->createQueryBuilder('user')
+        $user = $this->createQueryBuilder('user')
             ->where('user.name = :name')
             ->setParameter('name', $name)
             ->getQuery()
             ->getOneOrNullResult();
 
-        if ($user !== null && !$user instanceof User) {
+        if (null === $user || !$user instanceof User) {
             return null;
         }
 

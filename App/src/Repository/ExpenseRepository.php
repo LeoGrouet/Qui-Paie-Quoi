@@ -17,7 +17,6 @@ class ExpenseRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param int $groupId
      * @return Expense[]
      */
     public function findByGroupId(int $groupId): array
@@ -31,6 +30,7 @@ class ExpenseRepository extends ServiceEntityRepository
         if (!is_array($result)) {
             return [];
         }
+
         return $result;
     }
 }

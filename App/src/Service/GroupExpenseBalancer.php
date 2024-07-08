@@ -33,13 +33,13 @@ class GroupExpenseBalancer
             []
         );
         $this->setExpenses($expenses, $bilans);
+
         return $bilans;
     }
 
     /**
      * @param array<string, Bilan> $bilans
-     * 
-     * @param array<Expense> $expenses
+     * @param array<Expense>       $expenses
      */
     private function setExpenses(array $expenses, array $bilans): void
     {
@@ -57,7 +57,7 @@ class GroupExpenseBalancer
 
     /**
      * @param Collection<int, User> $participants
-     * @param array<Bilan> $bilans
+     * @param array<Bilan>          $bilans
      */
     private function updateBilan(
         array $bilans,
@@ -86,7 +86,7 @@ class GroupExpenseBalancer
     }
 
     /**
-     * @param array<string, int> $owe
+     * @param array<string, int>    $owe
      * @param Collection<int, User> $participants
      */
     private function updateParticipantOwe(

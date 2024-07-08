@@ -28,6 +28,7 @@ class GroupRepository extends ServiceEntityRepository
         if (!is_int($result)) {
             return null;
         }
+
         return $result;
     }
 
@@ -39,7 +40,7 @@ class GroupRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
 
-        if ($group !== null && !$group instanceof Group) {
+        if (null === $group || !$group instanceof Group) {
             return null;
         }
 
