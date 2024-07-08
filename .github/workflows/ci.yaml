@@ -7,10 +7,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  csfixer:
+  lint:
     runs-on: ["ubuntu-latest"]
 
     steps:
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - run : docker compose up
+      - run : composer install
       - run : make phpstan
-      - run : make phpcsfixer
+      - run : make phpcsfixer-dev
