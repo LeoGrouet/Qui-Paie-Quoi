@@ -18,4 +18,12 @@ insert:
 
 .PHONY=phpstan
 phpstan:
+<<<<<<< HEAD
 	docker compose run --rm php vendor/bin/phpstan analyse src
+=======
+	docker compose run --rm php php vendor/bin/phpstan analyse src
+
+.PHONY=phpcsfixer
+phpcsfixer:
+	php-cs-fixer fix App/src
+>>>>>>> 70613a9 (feat: test workflow)

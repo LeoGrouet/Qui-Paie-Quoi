@@ -1,7 +1,6 @@
 name: "CI"
 
-on:
-  pull_request:
+on: [commit]
 
 concurrency:
   group: "${{ github.workflow }} @ ${{ github.ref }}"
@@ -12,5 +11,6 @@ jobs:
     runs-on: ["ubuntu-latest"]
 
     steps:
-      - name: Checkout
         uses: actions/checkout@v4
+      - run : make phpstan
+      - run : make phpcsfixer
