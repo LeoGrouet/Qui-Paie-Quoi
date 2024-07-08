@@ -12,7 +12,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - run : docker compose up
+      - run : docker build
       - run : composer install
+      - run : docker compose up
       - run : make phpstan
       - run : make phpcsfixer-dev
