@@ -1,18 +1,18 @@
 .group_container{
-    font-size: 2rem;
+    font-size: var(--font-title);
     display: grid;
-    gap: 1em;
+    gap: var(--space-m);
 }
 
 .group_title{
-    font-size:2rem;
+    font-size:var(--font-title);
     text-align: center;
     margin: var(--space-s) var(--space-xs);
 }
 
 .group_parameter{
     display: flex;
-    font-size: var(--space-m);
+    font-size: var(--font-text);
     gap:var(--space-l);
     justify-content: center;
     margin: var(--space-xs);
@@ -23,7 +23,7 @@
     color: #211246;
 }
 
-.group_parameter > div{
+.group_parameter > a {
     font-size: 2rem;
     border: solid #2e1e59 2px;
     text-align: center;
@@ -33,13 +33,44 @@
     border-radius: 60px;
 }
 
+.group_expense_container, .group_balance_container{
+    display: flex;
+    flex-direction: column;
+    font-size: var(--font-title);
+    gap: var(--space-xs);
+    width: 90%;
+    justify-self: center;
+}
+
 .group_info_container{
     display: flex;
     flex-direction: column;
-    font-size: var(--space-m);
-    row-gap: var(--space-xs);
+    font-size: var(--font-title);
+    /* gap: var(--space-xs); */
     width: 90%;
     justify-self: center;
+}
+
+.group_info_container_general{
+    display: flex;
+    flex-direction: column;
+    font-size: var(--font-title);
+    gap: var(--space-xs);
+    width: 90%;
+    justify-self: center;
+}
+
+.group_info_balance, .group_info_expense{
+    box-sizing: border-box;
+    border: solid #2e1e59 2px;
+    width: 100%;
+    height: var(--space-xl);
+    border-radius: 60px;
+    align-items: center;
+    display: grid;
+    padding: 0 14vw;
+    grid-template-columns: 1fr 1fr;
+    justify-content: space-around;
 }
 
 .group_info{
@@ -48,24 +79,48 @@
     width: 100%;
     height: var(--space-xl);
     border-radius: 60px;
-    text-align: center;
+    align-items: center;
     display: grid;
-    gap: 2vh;
     padding: 0vh 14vw;
-    grid-template-columns: 1fr 1fr;
     justify-content: space-around;
+    font-size: var(--font-title);
 }
+
 .group_info_text{
-    font-size: var(--space-s);
+    font-size: var(--font-title);
     text-align: left;
 }
 
 .group_info_amount{
-    font-size: var(--space-s);
+    font-size: var(--font-title);
     width: 100%;
     text-align: right;
 }
 
+.group_info_payer{
+    font-size: var(--font-text);
+}
+
 .group_info>p{
     align-content: center;
+}
+
+a{
+    text-decoration: none;
+}
+
+.group_container_header{
+    display: grid;
+    height: 5rem;
+    justify-content: center;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.back_arrow{
+    justify-self: center;
+    align-self: center;
+}
+
+.back_arrow>img{
+    height: 2rem;
 }

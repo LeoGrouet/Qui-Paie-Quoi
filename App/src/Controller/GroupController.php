@@ -3,33 +3,59 @@
 namespace App\Controller;
 
 use App\Entity\Group;
+use App\Repository\GroupRepository;
 use App\Service\GroupExpenseBalancer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/group', name: 'group', methods: ['GET'])]
+#[Route('/groups', name: 'groups', methods: ['GET'])]
 class GroupController extends AbstractController
 {
     #[Route('/', name: '_home', methods: ['GET'])]
-    public function groups(): Response
+    public function showGroups(GroupRepository $groupRepository): Response
     {
-        return $this->render('group.html.twig');
+        $groups = $groupRepository->findAll();
+
+        return $this->render(
+            'groups.html.twig',
+            [
+                'groups' => $groups,
+            ]
+        );
     }
 
-    #[Route('/{id}')]
-    public function show(
+    #[Route('/{id}', name: "_balance")]
+    public function showBalance(
         Group $group,
         GroupExpenseBalancer $groupExpenseBalancer,
     ): Response {
+
         $balances = $groupExpenseBalancer->showBalance($group->getId());
+
         asort($balances);
 
         return $this->render(
-            'group.html.twig',
+            'groupBalance.html.twig',
             [
                 'groupName' => $group->getName(),
+                'groupId' => $group->getId(),
                 'balances' => $balances,
+            ]
+        );
+    }
+
+    #[Route('/{id}/expense', name: "_expenses")]
+    public function showExpenses(
+        Group $group,
+    ): Response {
+
+        return $this->render(
+            'groupExpenses.html.twig',
+            [
+                'groupName' => $group->getName(),
+                'groupId' => $group->getId(),
+                'expenses' => $group->getExpenses(),
             ]
         );
     }
