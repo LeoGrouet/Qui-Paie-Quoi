@@ -4,11 +4,15 @@ namespace App\Entity;
 
 class Bilan
 {
-    protected string $name;
-    protected int $cost = 0;
-    protected int $participation = 0;
-    protected int $balance = 0;
-    protected array $owe = [];
+    private string $name;
+    private int $cost = 0;
+    private int $participation = 0;
+    private int $balance = 0;
+
+    /**
+     * @var array<string, int>
+     */
+    private array $owe = [];
 
     public function __construct(string $name)
     {
@@ -50,11 +54,17 @@ class Bilan
         $this->participation = $participation;
     }
 
+    /**
+     * @return array<string, int>
+     */
     public function getOwe(): array
     {
         return $this->owe;
     }
 
+    /**
+     * @param array<string, int> $owe
+     */
     public function setOwe(array $owe): void
     {
         $this->owe = $owe;

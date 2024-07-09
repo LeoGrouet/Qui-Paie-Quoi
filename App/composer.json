@@ -78,6 +78,9 @@
         }
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.59"
+        "friendsofphp/php-cs-fixer": "^3.59",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan": "^1.11",
+        "phpstan/phpstan-doctrine": "^1.4"
     }
 }

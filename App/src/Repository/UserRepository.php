@@ -6,6 +6,9 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<User>
+ */
 class UserRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -13,12 +16,18 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function findOneByname(string $name): User
+    public function findOneByname(string $name): ?User
     {
-        return $this->createQueryBuilder('user')
+        $user = $this->createQueryBuilder('user')
             ->where('user.name = :name')
             ->setParameter('name', $name)
             ->getQuery()
             ->getOneOrNullResult();
+
+        if (null === $user || !$user instanceof User) {
+            return null;
+        }
+
+        return $user;
     }
 }

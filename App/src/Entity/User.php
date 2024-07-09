@@ -15,21 +15,39 @@ class User
     #[ORM\Column]
     private int $id;
 
+    /**
+     * @var Collection<int, Expense>
+     */
     #[OneToMany(targetEntity: Expense::class, mappedBy: 'payer')]
     private Collection $expenses;
 
     public function __construct(
         #[ORM\Column(type: 'string', length: 255)]
         private string $name,
-
         #[ORM\Column(type: 'string', length: 60)]
         private string $email
     ) {
     }
 
-    public function getId(): string
+    public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @return Collection<int, Expense>
+     */
+    public function getExpenses(): Collection
+    {
+        return $this->expenses;
+    }
+
+    /**
+     * @param Collection<int, Expense> $expenses
+     */
+    public function setExpenses(Collection $expenses): void
+    {
+        $this->expenses = $expenses;
     }
 
     public function getName(): string

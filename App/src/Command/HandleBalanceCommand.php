@@ -2,10 +2,8 @@
 
 namespace App\Command;
 
-use App\Repository\ExpenseRepository;
 use App\Repository\GroupRepository;
 use App\Service\GroupExpenseBalancer;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,8 +14,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class HandleBalanceCommand extends Command
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly ExpenseRepository $expenseRepository,
         private readonly GroupRepository $groupRepository,
         private readonly GroupExpenseBalancer $groupExpenseBalancer
     ) {
@@ -37,6 +33,8 @@ class HandleBalanceCommand extends Command
 
         $groupsData = $this->groupRepository->findAll();
 
+        $groupsName = [];
+
         foreach ($groupsData as $group) {
             $groupsName[$group->getId()] = $group->getName();
         }
@@ -46,19 +44,31 @@ class HandleBalanceCommand extends Command
             $groupsName
         );
 
+        if (!is_string($name)) {
+            $io->error('Invalid group name selected.');
+
+            return Command::FAILURE;
+        }
+
         $id = $this->groupRepository->findIdByName($name);
+
+        if (is_null($id)) {
+            $io->error('Invalid group selected.');
+
+            return Command::FAILURE;
+        }
 
         $this->outputBalance($id, $output);
 
         return Command::SUCCESS;
     }
 
-    protected function outputBalance(int $id, OutputInterface $output)
+    protected function outputBalance(int $id, OutputInterface $output): void
     {
         $balances = $this->groupExpenseBalancer->showBalance($id);
 
         foreach ($balances as $balance) {
-            $output->writeln($balance).PHP_EOL;
+            $output->writeln($balance);
         }
     }
 }

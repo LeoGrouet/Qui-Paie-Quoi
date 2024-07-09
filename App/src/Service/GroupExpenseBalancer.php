@@ -16,6 +16,8 @@ class GroupExpenseBalancer
     }
 
     /**
+     * @param array<int, Expense> $expenses
+     *
      * @return array<string, Bilan>
      */
     public function expenseBalancer(array $expenses): array
@@ -36,7 +38,8 @@ class GroupExpenseBalancer
     }
 
     /**
-     * @param array<Expense> $expenses
+     * @param array<string, Bilan> $bilans
+     * @param array<Expense>       $expenses
      */
     private function setExpenses(array $expenses, array $bilans): void
     {
@@ -53,8 +56,8 @@ class GroupExpenseBalancer
     }
 
     /**
-     * @param Collection<User> $participants
-     * @param array<Bilan>     $bilans
+     * @param Collection<int, User> $participants
+     * @param array<Bilan>          $bilans
      */
     private function updateBilan(
         array $bilans,
@@ -82,6 +85,10 @@ class GroupExpenseBalancer
         }
     }
 
+    /**
+     * @param array<string, int>    $owe
+     * @param Collection<int, User> $participants
+     */
     private function updateParticipantOwe(
         Collection $participants,
         string $name,
@@ -109,11 +116,16 @@ class GroupExpenseBalancer
         $bilan->setOwe($owe);
     }
 
+    /**
+     * @return array<int<0, max>, array{userOwe: string, amount: (float|int), to: string}>
+     */
     public function showBalance(int $id): array
     {
         $expenses = $this->expenseRepository->findByGroupId($id);
 
         $bilans = $this->expenseBalancer($expenses);
+
+        $balances = [];
 
         foreach ($bilans as $bilan) {
             $name = $bilan->getName();

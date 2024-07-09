@@ -1,6 +1,10 @@
 .PHONY=start
 start:
 	docker compose up -d
+	
+.PHONY=composer-install
+composer-install:
+	docker compose run --rm php composer install --no-scripts
 
 .PHONY=reset
 reset:
@@ -14,4 +18,17 @@ migrate:
 
 .PHONY=insert
 insert:
-	docker compose run --rm php php bin/console app:insertInDB
+	docker compose run --rm php bin/console app:insertInDB
+
+.PHONY=phpstan
+phpstan:
+	docker compose run --rm php vendor/bin/phpstan analyse src
+
+.PHONY=phpcsfixer
+phpcsfixer:
+	docker compose run --rm php vendor/bin/php-cs-fixer fix src
+	
+.PHONY=phpcsfixer-dev
+phpcsfixer-dev:
+	docker compose run --rm php vendor/bin/php-cs-fixer check src
+
