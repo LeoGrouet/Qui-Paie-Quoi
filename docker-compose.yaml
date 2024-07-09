@@ -4,6 +4,9 @@ services:
     platform: linux/x86_64
     env_file: App/.env
     build:
+      args:
+        GID: ${GID:-1000}
+        UID: ${UID:-1000}
       context: App
     volumes:
       - "./App:/usr/src/app"

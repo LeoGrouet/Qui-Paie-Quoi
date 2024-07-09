@@ -12,8 +12,22 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - run : docker compose build
-      - run : composer install
-      - run : docker compose up
-      - run : make phpstan
-      - run : make phpcsfixer-dev
+
+      - name: Install dependencies handler
+        run : |
+          echo GID=$(id -g) > .env
+          echo UID=$UID >> .env
+          cp App/.env.dist App/.env
+
+      - name: Build Docker PHP Image
+        run : docker compose build php
+
+      - name: Composer Install
+        run : make composer-install  
+      
+      - name: Run php-cs-fixer
+        run : make phpcsfixer-dev
+
+      - name: Run php Analytics
+        run : make phpstan
+  

@@ -25,12 +25,11 @@ class GroupController extends AbstractController
         );
     }
 
-    #[Route('/{id}', name: "_balance")]
+    #[Route('/{id}', name: '_balance')]
     public function showBalance(
         Group $group,
         GroupExpenseBalancer $groupExpenseBalancer,
     ): Response {
-
         $balances = $groupExpenseBalancer->showBalance($group->getId());
 
         asort($balances);
@@ -45,11 +44,10 @@ class GroupController extends AbstractController
         );
     }
 
-    #[Route('/{id}/expense', name: "_expenses")]
+    #[Route('/{id}/expense', name: '_expenses')]
     public function showExpenses(
         Group $group,
     ): Response {
-
         return $this->render(
             'groupExpenses.html.twig',
             [

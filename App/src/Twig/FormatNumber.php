@@ -9,12 +9,12 @@ class FormatNumber extends AbstractExtension
 {
     public function getFunctions()
     {
-        return array(
-            new TwigFunction('formatNumber', array($this, 'formatNumber')),
-        );
+        return [
+            new TwigFunction('formatNumber', [$this, 'formatNumber']),
+        ];
     }
 
-    public function formatNumber(int $amount)
+    public function formatNumber(int $amount): string
     {
         return number_format($amount / 100, 2);
     }
