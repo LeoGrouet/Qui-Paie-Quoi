@@ -24,8 +24,12 @@ class User
     public function __construct(
         #[ORM\Column(type: 'string', length: 255)]
         private string $name,
+
         #[ORM\Column(type: 'string', length: 60)]
-        private string $email
+        private string $email,
+
+        #[ORM\Column(type: 'string', length: 255)]
+        private string $password
     ) {
     }
 
@@ -58,5 +62,17 @@ class User
     public function getEmail(): string
     {
         return $this->email;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $newPassword): self
+    {
+        $this->password = $newPassword;
+
+        return $this;
     }
 }

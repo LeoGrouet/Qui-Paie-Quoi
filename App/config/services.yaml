@@ -9,6 +9,7 @@ services:
   App\Command\DatabaseFlushTest: ~
   
   App\Controller\GroupController: ~
+  App\Controller\RegisterController: ~
 
   App\Repository\ExpenseRepository: ~
   App\Repository\GroupRepository: ~

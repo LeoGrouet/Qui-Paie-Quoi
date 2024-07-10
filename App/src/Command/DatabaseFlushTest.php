@@ -26,9 +26,9 @@ class DatabaseFlushTest extends Command
     private function loadFirstScenario(): void
     {
         $usersData = new ArrayCollection([
-            $alice = new User('Alice', 'alice@gmail.com'),
-            $charles = new User('Charles', 'charles@gmail.com'),
-            $camille = new User('Camille', 'camille@gmail.com'),
+            $alice = new User('Alice', 'alice@gmail.com', 'password'),
+            $charles = new User('Charles', 'charles@gmail.com', 'password'),
+            $camille = new User('Camille', 'camille@gmail.com', 'password'),
         ]);
 
         $this->entityManager->persist($alice);
@@ -64,10 +64,10 @@ class DatabaseFlushTest extends Command
     private function loadSecondScenario(): void
     {
         $usersData = new ArrayCollection([
-            $pierre = new User('Pierre', 'pierre@gmail.com'),
-            $david = new User('David', 'david@gmail.com'),
-            $emilie = new User('Emilie', 'emilie@gmail.com'),
-            $florence = new User('Florence', 'florence@gmail.com'),
+            $pierre = new User('Pierre', 'pierre@gmail.com', 'password'),
+            $david = new User('David', 'david@gmail.com', 'password'),
+            $emilie = new User('Emilie', 'emilie@gmail.com', 'password'),
+            $florence = new User('Florence', 'florence@gmail.com', 'password'),
         ]);
 
         $this->entityManager->persist($pierre);
@@ -99,8 +99,8 @@ class DatabaseFlushTest extends Command
     private function loadThirdScenario(): void
     {
         $usersData = new ArrayCollection([
-            $george = new User('George', 'george@gmail.com'),
-            $helene = new User('Helene', 'helene@gmail.com'),
+            $george = new User('George', 'george@gmail.com', 'password'),
+            $helene = new User('Helene', 'helene@gmail.com', 'password'),
         ]);
 
         $this->entityManager->persist($george);
@@ -130,9 +130,9 @@ class DatabaseFlushTest extends Command
     private function loadFourthScenario(): void
     {
         $usersData = new ArrayCollection([
-            $isabelle = new User('Isabelle', 'isabelle@gmail.com'),
-            $julien = new User('Julien', 'julien@gmail.com'),
-            $leo = new User('Leo', 'leo@gmail.com'),
+            $isabelle = new User('Isabelle', 'isabelle@gmail.com', 'password'),
+            $julien = new User('Julien', 'julien@gmail.com', 'password'),
+            $leo = new User('Leo', 'leo@gmail.com', 'password'),
         ]);
 
         $this->entityManager->persist($isabelle);
