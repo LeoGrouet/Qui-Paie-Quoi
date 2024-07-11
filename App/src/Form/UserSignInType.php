@@ -45,14 +45,16 @@ class UserSignInType extends AbstractType
                         'placeholder' => 'Mot de passe',
                     ],
                     'required' => true,
-                    'help' => 'Veuillez saisir un mot de passe fort.'
                 ]
             )
             ->add(
-                'password-confirm',
+                'passwordConfirm',
                 PasswordType::class,
                 [
                     'label' => 'Confirmer le mot de passe',
+                    'attr' => [
+                        'placeholder' => 'Confirmation du Mot de passe',
+                    ],
                     'required' => true,
                 ]
             )
@@ -60,7 +62,7 @@ class UserSignInType extends AbstractType
                 'save',
                 SubmitType::class,
                 [
-                    'label' => "Je m'inscris",
+                    'label' => 'Je créer mon compte',
                 ]
             );
     }

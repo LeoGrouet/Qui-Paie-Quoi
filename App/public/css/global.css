@@ -7,8 +7,25 @@
     --space-xl: 1.8em;
 
     /* Font size */
+    --font-giant: 8rem;
+    --font-upper : 4rem;
+    --font-bigger : 2.5rem;
     --font-title: 1.5rem;
     --font-text: 0.8rem;
     --font-enphasis: 0.6rem;
 
+    /* height size */
+    --height-xxl : 8rem;
+    --height-xl : 6rem;
+    --height-l : 4rem;
+    --height-m : 2rem;
+
+    /* Width size */
+    --width-xl : 100%;
+    --width-l : 80%;
+
+}
+
+body {
+    padding: 3rem 3rem 3rem 3rem;
 }

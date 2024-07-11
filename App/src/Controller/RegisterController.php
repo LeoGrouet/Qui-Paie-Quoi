@@ -38,7 +38,7 @@ class RegisterController extends AbstractController
                 $data['password']
             );
 
-            if ($data['password'] !== $data['password-confirm']) {
+            if ($data['password'] !== $data['passwordConfirm']) {
                 $this->addFlash(
                     'notice',
                     'Les mots de passe ne correspondent pas.'

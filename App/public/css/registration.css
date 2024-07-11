@@ -1,0 +1,48 @@
+.title{
+    font-size: var(--font-upper);
+}
+
+#signin_form{
+    display: flex;
+    justify-content: center;
+}
+
+.signin_form_title{
+    font-size: var(--font-giant);
+    text-align: center;
+    margin: var(--space-l) 0;
+}
+
+.signin_form_li{
+    display: flex;
+    flex-direction: column;
+    height: 10rem;
+    width: 45rem;
+}
+
+label{
+    font-size: var(--font-bigger);
+    margin-bottom: var(--space-xs);
+}
+
+button{
+    color: white;
+    background-color: #38256C;
+    font-size: var(--font-bigger);
+    height: var(--height-xl);
+    width:  var(--width-xl);
+    border-radius: var(--space-xs);
+    margin-top: var(--space-xl);
+}
+
+input{
+    height: var(--height-l);
+    border: 2px solid grey;
+    border-radius: var(--space-xs);
+    font-size: var(--font-title);
+}
+
+.signin_form_redirect{
+    font-size: var(--font-title);
+    text-align: center;
+}

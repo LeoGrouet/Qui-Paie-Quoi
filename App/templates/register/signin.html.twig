@@ -1,7 +1,33 @@
 {% extends "base.html.twig" %}
 {% block stylesheets %}
-  <link rel="stylesheet" href="/css/groupPage.css">
+  <link rel="stylesheet" href="{{ asset('css/registration.css') }}">
 {% endblock %}
 {% block body %}
-    {{ form(form) }}
+    <h2 class="signin_form_title">Sign in</h2>
+    <div id="signin_form">
+      {{ form_start(form) }}
+        <ul>
+          <li class="signin_form_li">
+            {{ form_label(form.username)}}
+            {{ form_widget(form.username) }}
+          </li>
+          <li class="signin_form_li">
+            {{ form_label(form.email)}}
+            {{ form_widget(form.email) }}
+          </li>
+          <li class="signin_form_li">
+            {{ form_label(form.password)}}
+            {{ form_widget(form.password) }}
+          </li>
+          <li class="signin_form_li">
+            {{ form_label(form.passwordConfirm)}}
+            {{ form_widget(form.passwordConfirm) }}
+          </li>
+          <li class="signin_form_li">
+            {{ form_row(form.save) }}
+            <span class="signin_form_redirect">Vous avez déja un compte ? Connectez-vous <a href="#">ici</a> </span>
+          </li>
+        </ul>
+      {{ form_end(form) }}
+    </div>
 {% endblock %}

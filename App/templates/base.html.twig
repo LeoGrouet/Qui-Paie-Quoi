@@ -3,8 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Qui paie Quoi{% endblock %}</title>
-        <link rel="stylesheet" href="/css/reset.css">
-        <link rel="stylesheet" href="/css/global.css">
+        <link rel="stylesheet" href="{{ asset('css/reset.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/global.css') }}">
         {% block stylesheets %}
         
         {% endblock %}
@@ -12,6 +12,11 @@
         {% endblock %}
     </head>
     <body>
+        <header class="title">
+            <p>Qui</p>
+            <p>Paie</p>
+            <p>Quoi</p>
+        </header>
         {% for message in app.flashes('notice') %}
             <div class="flash-notice">
                 {{ message }}
