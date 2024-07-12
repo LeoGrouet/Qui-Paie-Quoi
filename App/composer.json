@@ -23,9 +23,11 @@
         "symfony/property-access": "7.0.*",
         "symfony/property-info": "7.0.*",
         "symfony/runtime": "7.0.*",
+        "symfony/security-bundle": "7.0.*",
         "symfony/serializer": "7.0.*",
         "symfony/twig-bridge": "7.0.*",
         "symfony/twig-bundle": "7.0.*",
+        "symfony/validator": "7.0.*",
         "symfony/yaml": "7.0.*",
         "twig/twig": "^2.12|^3.0"
     },

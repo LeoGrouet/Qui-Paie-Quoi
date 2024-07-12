@@ -5,9 +5,11 @@ namespace App\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UserSignInType extends AbstractType
 {
@@ -36,28 +38,26 @@ class UserSignInType extends AbstractType
                     'required' => true,
                 ]
             )
-            ->add(
-                'password',
-                PasswordType::class,
-                [
+            ->add('password', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'first_options' => [
                     'label' => 'Mot de passe',
                     'attr' => [
                         'placeholder' => 'Mot de passe',
                     ],
-                    'required' => true,
-                ]
-            )
-            ->add(
-                'passwordConfirm',
-                PasswordType::class,
-                [
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => 'Veuillez entrer un mot de passe.',
+                        ]),
+                    ],
+                ],
+                'second_options' => [
                     'label' => 'Confirmer le mot de passe',
                     'attr' => [
                         'placeholder' => 'Confirmation du Mot de passe',
                     ],
-                    'required' => true,
-                ]
-            )
+                ],
+            ])
             ->add(
                 'save',
                 SubmitType::class,

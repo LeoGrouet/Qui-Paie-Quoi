@@ -18,7 +18,7 @@ migrate:
 
 .PHONY=insert
 insert:
-	docker compose run --rm php bin/console app:insertInDB
+	docker compose run --rm php php bin/console app:insertInDB
 
 .PHONY=phpstan
 phpstan:

@@ -5,15 +5,26 @@ namespace App\Entity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OneToMany;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\PasswordStrength;
 
 #[ORM\Entity]
 #[ORM\Table(name: '`user`')]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private int $id;
+
+    #[Assert\PasswordStrength([
+        'minScore' => PasswordStrength::STRENGTH_VERY_STRONG,
+        'message' => 'Your password is too easy to guess. Company\'s security policy requires to use a stronger password.'
+    ])]
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $password;
 
     /**
      * @var Collection<int, Expense>
@@ -25,11 +36,8 @@ class User
         #[ORM\Column(type: 'string', length: 255)]
         private string $name,
 
-        #[ORM\Column(type: 'string', length: 60)]
+        #[ORM\Column(type: 'string', length: 60, unique: true)]
         private string $email,
-
-        #[ORM\Column(type: 'string', length: 255)]
-        private string $password
     ) {
     }
 
@@ -59,9 +67,19 @@ class User
         return $this->name;
     }
 
+    public function setName(string $newName): void
+    {
+        $this->name = $newName;
+    }
+
     public function getEmail(): string
     {
         return $this->email;
+    }
+
+    public function setEmail(string $newEmail): void
+    {
+        $this->email = $newEmail;
     }
 
     public function getPassword(): string
@@ -69,10 +87,23 @@ class User
         return $this->password;
     }
 
-    public function setPassword(string $newPassword): self
+    public function setPassword(string $newPassword): void
     {
         $this->password = $newPassword;
+    }
 
-        return $this;
+    public function getRoles(): array
+    {
+        return ['ROLE_USER'];
+    }
+
+    public function eraseCredentials(): void
+    {
+        // Nothin to clear here
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
     }
 }
