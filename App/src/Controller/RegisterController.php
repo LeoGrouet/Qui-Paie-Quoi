@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserSignInType;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +18,6 @@ class RegisterController extends AbstractController
     public function signIn(
         Request $request,
         EntityManagerInterface $entityManagerInterface,
-        UserRepository $userRepository,
         UserPasswordHasherInterface $passwordHasher,
     ): Response {
         $form = $this->createForm(UserSignInType::class);
@@ -38,28 +36,6 @@ class RegisterController extends AbstractController
                 throw new \RuntimeException('Invalid data.');
             }
 
-            if (null !== $userRepository->findOneByname($data['username'])) {
-                $this->addFlash(
-                    'notice',
-                    'Ce nom d\'utilisateur est déjà utilisé.'
-                );
-
-                return $this->redirectToRoute('signin_home', [
-                    'form' => $form,
-                ]);
-            }
-
-            if (null !== $userRepository->findOneByEmail($data['email'])) {
-                $this->addFlash(
-                    'notice',
-                    'Ce mail est déjà utilisé.'
-                );
-
-                return $this->redirectToRoute('signin_home', [
-                    'form' => $form,
-                ]);
-            }
-
             $user = new User(
                 $data['username'],
                 $data['email'],
@@ -69,7 +45,11 @@ class RegisterController extends AbstractController
             $entityManagerInterface->persist($user);
             $entityManagerInterface->flush();
 
-            return $this->redirectToRoute('groups_home');
+            $succes = $this->addFlash('success', 'Votre compte a bien été créé.');
+
+            return $this->redirectToRoute('groups_home', [
+                'success' => $succes,
+            ]);
         }
 
         return $this->render('register/signin.html.twig', [

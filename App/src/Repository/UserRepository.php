@@ -31,6 +31,36 @@ class UserRepository extends ServiceEntityRepository
         return $user;
     }
 
+    public function isUsernameAlreadyInUsed(string $name): bool
+    {
+        $user = $this->createQueryBuilder('user')
+            ->where('user.name = :name')
+            ->setParameter('name', $name)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        if (null === $user || !$user instanceof User) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function isEmailAlreadyInUsed(string $email): bool
+    {
+        $user = $this->createQueryBuilder('user')
+            ->where('user.email = :email')
+            ->setParameter('email', $email)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        if (null === $user || !$user instanceof User) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function findOneByEmail(string $email): ?User
     {
         $user = $this->createQueryBuilder('user')

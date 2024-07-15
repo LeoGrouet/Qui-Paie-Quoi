@@ -7,8 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\PasswordStrength;
 
 #[ORM\Entity]
 #[ORM\Table(name: '`user`')]
@@ -19,10 +17,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private int $id;
 
-    #[Assert\PasswordStrength([
-        'minScore' => PasswordStrength::STRENGTH_VERY_STRONG,
-        'message' => 'Your password is too easy to guess. Company\'s security policy requires to use a stronger password.'
-    ])]
     #[ORM\Column(type: 'string', length: 255)]
     private string $password;
 

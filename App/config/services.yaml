@@ -15,6 +15,9 @@ services:
   App\Repository\GroupRepository: ~
   App\Repository\UserRepository: ~
 
+  App\Form\:
+    resource: '%kernel.project_dir%/src/Form'
+
   App\Service\GroupExpenseBalancer: ~
 
   App\Twig\FormatNumber:

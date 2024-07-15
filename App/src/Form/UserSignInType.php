@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Repository\UserRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -9,12 +10,36 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Callback;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\PasswordStrength;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class UserSignInType extends AbstractType
 {
+    public function __construct(private UserRepository $userRepository)
+    {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $callbackUsername = function (string $username, ExecutionContextInterface $context) {
+            if ($this->userRepository->isUsernameAlreadyInUsed($username)) {
+                $context
+                    ->buildViolation("Ce nom d'utilisateur est déjà utilisé.")
+                    ->addViolation();
+            }
+        };
+
+        $callbackEmail = function (string $email, ExecutionContextInterface $context) {
+            if ($this->userRepository->isEmailAlreadyInUsed($email)) {
+                $context
+                    ->buildViolation('Cet email est déjà utilisé.')
+                    ->addViolation();
+            }
+        };
+
         $builder
             ->add(
                 'username',
@@ -24,7 +49,10 @@ class UserSignInType extends AbstractType
                     'attr' => [
                         'placeholder' => 'Nom Prénom',
                     ],
-                    'required' => true,
+                    'required' => false,
+                    'constraints' => [
+                        new Callback($callbackUsername),
+                    ],
                 ]
             )
             ->add(
@@ -36,6 +64,15 @@ class UserSignInType extends AbstractType
                         'placeholder' => 'Saisir mon email',
                     ],
                     'required' => true,
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => 'Veuillez entrer un email.',
+                        ]),
+                        new Email([
+                            'message' => 'Veuillez entrer un email.',
+                        ]),
+                        new Callback($callbackEmail),
+                    ],
                 ]
             )
             ->add('password', RepeatedType::class, [
@@ -48,6 +85,10 @@ class UserSignInType extends AbstractType
                     'constraints' => [
                         new NotBlank([
                             'message' => 'Veuillez entrer un mot de passe.',
+                        ]),
+                        new PasswordStrength([
+                            'minScore' => PasswordStrength::STRENGTH_WEAK,
+                            'message' => 'Mot de passe trop faible (Essayer avec 3 caracteres différents et un chiffre)',
                         ]),
                     ],
                 ],
