@@ -81,6 +81,8 @@
         "friendsofphp/php-cs-fixer": "^3.59",
         "phpstan/extension-installer": "^1.4",
         "phpstan/phpstan": "^1.11",
-        "phpstan/phpstan-doctrine": "^1.4"
+        "phpstan/phpstan-doctrine": "^1.4",
+        "symfony/stopwatch": "7.0.*",
+        "symfony/web-profiler-bundle": "7.0.*"
     }
 }
