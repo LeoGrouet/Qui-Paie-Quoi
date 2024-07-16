@@ -11,10 +11,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/signin', name: 'signin', methods: ['GET'])]
 class RegisterController extends AbstractController
 {
-    #[Route('/', name: '_home', methods: ['GET', 'POST'])]
+    #[Route('/signin', name: 'signin', methods: ['GET', 'POST'])]
     public function signIn(
         Request $request,
         EntityManagerInterface $entityManagerInterface,
@@ -42,14 +41,25 @@ class RegisterController extends AbstractController
             );
             $user->setPassword($passwordHasher->hashPassword($user, $data['password']));
 
+            $this->addFlash(
+                'success',
+                'Félicitations ! Votre compte a bien été créé.'
+            );
+
             $entityManagerInterface->persist($user);
             $entityManagerInterface->flush();
 
-            return $this->redirectToRoute('groups_home');
+            return $this->redirectToRoute('login');
         }
 
         return $this->render('register/signin.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    #[Route('/login', name: 'login', methods: ['GET', 'POST'])]
+    public function login()
+    {
+        return $this->render('register/login.html.twig');
     }
 }

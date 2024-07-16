@@ -29,3 +29,20 @@
 body {
     padding: 3rem 3rem 3rem 3rem;
 }
+
+.flash-message{
+    justify-content: center;
+    display: flex;
+    margin: var(--space-m);
+}
+
+.flash-success{
+    font-size: var(--font-title);
+    text-align: center;
+    align-content: center;
+    height: var(--height-m);
+    width: var(--width-l);
+    border: solid 1px;
+    border-radius: 5px;
+}
+    

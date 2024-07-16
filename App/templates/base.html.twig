@@ -17,11 +17,18 @@
             <p>Paie</p>
             <p>Quoi</p>
         </header>
-        {% for message in app.flashes('notice') %}
-            <div class="flash-notice">
-                {{ message }}
-            </div>
-        {% endfor %}
+        <div class = "flash-message">
+            {% for message in app.flashes('notice') %}
+                <div class="flash-notice">
+                    {{ message }}
+                </div>
+            {% endfor %}
+             {% for message in app.flashes('success') %}
+                <div class="flash-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
         {% block body %}{% endblock %}
     </body>
 </html>
