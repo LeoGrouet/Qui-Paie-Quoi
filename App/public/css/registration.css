@@ -6,18 +6,18 @@ form{
     width: 80%;
 }
 
-#signin_form{
+#signup_form{
     display: flex;
     justify-content: center;
 }
 
-.signin_form_title{
+.signup_form_title{
     font-size: var(--font-giant);
     text-align: center;
     margin: var(--space-l) 0;
 }
 
-.signin_form_li{
+.signup_form_li{
     display: flex;
     flex-direction: column;
     height: auto;
@@ -47,11 +47,11 @@ input{
     font-size: var(--font-title);
 }
 
-.signin_form_redirect{
+.signup_form_redirect{
     font-size: var(--font-title);
     text-align: center;
 }
 
-.signin_form_error{
+.signup_form_error{
     font-size: var(--font-title);
 }

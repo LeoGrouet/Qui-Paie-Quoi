@@ -10,6 +10,8 @@ services:
   
   App\Controller\GroupController: ~
   App\Controller\RegisterController: ~
+  
+  App\DTO: ~
 
   App\Repository\ExpenseRepository: ~
   App\Repository\GroupRepository: ~

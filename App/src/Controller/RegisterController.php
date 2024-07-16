@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\UserSignInType;
+use App\Form\UserSignUpType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,27 +13,20 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RegisterController extends AbstractController
 {
-    #[Route('/signin', name: 'signin', methods: ['GET', 'POST'])]
-    public function signIn(
+    #[Route('/signup', name: 'signup', methods: ['GET', 'POST'])]
+    public function signup(
         Request $request,
         EntityManagerInterface $entityManagerInterface,
         UserPasswordHasherInterface $passwordHasher,
     ): Response {
-        $form = $this->createForm(UserSignInType::class);
+        $form = $this->createForm(UserSignUpType::class);
 
-        $form->handleRequest($request);
+        $userSignUpDTO = $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            if (
-                !is_array($data)
-                || !array_key_exists('username', $data)
-                || !array_key_exists('email', $data)
-                || !array_key_exists('password', $data)
-            ) {
-                throw new \RuntimeException('Invalid data.');
-            }
+            dump($userSignUpDTO->username);
 
             $user = new User(
                 $data['username'],
@@ -52,7 +45,7 @@ class RegisterController extends AbstractController
             return $this->redirectToRoute('login');
         }
 
-        return $this->render('register/signin.html.twig', [
+        return $this->render('register/signup.html.twig', [
             'form' => $form,
         ]);
     }
