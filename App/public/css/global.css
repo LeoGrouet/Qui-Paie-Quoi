@@ -1,24 +1,24 @@
 :root{
      /* Gap size */
-    --space-xs: 0.5em;
-    --space-s: 0.8em;
-    --space-m: 1em;
-    --space-l: 1.5em;
-    --space-xl: 1.8em;
+    --space-xs: 0.25em;
+    --space-s: 0.4em;
+    --space-m: 0.5em;
+    --space-l: 0.75em;
+    --space-xl: 0.9em;
 
     /* Font size */
-    --font-giant: 8rem;
-    --font-upper : 4rem;
-    --font-bigger : 2.5rem;
-    --font-title: 1.5rem;
-    --font-text: 0.8rem;
-    --font-enphasis: 0.6rem;
+    --font-giant: 4rem;
+    --font-upper : 2rem;
+    --font-bigger : 1.25rem;
+    --font-title: 0.75rem;
+    --font-text: 0.4rem;
+    --font-enphasis: 0.3rem;
 
     /* height size */
-    --height-xxl : 8rem;
-    --height-xl : 6rem;
-    --height-l : 4rem;
-    --height-m : 2rem;
+    --height-xxl : 4rem;
+    --height-xl : 3rem;
+    --height-l : 2rem;
+    --height-m : 1rem;
 
     /* Width size */
     --width-xl : 100%;
@@ -27,7 +27,9 @@
 }
 
 body {
-    padding: 3rem 3rem 3rem 3rem;
+    font-size: 16px;
+    padding: 1.5rem 1.5rem;
+    box-sizing: border-box;
 }
 
 .flash-message{

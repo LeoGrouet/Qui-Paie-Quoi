@@ -10,26 +10,34 @@
           <li class="signin_form_li">
             {{ form_label(form.username) }}
             {{ form_widget(form.username) }}
+            <div class="signin_form_error">
             {{ form_errors(form.username) }}
+            </div>
           </li>
           <li class="signin_form_li">
             {{ form_label(form.email) }}
             {{ form_widget(form.email) }}
+            <div class="signin_form_error">
             {{ form_errors(form.email) }}
+            </div>
           </li>
           <li class="signin_form_li">
             {{ form_label(form.password.first) }}
             {{ form_widget(form.password.first) }}
+            <div class="signin_form_error">
             {{ form_errors(form.password.first) }}
+            </div>
           </li>
           <li class="signin_form_li">
             {{ form_label(form.password.second) }}
             {{ form_widget(form.password.second) }}
+            <div class="signin_form_error">
             {{ form_errors(form.password.second) }}
+            </div>
           </li>
           <li class="signin_form_li">
             {{ form_row(form.save) }}
-            <span class="signin_form_redirect">Vous avez déja un compte ? Connectez-vous <a href="#">ici</a> </span>
+            <span class="signin_form_redirect">Vous avez déja un compte ? Connectez-vous <a href="{{ path ('login') }}">ici</a> </span>
           </li>
         </ul>
       {{ form_end(form) }}

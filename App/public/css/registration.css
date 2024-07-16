@@ -2,6 +2,10 @@
     font-size: var(--font-upper);
 }
 
+form{
+    width: 80%;
+}
+
 #signin_form{
     display: flex;
     justify-content: center;
@@ -16,8 +20,9 @@
 .signin_form_li{
     display: flex;
     flex-direction: column;
-    height: 10rem;
-    width: 45rem;
+    height: auto;
+    width: auto;
+    margin-bottom: var(--space-m);
 }
 
 label{
@@ -37,7 +42,7 @@ button{
 
 input{
     height: var(--height-l);
-    border: 2px solid grey;
+    border: 1px solid grey;
     border-radius: var(--space-xs);
     font-size: var(--font-title);
 }
@@ -45,4 +50,8 @@ input{
 .signin_form_redirect{
     font-size: var(--font-title);
     text-align: center;
+}
+
+.signin_form_error{
+    font-size: var(--font-title);
 }
