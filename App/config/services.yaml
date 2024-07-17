@@ -11,7 +11,7 @@ services:
   App\Controller\GroupController: ~
   App\Controller\RegisterController: ~
   
-  App\DTO: ~
+  App\DTO\UserSignUpDTO: ~
 
   App\Repository\ExpenseRepository: ~
   App\Repository\GroupRepository: ~

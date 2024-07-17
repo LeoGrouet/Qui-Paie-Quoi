@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\DTO\UserSignUpDTO;
 use App\Entity\User;
 use App\Form\UserSignUpType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,18 +22,20 @@ class RegisterController extends AbstractController
     ): Response {
         $form = $this->createForm(UserSignUpType::class);
 
-        $userSignUpDTO = $form->handleRequest($request);
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            dump($userSignUpDTO->username);
+            if (!$data instanceof UserSignUpDTO) {
+                throw new \RuntimeException('Invalid data class');
+            }
 
             $user = new User(
-                $data['username'],
-                $data['email'],
+                $data->username,
+                $data->email,
             );
-            $user->setPassword($passwordHasher->hashPassword($user, $data['password']));
+            $user->setPassword($passwordHasher->hashPassword($user, $data->password));
 
             $this->addFlash(
                 'success',

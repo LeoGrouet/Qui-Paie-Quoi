@@ -2,44 +2,28 @@
 
 namespace App\DTO;
 
-use InvalidArgumentException;
-
-class UserSignUpDTO
+readonly class UserSignUpDTO
 {
-    private readonly string $username;
-    private readonly string $email;
-    private readonly string $password;
+    public string $username;
+    public string $email;
+    public string $password;
 
-    public function __construct(array $data)
+    public function __construct(mixed $username, mixed $email, mixed $password)
     {
-        if (!isset($data['username'])) {
-            throw new InvalidArgumentException('Username is required');
+        if (!is_string($username)) {
+            throw new \InvalidArgumentException('Invalid username');
         }
 
-        if (!is_string($data['username'])) {
-            throw new InvalidArgumentException('Username must be a string');
+        if (!is_string($email)) {
+            throw new \InvalidArgumentException('Invalid email');
         }
 
-        $this->username = $data['username'];
-
-        if (!isset($data['email'])) {
-            throw new InvalidArgumentException('Email is required');
+        if (!is_string($password)) {
+            throw new \InvalidArgumentException('Invalid password');
         }
 
-        if (!is_string($data['email'])) {
-            throw new InvalidArgumentException('Email must be a string');
-        }
-
-        $this->email = $data['email'];
-
-        if (!isset($data['password'])) {
-            throw new InvalidArgumentException('Password is required');
-        }
-
-        if (!is_string($data['password'])) {
-            throw new InvalidArgumentException('Password must be a string');
-        }
-
-        $this->password = $data['password'];
+        $this->username = $username;
+        $this->email = $email;
+        $this->password = $password;
     }
 }
