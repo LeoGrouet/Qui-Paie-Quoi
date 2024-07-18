@@ -2,28 +2,39 @@
 
 namespace App\DTO;
 
-readonly class UserSignUpDTO
+class UserSignUpDTO
 {
     public string $username;
     public string $email;
     public string $password;
 
-    public function __construct(mixed $username, mixed $email, mixed $password)
+    public function getUsername(): string
     {
-        if (!is_string($username)) {
-            throw new \InvalidArgumentException('Invalid username');
-        }
+        return $this->username;
+    }
 
-        if (!is_string($email)) {
-            throw new \InvalidArgumentException('Invalid email');
-        }
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
 
-        if (!is_string($password)) {
-            throw new \InvalidArgumentException('Invalid password');
-        }
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
 
+    public function setUsername(string $username): void
+    {
         $this->username = $username;
+    }
+
+    public function setEmail(string $email): void
+    {
         $this->email = $email;
+    }
+
+    public function setPassword(string $password): void
+    {
         $this->password = $password;
     }
 }

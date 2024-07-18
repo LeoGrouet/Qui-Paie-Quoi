@@ -28,7 +28,12 @@ class RegisterController extends AbstractController
             $data = $form->getData();
 
             if (!$data instanceof UserSignUpDTO) {
-                throw new \RuntimeException('Invalid data class');
+                $this->addFlash(
+                    'notice',
+                    'Une erreur est survenue. Veuillez réessayer.'
+                );
+
+                return $this->redirectToRoute('signup');
             }
 
             $user = new User(

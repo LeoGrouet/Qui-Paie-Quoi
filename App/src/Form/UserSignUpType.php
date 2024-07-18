@@ -11,11 +11,12 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\PasswordStrength;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -29,19 +30,15 @@ class UserSignUpType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => UserSignUpDTO::class,
-            'empty_data' => function (FormInterface $form): UserSignUpDTO {
-                return new UserSignUpDTO(
-                    $form->get('username')->getData(),
-                    $form->get('email')->getData(),
-                    $form->get('password')->getData(),
-                );
-            },
         ]);
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $callbackUsername = function (string $username, ExecutionContextInterface $context) {
+        $callbackUsername = function (mixed $username, ExecutionContextInterface $context) {
+            if (!is_string($username)) {
+                return;
+            }
             if ($this->userRepository->isUsernameAlreadyInUsed($username)) {
                 $context
                     ->buildViolation("Ce nom d'utilisateur est déjà utilisé.")
@@ -49,7 +46,10 @@ class UserSignUpType extends AbstractType
             }
         };
 
-        $callbackEmail = function (string $email, ExecutionContextInterface $context) {
+        $callbackEmail = function (mixed $email, ExecutionContextInterface $context) {
+            if (!is_string($email)) {
+                return;
+            }
             if ($this->userRepository->isEmailAlreadyInUsed($email)) {
                 $context
                     ->buildViolation('Cet email est déjà utilisé.')
@@ -64,10 +64,23 @@ class UserSignUpType extends AbstractType
                 [
                     'label' => 'Nom d\'utilisateur',
                     'attr' => [
-                        'placeholder' => 'Nom Prénom',
+                        'placeholder' => 'Nom d\'utilisateur',
                     ],
-                    'required' => false,
+                    'required' => true,
                     'constraints' => [
+                        new NotNull(
+                            message: 'Veuillez entrer un nom d\'utilisateur .',
+                        ),
+                        new Length(
+                            min: 4,
+                            minMessage: 'Nom d\'utilisateur trop court ( Minimum 4 caractères) .',
+                            max: 255,
+                            maxMessage: 'Nom d\'utilisateur trop long ( Max 255 caractères) .',
+                        ),
+                        new NotBlank(
+                            message: 'Veuillez entrer un nom d\'utilisateur.',
+                            normalizer: 'trim',
+                        ),
                         new Callback($callbackUsername),
                     ],
                 ]
@@ -82,12 +95,19 @@ class UserSignUpType extends AbstractType
                     ],
                     'required' => true,
                     'constraints' => [
-                        new NotBlank([
-                            'message' => 'Veuillez entrer un email.',
-                        ]),
-                        new Email([
-                            'message' => 'Veuillez entrer un email.',
-                        ]),
+                        new NotNull(
+                            message: 'Veuillez entrer un email.',
+                        ),
+                        new NotBlank(
+                            message: 'Veuillez entrer un email.',
+                        ),
+                        new Length(
+                            max: 255,
+                            maxMessage: 'Votre email est trop long ( Max 255 caractères) .',
+                        ),
+                        new Email(
+                            message: 'Veuillez entrer un email valide.',
+                        ),
                         new Callback($callbackEmail),
                     ],
                 ]
@@ -100,13 +120,16 @@ class UserSignUpType extends AbstractType
                         'placeholder' => 'Mot de passe',
                     ],
                     'constraints' => [
-                        new NotBlank([
-                            'message' => 'Veuillez entrer un mot de passe.',
-                        ]),
-                        new PasswordStrength([
-                            'minScore' => PasswordStrength::STRENGTH_WEAK,
-                            'message' => 'Mot de passe trop faible (Essayer avec 3 caracteres différents et un chiffre)',
-                        ]),
+                        new NotNull(
+                            message: 'Veuillez entrer un mot de passe.',
+                        ),
+                        new NotBlank(
+                            message: 'Veuillez entrer un mot de passe.',
+                        ),
+                        new PasswordStrength(
+                            minScore: PasswordStrength::STRENGTH_WEAK,
+                            message: 'Mot de passe trop faible (Au moins 1 majuscule, minuscule, chiffre et caractère spéciaux ).',
+                        ),
                     ],
                 ],
                 'second_options' => [
