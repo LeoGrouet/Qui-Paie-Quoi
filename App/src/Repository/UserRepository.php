@@ -16,63 +16,23 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function findOneByname(string $name): ?User
+    public function findOneByUsername(string $username): ?User
     {
-        $user = $this->createQueryBuilder('user')
-            ->where('user.name = :name')
-            ->setParameter('name', $name)
-            ->getQuery()
-            ->getOneOrNullResult();
-
-        if (null === $user || !$user instanceof User) {
-            return null;
-        }
-
-        return $user;
+        return $this->findOneBy(['username' => $username]);
     }
 
-    public function isUsernameAlreadyInUsed(string $name): bool
+    public function isUsernameAlreadyInUsed(string $username): bool
     {
-        $user = $this->createQueryBuilder('user')
-            ->where('user.name = :name')
-            ->setParameter('name', $name)
-            ->getQuery()
-            ->getOneOrNullResult();
-
-        if (null === $user || !$user instanceof User) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public function isEmailAlreadyInUsed(string $email): bool
-    {
-        $user = $this->createQueryBuilder('user')
-            ->where('user.email = :email')
-            ->setParameter('email', $email)
-            ->getQuery()
-            ->getOneOrNullResult();
-
-        if (null === $user || !$user instanceof User) {
-            return false;
-        }
-
-        return true;
+        return null !== $this->findOneByUsername($username);
     }
 
     public function findOneByEmail(string $email): ?User
     {
-        $user = $this->createQueryBuilder('user')
-            ->where('user.email = :email')
-            ->setParameter('email', $email)
-            ->getQuery()
-            ->getOneOrNullResult();
+        return $this->findOneBy(['email' => $email]);
+    }
 
-        if (null === $user || !$user instanceof User) {
-            return null;
-        }
-
-        return $user;
+    public function isEmailAlreadyInUsed(string $email): bool
+    {
+        return null !== $this->findOneByEmail($email);
     }
 }

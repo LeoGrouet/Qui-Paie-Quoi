@@ -28,7 +28,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct(
         #[ORM\Column(type: 'string', length: 255)]
-        private string $name,
+        private string $username,
 
         #[ORM\Column(type: 'string', length: 255, unique: true)]
         private string $email,
@@ -56,14 +56,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->expenses = $expenses;
     }
 
-    public function getName(): string
+    public function getUsername(): string
     {
-        return $this->name;
+        return $this->username;
     }
 
-    public function setName(string $newName): void
+    public function setUsername(string $newName): void
     {
-        $this->name = $newName;
+        $this->username = $newName;
     }
 
     public function getEmail(): string

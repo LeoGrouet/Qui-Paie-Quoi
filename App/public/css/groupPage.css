@@ -24,11 +24,11 @@
 }
 
 .group_parameter > a {
-    font-size: 2rem;
+    font-size: var(--font-title);
     border: solid #2e1e59 2px;
     text-align: center;
     align-content: center;
-    height:var(--space-l);
+    height:var(--height-m);
     width: 43%;
     border-radius: 60px;
 }
@@ -63,7 +63,7 @@
     box-sizing: border-box;
     border: solid #2e1e59 2px;
     width: 100%;
-    height: var(--space-xl);
+    height: var(--height-l);
     border-radius: 60px;
     align-items: center;
     display: grid;
@@ -76,7 +76,7 @@
     box-sizing: border-box;
     border: solid #2e1e59 2px;
     width: 100%;
-    height: var(--space-xl);
+    height: var(--height-l);
     border-radius: 60px;
     align-items: center;
     display: grid;
@@ -110,7 +110,7 @@ a{
 
 .group_container_header{
     display: grid;
-    height: 5rem;
+    height: var(--height-xxl);
     justify-content: center;
     grid-template-columns: 1fr 1fr 1fr;
 }
@@ -121,5 +121,5 @@ a{
 }
 
 .back_arrow>img{
-    height: 2rem;
+    height: var(--height-l);
 }
