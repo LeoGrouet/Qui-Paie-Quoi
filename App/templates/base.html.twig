@@ -17,9 +17,11 @@
     </head>
     <body>
         <header class="title">
-            <p>Qui</p>
-            <p>Paie</p>
-            <p>Quoi</p>
+            <a href="{{ path ('groups_home') }}">
+                <p>Qui</p>
+                <p>Paie</p>
+                <p>Quoi</p>
+            </a>
         </header>
         <div class = "flash-message">
             {% for message in app.flashes('notice') %}
