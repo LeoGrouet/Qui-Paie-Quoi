@@ -4,9 +4,9 @@ namespace App\DTO;
 
 class UserSignUpDTO
 {
-    public string $username;
-    public string $email;
-    public string $password;
+    private string $username;
+    private string $email;
+    private string $password;
 
     public function getUsername(): string
     {

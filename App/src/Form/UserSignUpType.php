@@ -22,8 +22,9 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class UserSignUpType extends AbstractType
 {
-    public function __construct(private UserRepository $userRepository)
-    {
+    public function __construct(
+        private readonly UserRepository $userRepository
+    ) {
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -41,7 +42,7 @@ class UserSignUpType extends AbstractType
             }
             if ($this->userRepository->isUsernameAlreadyInUsed($username)) {
                 $context
-                    ->buildViolation("Ce nom d'utilisateur est déjà utilisé.")
+                    ->buildViolation('Ce nom d\'utilisateur est déjà utilisé.')
                     ->addViolation();
             }
         };
@@ -74,8 +75,8 @@ class UserSignUpType extends AbstractType
                         new Length(
                             min: 4,
                             minMessage: 'Nom d\'utilisateur trop court ( Minimum 4 caractères) .',
-                            max: 255,
-                            maxMessage: 'Nom d\'utilisateur trop long ( Max 255 caractères) .',
+                            max: 64,
+                            maxMessage: 'Nom d\'utilisateur trop long ( Max 64 caractères) .',
                         ),
                         new NotBlank(
                             message: 'Veuillez entrer un nom d\'utilisateur.',
@@ -102,8 +103,8 @@ class UserSignUpType extends AbstractType
                             message: 'Veuillez entrer un email.',
                         ),
                         new Length(
-                            max: 255,
-                            maxMessage: 'Votre email est trop long ( Max 255 caractères) .',
+                            max: 320,
+                            maxMessage: 'Votre email est trop long ( Max 320 caractères) .',
                         ),
                         new Email(
                             message: 'Veuillez entrer un email valide.',

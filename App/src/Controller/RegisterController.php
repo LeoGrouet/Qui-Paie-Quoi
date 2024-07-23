@@ -37,10 +37,10 @@ class RegisterController extends AbstractController
             }
 
             $user = new User(
-                $data->username,
-                $data->email,
+                $data->getUsername(),
+                $data->getEmail(),
             );
-            $user->setPassword($passwordHasher->hashPassword($user, $data->password));
+            $user->setPassword($passwordHasher->hashPassword($user, $data->getPassword()));
 
             $this->addFlash(
                 'success',

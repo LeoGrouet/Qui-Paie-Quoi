@@ -8,10 +8,9 @@ services:
   App\Command\HandleBalanceCommand: ~
   App\Command\DatabaseFlushTest: ~
   
-  App\Controller\GroupController: ~
-  App\Controller\RegisterController: ~
-  
-  App\DTO\UserSignUpDTO: ~
+  App\Controller\:
+    resource: '%kernel.project_dir%/src/Controller/**/*Controller.php'
+    tags: ['controller.service_arguments']
 
   App\Repository\ExpenseRepository: ~
   App\Repository\GroupRepository: ~

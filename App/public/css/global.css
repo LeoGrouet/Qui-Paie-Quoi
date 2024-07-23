@@ -7,12 +7,10 @@
     --space-xl: 0.9em;
 
     /* Font size */
-    --font-giant: 4rem;
-    --font-upper : 2rem;
-    --font-bigger : 1.25rem;
-    --font-title: 0.75rem;
-    --font-text: 0.4rem;
-    --font-enphasis: 0.3rem;
+    --font-bigger : 3rem;
+    --font-title: 2rem;
+    --font-text: 1rem;
+    --font-enphasis: 0.6rem;
 
     /* height size */
     --height-xxl : 4rem;
@@ -24,10 +22,12 @@
     --width-xl : 100%;
     --width-l : 80%;
 
+    /* Border radius */
+    --border-radius : 2rem;
+
 }
 
 body {
-    font-size: 16px;
     padding: 1.5rem 1.5rem;
     box-sizing: border-box;
 }
@@ -45,6 +45,6 @@ body {
     height: var(--height-m);
     width: var(--width-l);
     border: solid 1px;
-    border-radius: 5px;
+    border-radius: var(--border-radius-xl);
 }
     

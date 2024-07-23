@@ -30,7 +30,7 @@
     align-content: center;
     height:var(--height-m);
     width: 43%;
-    border-radius: 60px;
+    border-radius: var(--border-radius);
 }
 
 .group_expense_container, .group_balance_container{
@@ -64,7 +64,7 @@
     border: solid #2e1e59 2px;
     width: 100%;
     height: var(--height-l);
-    border-radius: 60px;
+    border-radius: var(--border-radius);
     align-items: center;
     display: grid;
     padding: 0 14vw;
@@ -76,8 +76,7 @@
     box-sizing: border-box;
     border: solid #2e1e59 2px;
     width: 100%;
-    height: var(--height-l);
-    border-radius: 60px;
+    border-radius: var(--border-radius);
     align-items: center;
     display: grid;
     padding: 0vh 14vw;

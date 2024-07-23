@@ -30,7 +30,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         #[ORM\Column(type: 'string', length: 255)]
         private string $username,
 
-        #[ORM\Column(type: 'string', length: 255, unique: true)]
+        #[ORM\Column(type: 'string', length: 320, unique: true)]
         private string $email,
     ) {
     }
