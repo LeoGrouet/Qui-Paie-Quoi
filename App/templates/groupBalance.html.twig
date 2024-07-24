@@ -1,26 +1,34 @@
 {% extends "base.html.twig" %}
+
+{% trans_default_domain 'groups' %}
+
 {% block stylesheets %}
   <link rel="stylesheet" href="{{ asset('css/groupPage.css') }}">
 {% endblock %}
+
 {% block body %}
-<div class="group_container">
-  <header class="group_container_header">
-    <a class="back_arrow" href="{{ path ('groups_home') }}">
-      <img src="{{ asset('image/back_arrow.svg') }}" alt="home page">
-    </a>
-    <h2 class="group_title">{{ groupName }}</h2>
-  </header>
-  <nav class="group_parameter">
-      <a class="group_parameter_expense" href="{{ path ('groups_expenses', {id:groupId}) }}">Dépenses</a>
-      <a class="group_parameter_balance group_parameter_active" href="{{ path ('groups_balance', {id:groupId}) }}">Equilibre</a>
-  </nav>
-  <section class="group_balance_container">
-    {% for balance in balances %}
-    <div class="group_info_balance">
-      <p class="group_info_text">{{ balance["userOwe"] }} doit à {{ balance["to"] }}</p>
-      <p class="group_info_amount">{{ formatNumber(balance["amount"]) }} €</p>
-    </div>
-    {% endfor %}
-  </section>
-</div> 
+  <div class="group_container">
+
+    <header class="group_container_header">
+      <a class="back_arrow" href="{{ path ('groups_home') }}">
+        <img src="{{ asset('image/back_arrow.svg') }}" alt="home page">
+      </a>
+      <h2 class="group_title">{{ groupName }}</h2>
+    </header>
+
+    <nav class="group_parameter">
+        <a class="group_parameter_expense" href="{{ path ('groups_expenses', {id:groupId}) }}">{{'Dépenses'|trans }}</a>
+        <a class="group_parameter_balance group_parameter_active" href="{{ path ('groups_balance', {id:groupId}) }}">{{'Equilibre'|trans }}</a>
+    </nav>
+
+    <section class="group_balance_container">
+      {% for balance in balances %}
+      <div class="group_info_balance">
+        <p class="group_info_text">{{ balance["userOwe"] }} doit à {{ balance["to"] }}</p>
+        <p class="group_info_amount">{{ formatNumber(balance["amount"]) }} €</p>
+      </div>
+      {% endfor %}
+    </section>
+    
+  </div> 
 {% endblock %}

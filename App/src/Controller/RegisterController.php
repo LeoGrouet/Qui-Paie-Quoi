@@ -58,9 +58,9 @@ class RegisterController extends AbstractController
         ]);
     }
 
-    #[Route('/login', name: 'login', methods: ['GET', 'POST'])]
+    #[Route('/signin', name: 'signin', methods: ['GET', 'POST'])]
     public function login(): Response
     {
-        return $this->render('register/login.html.twig');
+        return $this->render('register/signin.html.twig');
     }
 }
