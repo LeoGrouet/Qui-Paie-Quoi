@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block body %}
-    <h2 class="signup_form_title">{{'S\'inscrire'|trans}}</h2>
+    <h2 class="signup_form_title">{{'signUp'|trans}}</h2>
 
     <div id="signup_form">
       {{ form_start(form) }}
@@ -47,7 +47,7 @@
 
           <li class="signup_form_li">
             {{ form_row(form.save) }}
-            <span class="signup_form_redirect">{{'Vous avez déjà un compte? Connectez-vous'|trans}} <a href="{{ path ('signin') }}">{{'ici'|trans}}</a> </span>
+            <span class="signup_form_redirect">{{'AlreadyAnAccount'|trans}} <a href="{{ path ('signin') }}">{{'here'|trans}}</a> </span>
           </li>
 
         </ul>

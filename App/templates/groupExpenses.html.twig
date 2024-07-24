@@ -17,8 +17,8 @@
     </header>
 
     <nav class="group_parameter">
-        <a class="group_parameter_expense group_parameter_active" href="{{ path ('groups_expenses', {id:groupId}) }}">{{'Dépenses'|trans }}</a>
-        <a class="group_parameter_balance" href="{{ path ('groups_balance', {id:groupId}) }}">{{'Equilibre'|trans }}</a>
+        <a class="group_parameter_expense group_parameter_active" href="{{ path ('groups_expenses', {id:groupId}) }}">{{'expenses'|trans }}</a>
+        <a class="group_parameter_balance" href="{{ path ('groups_balance', {id:groupId}) }}">{{'balance'|trans }}</a>
     </nav>
 
     <section class="group_expense_container">
@@ -26,7 +26,7 @@
       <div class="group_info_expense">
         <div class="group_info_container">
           <p class="group_info_text">{{ expense.description }}</p>
-          <p class="group_info_payer">Payé par {{ expense.payer.username }} </p>
+          <p class="group_info_payer">{{'boughtBy'|trans }} {{ expense.payer.username }} </p>
         </div>
           <p class="group_info_amount">{{ formatNumber(expense.amount) }} €</p>
       </div>
