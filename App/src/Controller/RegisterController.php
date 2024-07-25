@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegisterController extends AbstractController
 {
@@ -19,6 +20,7 @@ class RegisterController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManagerInterface,
         UserPasswordHasherInterface $passwordHasher,
+        TranslatorInterface $translator
     ): Response {
         $form = $this->createForm(UserSignUpType::class);
 
@@ -30,7 +32,7 @@ class RegisterController extends AbstractController
             if (!$data instanceof UserSignUpDTO) {
                 $this->addFlash(
                     'notice',
-                    'Une erreur est survenue. Veuillez réessayer.'
+                    $translator->trans('errorRegistration', [], 'authentication')
                 );
 
                 return $this->redirectToRoute('signup');
@@ -44,13 +46,13 @@ class RegisterController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'Félicitations ! Votre compte a bien été créé.'
+                $translator->trans('successRegistration', [], 'authentication')
             );
 
             $entityManagerInterface->persist($user);
             $entityManagerInterface->flush();
 
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('signin');
         }
 
         return $this->render('register/signup.html.twig', [

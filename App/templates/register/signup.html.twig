@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% trans_default_domain 'registration' %}
+{% trans_default_domain 'authentication' %}
 
 {% block stylesheets %}
   <link rel="stylesheet" href="{{ asset('css/registration.css') }}">
@@ -47,7 +47,7 @@
 
           <li class="signup_form_li">
             {{ form_row(form.save) }}
-            <span class="signup_form_redirect">{{'AlreadyAnAccount'|trans}} <a href="{{ path ('signin') }}">{{'here'|trans}}</a> </span>
+            <span class="signup_form_redirect">{{'alreadyAnAccount'|trans}} <a href="{{ path ('signin') }}">{{'here'|trans}}</a> </span>
           </li>
 
         </ul>
