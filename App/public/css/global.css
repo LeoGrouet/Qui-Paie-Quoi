@@ -23,6 +23,7 @@
     /* Width size */
     --width-xl : 100%;
     --width-l : 80%;
+    --width-title : 3rem;
 
 }
 
@@ -30,6 +31,11 @@ body {
     font-size: 16px;
     padding: 1.5rem 1.5rem;
     box-sizing: border-box;
+}
+
+.qui-paie-quoi{
+    text-wrap: wrap;
+    width: var(--width-title);
 }
 
 .flash-message{
