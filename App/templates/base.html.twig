@@ -13,6 +13,7 @@
         {% block stylesheets %}
         {% endblock %}
         {% block javascripts %}
+        <script src="/js/flashMessageTimeOut.js" defer ></script> 
         {% endblock %}
 
     </head>
@@ -24,7 +25,7 @@
             </a>
         </header>
 
-        <div class = "flash-message">
+        <div id="flash-message">
 
             {% for message in app.flashes('notice') %}
                 <div class="flash-notice">

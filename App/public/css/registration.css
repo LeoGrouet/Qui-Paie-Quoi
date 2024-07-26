@@ -8,7 +8,7 @@ form{
 }
 
 .signup_form_title{
-    font-size: var(--font-giant);
+    font-size: var(--font-bigger);
     text-align: center;
     margin: var(--space-l) 0;
 }
@@ -22,25 +22,34 @@ form{
 }
 
 label{
-    font-size: var(--font-bigger);
+    font-size: var(--font-title);
     margin-bottom: var(--space-xs);
 }
 
+a{
+    text-decoration: none;
+}
+
 button{
+    cursor: pointer;
     color: white;
     background-color: #38256C;
-    font-size: var(--font-bigger);
+    font-size: var(--font-title);
     height: var(--height-xl);
     width:  var(--width-xl);
     border-radius: var(--border-radius);
     margin-top: var(--space-xl);
 }
 
+button:hover{
+    background-color: #211246;
+}
+
 input{
     height: var(--height-l);
     border: 1px solid grey;
     border-radius: var(--border-radius);
-    font-size: var(--font-title);
+    font-size: var(--font-text);
 }
 
 .signup_form_redirect{
@@ -49,5 +58,5 @@ input{
 }
 
 .signup_form_error{
-    font-size: var(--font-title);
+    color: red;
 }

@@ -35,7 +35,13 @@ body {
 
 .qui-paie-quoi{
     text-wrap: wrap;
+    text-decoration: none;
+    font-size: var(--font-title);
     width: var(--width-title);
+}
+
+.qui-paie-quoi:hover{
+    text-decoration: underline;
 }
 
 .flash-message{
@@ -48,9 +54,8 @@ body {
     font-size: var(--font-title);
     text-align: center;
     align-content: center;
-    height: var(--height-m);
     width: var(--width-l);
     border: solid 1px;
-    border-radius: var(--border-radius-xl);
+    border-radius: var(--border-radius);
 }
     
