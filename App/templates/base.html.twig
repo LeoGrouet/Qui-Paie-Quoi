@@ -1,17 +1,45 @@
 <!DOCTYPE html>
 <html>
     <head>
+    
         <meta charset="UTF-8">
-        <title>{% block title %}Qui paie Quoi{% endblock %}</title>
-        <link rel="stylesheet" href="/css/reset.css">
-        <link rel="stylesheet" href="/css/global.css">
+            <title>{% block title %}Qui paie Quoi{% endblock %}</title>
+            <link rel="stylesheet" href="{{ asset('css/reset.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/global.css') }}">
+        <meta
+            name="viewport"
+            content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0"
+        />
         {% block stylesheets %}
-        
         {% endblock %}
         {% block javascripts %}
         {% endblock %}
+
     </head>
     <body>
+
+        <header class="title">
+            <p>Qui</p>
+            <p>Paie</p>
+            <p>Quoi</p>
+        </header>
+
+        <div class = "flash-message">
+
+            {% for message in app.flashes('notice') %}
+                <div class="flash-notice">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+             {% for message in app.flashes('success') %}
+                <div class="flash-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+        </div>
+
         {% block body %}{% endblock %}
     </body>
 </html>

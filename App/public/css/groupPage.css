@@ -24,13 +24,13 @@
 }
 
 .group_parameter > a {
-    font-size: 2rem;
+    font-size: var(--font-title);
     border: solid #2e1e59 2px;
     text-align: center;
     align-content: center;
-    height:var(--space-l);
+    height:var(--height-m);
     width: 43%;
-    border-radius: 60px;
+    border-radius: var(--border-radius);
 }
 
 .group_expense_container, .group_balance_container{
@@ -46,7 +46,6 @@
     display: flex;
     flex-direction: column;
     font-size: var(--font-title);
-    /* gap: var(--space-xs); */
     width: 90%;
     justify-self: center;
 }
@@ -64,8 +63,8 @@
     box-sizing: border-box;
     border: solid #2e1e59 2px;
     width: 100%;
-    height: var(--space-xl);
-    border-radius: 60px;
+    height: var(--height-l);
+    border-radius: var(--border-radius);
     align-items: center;
     display: grid;
     padding: 0 14vw;
@@ -77,8 +76,7 @@
     box-sizing: border-box;
     border: solid #2e1e59 2px;
     width: 100%;
-    height: var(--space-xl);
-    border-radius: 60px;
+    border-radius: var(--border-radius);
     align-items: center;
     display: grid;
     padding: 0vh 14vw;
@@ -111,7 +109,7 @@ a{
 
 .group_container_header{
     display: grid;
-    height: 5rem;
+    height: var(--height-xxl);
     justify-content: center;
     grid-template-columns: 1fr 1fr 1fr;
 }
@@ -122,5 +120,5 @@ a{
 }
 
 .back_arrow>img{
-    height: 2rem;
+    height: var(--height-l);
 }

@@ -12,13 +12,15 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[AsCommand(name: 'app:insertInDB')]
 class DatabaseFlushTest extends Command
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
     ) {
         parent::__construct();
     }
@@ -30,6 +32,10 @@ class DatabaseFlushTest extends Command
             $charles = new User('Charles', 'charles@gmail.com'),
             $camille = new User('Camille', 'camille@gmail.com'),
         ]);
+
+        $alice->setPassword($this->userPasswordHasher->hashPassword($alice, 'password'));
+        $charles->setPassword($this->userPasswordHasher->hashPassword($charles, 'password'));
+        $camille->setPassword($this->userPasswordHasher->hashPassword($camille, 'password'));
 
         $this->entityManager->persist($alice);
         $this->entityManager->persist($charles);
@@ -70,6 +76,11 @@ class DatabaseFlushTest extends Command
             $florence = new User('Florence', 'florence@gmail.com'),
         ]);
 
+        $pierre->setPassword($this->userPasswordHasher->hashPassword($pierre, 'password'));
+        $david->setPassword($this->userPasswordHasher->hashPassword($david, 'password'));
+        $emilie->setPassword($this->userPasswordHasher->hashPassword($emilie, 'password'));
+        $florence->setPassword($this->userPasswordHasher->hashPassword($florence, 'password'));
+
         $this->entityManager->persist($pierre);
         $this->entityManager->persist($david);
         $this->entityManager->persist($emilie);
@@ -103,6 +114,9 @@ class DatabaseFlushTest extends Command
             $helene = new User('Helene', 'helene@gmail.com'),
         ]);
 
+        $george->setPassword($this->userPasswordHasher->hashPassword($george, 'password'));
+        $helene->setPassword($this->userPasswordHasher->hashPassword($helene, 'password'));
+
         $this->entityManager->persist($george);
         $this->entityManager->persist($helene);
 
@@ -134,6 +148,10 @@ class DatabaseFlushTest extends Command
             $julien = new User('Julien', 'julien@gmail.com'),
             $leo = new User('Leo', 'leo@gmail.com'),
         ]);
+
+        $isabelle->setPassword($this->userPasswordHasher->hashPassword($isabelle, 'password'));
+        $julien->setPassword($this->userPasswordHasher->hashPassword($julien, 'password'));
+        $leo->setPassword($this->userPasswordHasher->hashPassword($leo, 'password'));
 
         $this->entityManager->persist($isabelle);
         $this->entityManager->persist($julien);

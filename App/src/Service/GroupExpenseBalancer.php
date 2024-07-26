@@ -27,9 +27,9 @@ class GroupExpenseBalancer
          */
         $bilans = array_reduce(
             $expenses,
-            static fn (array $bilans, Expense $expense) => array_key_exists($expense->getPayer()->getName(), $bilans)
+            static fn (array $bilans, Expense $expense) => array_key_exists($expense->getPayer()->getUsername(), $bilans)
                 ? $bilans
-                : [...$bilans, $expense->getPayer()->getName() => new Bilan($expense->getPayer()->getName())],
+                : [...$bilans, $expense->getPayer()->getUsername() => new Bilan($expense->getPayer()->getUsername())],
             []
         );
         $this->setExpenses($expenses, $bilans);
@@ -67,7 +67,7 @@ class GroupExpenseBalancer
         int $amountByParticipants
     ): void {
         foreach ($bilans as $bilan) {
-            $payerName = $payer->getName();
+            $payerName = $payer->getUsername();
             $name = $bilan->getName();
             $participation = $bilan->getParticipation();
             $cost = $bilan->getCost();
@@ -77,7 +77,7 @@ class GroupExpenseBalancer
                 $bilan->setCost($cost + $amount);
             }
 
-            if ($participants->exists(static fn ($key, User $user) => $user->getName() === $name)) {
+            if ($participants->exists(static fn ($key, User $user) => $user->getUsername() === $name)) {
                 $bilan->setParticipation($participation + $amountByParticipants);
             }
 
@@ -100,7 +100,7 @@ class GroupExpenseBalancer
         int $participation
     ): void {
         foreach ($participants as $participant) {
-            $participantName = $participant->getName();
+            $participantName = $participant->getUsername();
             if ($name !== $payerName || $name === $participantName) {
                 continue;
             }

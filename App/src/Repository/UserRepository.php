@@ -16,18 +16,23 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function findOneByname(string $name): ?User
+    public function findOneByUsername(string $username): ?User
     {
-        $user = $this->createQueryBuilder('user')
-            ->where('user.name = :name')
-            ->setParameter('name', $name)
-            ->getQuery()
-            ->getOneOrNullResult();
+        return $this->findOneBy(['username' => $username]);
+    }
 
-        if (null === $user || !$user instanceof User) {
-            return null;
-        }
+    public function isUsernameAlreadyInUsed(string $username): bool
+    {
+        return null !== $this->findOneByUsername($username);
+    }
 
-        return $user;
+    public function findOneByEmail(string $email): ?User
+    {
+        return $this->findOneBy(['email' => $email]);
+    }
+
+    public function isEmailAlreadyInUsed(string $email): bool
+    {
+        return null !== $this->findOneByEmail($email);
     }
 }
