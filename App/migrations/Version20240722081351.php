@@ -11,7 +11,7 @@ final class Version20240722081351 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Add password field to user table and rename name to username';
     }
 
     public function up(Schema $schema): void

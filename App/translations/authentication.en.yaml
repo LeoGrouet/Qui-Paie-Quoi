@@ -1,0 +1,24 @@
+signUp: Sign Up
+signIn: Sign In
+alreadyAnAccount: Already have an account? Sign in
+here: here
+username: Username
+usernameTooShort: Username too short ( Minimum 4 characters) .
+usernameTooLong: Username too long ( Max 64 characters) .
+usernameRequired: Please enter a username.
+usernameAllreadyUsed: This username is already used.
+email: Email
+emailAllreadyUsed: This email is already used.
+emailLabel: Email
+emailPlaceholder: Enter your email
+emailRequired: Please enter an email
+emailTooLong: Your email is too long ( Max 320 characters) .
+emailValid: Please enter a valid email.
+password: Password
+confirmPassword: Confirm password
+passwordError: Please enter a password.
+passwordWeak:  Password too weak (At least 1 uppercase, lowercase, number and special character ).
+passwordRequired: Please enter a password.
+signUpFormButton: Create my account
+errorRegistration: An error occurred. Please try again.
+successRegistration: Congratulations! Your account has been created successfully.

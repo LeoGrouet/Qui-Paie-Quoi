@@ -19,17 +19,21 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\PasswordStrength;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserSignUpType extends AbstractType
 {
-    public function __construct(private UserRepository $userRepository)
-    {
+    public function __construct(
+        private readonly UserRepository $userRepository,
+        private readonly TranslatorInterface $translator,
+    ) {
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => UserSignUpDTO::class,
+            'trans_domain' => 'authentication',
         ]);
     }
 
@@ -41,7 +45,8 @@ class UserSignUpType extends AbstractType
             }
             if ($this->userRepository->isUsernameAlreadyInUsed($username)) {
                 $context
-                    ->buildViolation("Ce nom d'utilisateur est déjà utilisé.")
+                    ->buildViolation('usernameAllreadyUsed')
+                    ->setTranslationDomain('authentication')
                     ->addViolation();
             }
         };
@@ -52,7 +57,8 @@ class UserSignUpType extends AbstractType
             }
             if ($this->userRepository->isEmailAlreadyInUsed($email)) {
                 $context
-                    ->buildViolation('Cet email est déjà utilisé.')
+                    ->buildViolation('emailAllreadyUsed')
+                    ->setTranslationDomain('authentication')
                     ->addViolation();
             }
         };
@@ -62,23 +68,19 @@ class UserSignUpType extends AbstractType
                 'username',
                 TextType::class,
                 [
-                    'label' => 'Nom d\'utilisateur',
+                    'label' => 'username',
                     'attr' => [
-                        'placeholder' => 'Nom d\'utilisateur',
+                        'placeholder' => 'username',
                     ],
+                    'translation_domain' => $options['trans_domain'],
                     'required' => true,
                     'constraints' => [
-                        new NotNull(
-                            message: 'Veuillez entrer un nom d\'utilisateur .',
-                        ),
+                        new NotNull(),
                         new Length(
                             min: 4,
-                            minMessage: 'Nom d\'utilisateur trop court ( Minimum 4 caractères) .',
-                            max: 255,
-                            maxMessage: 'Nom d\'utilisateur trop long ( Max 255 caractères) .',
+                            max: 64,
                         ),
                         new NotBlank(
-                            message: 'Veuillez entrer un nom d\'utilisateur.',
                             normalizer: 'trim',
                         ),
                         new Callback($callbackUsername),
@@ -89,61 +91,54 @@ class UserSignUpType extends AbstractType
                 'email',
                 EmailType::class,
                 [
-                    'label' => 'Adresse email',
+                    'label' => 'emailLabel',
                     'attr' => [
-                        'placeholder' => 'Saisir mon email',
+                        'placeholder' => 'emailPlaceholder',
                     ],
                     'required' => true,
                     'constraints' => [
-                        new NotNull(
-                            message: 'Veuillez entrer un email.',
-                        ),
-                        new NotBlank(
-                            message: 'Veuillez entrer un email.',
-                        ),
+                        new NotNull(),
+                        new NotBlank(),
                         new Length(
-                            max: 255,
-                            maxMessage: 'Votre email est trop long ( Max 255 caractères) .',
+                            max: 320
                         ),
-                        new Email(
-                            message: 'Veuillez entrer un email valide.',
-                        ),
+                        new Email(),
                         new Callback($callbackEmail),
                     ],
+                    'translation_domain' => $options['trans_domain'],
                 ]
             )
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => [
-                    'label' => 'Mot de passe',
+                    'label' => 'password',
                     'attr' => [
-                        'placeholder' => 'Mot de passe',
+                        'placeholder' => 'password',
                     ],
+                    'translation_domain' => $options['trans_domain'],
                     'constraints' => [
-                        new NotNull(
-                            message: 'Veuillez entrer un mot de passe.',
-                        ),
-                        new NotBlank(
-                            message: 'Veuillez entrer un mot de passe.',
-                        ),
+                        new NotNull(),
+                        new NotBlank(),
                         new PasswordStrength(
                             minScore: PasswordStrength::STRENGTH_WEAK,
-                            message: 'Mot de passe trop faible (Au moins 1 majuscule, minuscule, chiffre et caractère spéciaux ).',
+                            message: $this->translator->trans('passwordWeak', [], 'authentication'),
                         ),
                     ],
                 ],
                 'second_options' => [
-                    'label' => 'Confirmer le mot de passe',
+                    'label' => 'confirmPassword',
                     'attr' => [
-                        'placeholder' => 'Confirmation du Mot de passe',
+                        'placeholder' => 'confirmPassword',
                     ],
+                    'translation_domain' => $options['trans_domain'],
                 ],
             ])
             ->add(
                 'save',
                 SubmitType::class,
                 [
-                    'label' => 'Je créer mon compte',
+                    'label' => 'signUpFormButton',
+                    'translation_domain' => $options['trans_domain'],
                 ]
             );
     }

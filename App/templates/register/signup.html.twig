@@ -1,12 +1,18 @@
 {% extends "base.html.twig" %}
+
+{% trans_default_domain 'authentication' %}
+
 {% block stylesheets %}
   <link rel="stylesheet" href="{{ asset('css/registration.css') }}">
 {% endblock %}
+
 {% block body %}
-    <h2 class="signup_form_title">Inscription</h2>
+    <h2 class="signup_form_title">{{'signUp'|trans}}</h2>
+
     <div id="signup_form">
       {{ form_start(form) }}
         <ul>
+
           <li class="signup_form_li">
             {{ form_label(form.username) }}
             {{ form_widget(form.username) }}
@@ -14,6 +20,7 @@
             {{ form_errors(form.username) }}
             </div>
           </li>
+
           <li class="signup_form_li">
             {{ form_label(form.email) }}
             {{ form_widget(form.email) }}
@@ -21,6 +28,7 @@
             {{ form_errors(form.email) }}
             </div>
           </li>
+
           <li class="signup_form_li">
             {{ form_label(form.password.first) }}
             {{ form_widget(form.password.first) }}
@@ -28,6 +36,7 @@
             {{ form_errors(form.password.first) }}
             </div>
           </li>
+
           <li class="signup_form_li">
             {{ form_label(form.password.second) }}
             {{ form_widget(form.password.second) }}
@@ -35,11 +44,15 @@
             {{ form_errors(form.password.second) }}
             </div>
           </li>
+
           <li class="signup_form_li">
             {{ form_row(form.save) }}
-            <span class="signup_form_redirect">Vous avez déja un compte ? Connectez-vous <a href="{{ path ('login') }}">ici</a> </span>
+            <span class="signup_form_redirect">{{'alreadyAnAccount'|trans}} <a href="{{ path ('signin') }}">{{'here'|trans}}</a> </span>
           </li>
+
         </ul>
+
       {{ form_end(form) }}
     </div>
+
 {% endblock %}
