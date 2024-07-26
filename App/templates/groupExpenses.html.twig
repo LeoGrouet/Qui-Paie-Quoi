@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block body %}
+
   <div class="group_container">
 
     <header class="group_container_header">
@@ -29,6 +30,7 @@
           <p class="group_info_payer">{{'boughtBy'|trans }} {{ expense.payer.username }} </p>
         </div>
           <p class="group_info_amount">{{ formatNumber(expense.amount) }} €</p>
+
       </div>
       {% endfor %}
     </section>

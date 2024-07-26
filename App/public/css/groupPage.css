@@ -5,17 +5,17 @@
 }
 
 .group_title{
-    font-size:var(--font-title);
+    font-size:var(--font-upper);
     text-align: center;
     margin: var(--space-s) var(--space-xs);
 }
 
 .group_parameter{
     display: flex;
-    font-size: var(--font-text);
-    gap:var(--space-l);
+    gap:var(--space-xl);
     justify-content: center;
     margin: var(--space-xs);
+    height: var(--height-l);
 }
 
 .group_parameter_active{
@@ -24,11 +24,10 @@
 }
 
 .group_parameter > a {
-    font-size: var(--font-title);
+    font-size: var(--font-bigger);
     border: solid #2e1e59 2px;
     text-align: center;
     align-content: center;
-    height:var(--height-m);
     width: 43%;
     border-radius: var(--border-radius);
 }
