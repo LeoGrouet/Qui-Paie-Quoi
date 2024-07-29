@@ -7,7 +7,7 @@ use Twig\TwigFunction;
 
 class FormatNumber extends AbstractExtension
 {
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('formatNumber', [$this, 'formatNumber']),
