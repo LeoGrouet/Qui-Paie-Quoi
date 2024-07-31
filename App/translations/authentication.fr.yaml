@@ -10,7 +10,6 @@ usernameRequired: Veuillez entrer un nom d'utilisateur .
 usernameAllreadyUsed: Ce nom d'utilisateur est déjà utilisé.
 email: Email
 emailAllreadyUsed: Cet email est déjà utilisé.
-emailLabel: Email
 emailPlaceholder: Saisir mon email
 emailRequired: Veuillez entrer un email
 emailTooLong: Votre email est trop long ( Max 320 caractères) .

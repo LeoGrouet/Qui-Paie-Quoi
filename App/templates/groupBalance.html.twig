@@ -22,12 +22,14 @@
     </nav>
 
     <section class="group_balance_container">
+
       {% for balance in balances %}
-      <div class="group_info_balance">
-        <p class="group_info_text">{{ balance["userOwe"] }} {{'owe'|trans }} {{ balance["to"] }}</p>
-        <p class="group_info_amount">{{ formatNumber(balance["amount"]) }} €</p>
-      </div>
+        <div class="group_info_balance">
+          <p class="group_info_text">{{ balance["userOwe"] }} {{'owe'|trans }} {{ balance["to"] }}</p>
+          <p class="group_info_amount">{{ formatNumber(balance["amount"]) }} €</p>
+        </div>
       {% endfor %}
+      
     </section>
     
   </div> 

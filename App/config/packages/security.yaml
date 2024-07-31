@@ -5,7 +5,7 @@ security:
         app_user_provider:
             entity:
                 class: App\Entity\User
-                property: username
+                property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -15,9 +15,13 @@ security:
             form_login:
                 login_path: signin
                 check_path: signin
-                default_target_path: /groups/
+                default_target_path: groups_home
                 enable_csrf: true
+            logout:
+                path: /logout
+                target: signin
     access_control:
+         - { path: '^/groups', roles: ROLE_USER }
 when@test:
     security:
         password_hashers:

@@ -22,16 +22,17 @@
     </nav>
 
     <section class="group_expense_container">
-      {% for expense in expenses %}
-      <div class="group_info_expense">
-        <div class="group_info_container">
-          <p class="group_info_text">{{ expense.description }}</p>
-          <p class="group_info_payer">{{'boughtBy'|trans }} {{ expense.payer.username }} </p>
-        </div>
-          <p class="group_info_amount">{{ formatNumber(expense.amount) }} €</p>
 
-      </div>
+      {% for expense in expenses %}
+        <div class="group_info_expense">
+          <div class="group_info_container">
+            <p class="group_info_text">{{ expense.description }}</p>
+            <p class="group_info_payer">{{'boughtBy'|trans }} {{ expense.payer.username }} </p>
+          </div>
+          <p class="group_info_amount">{{ formatNumber(expense.amount) }} €</p>
+        </div>
       {% endfor %}
+      
     </section>
 
   </div> 

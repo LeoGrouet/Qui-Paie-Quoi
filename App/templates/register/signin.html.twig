@@ -7,23 +7,31 @@
 {% endblock %}
 
 {% block body %}
-    <h2 class="signup_form_title">{{'signUp'|trans}}</h2>
+    <h2 class="authentication_form_title">{{'signIn'|trans}}</h2>
 
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form action="{{ path('signin') }}" method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}" required>
+    <form id="authentication_form" action="{{ path('signin') }}" method="post">
+                      
+            <span class="authentication_form_field">
+                <label for="username">{{'email'|trans}}</label>
+                <input type="text" id="username" name="_username" placeholder = "{{'email'|trans}}" required>
+            </span>
+            <span class="authentication_form_field">
+                <label for="password">{{'password'|trans}}</label>
+                <input type="password" id="password" name="_password" placeholder = "{{'password'|trans}}" required>
+            </span>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password" required>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-        <button type="submit">login</button>
-    </form>
+            <footer>
+                <button type="submit">{{'signInFormButton'|trans}}</button>
+                <span class="authentication_form_redirect">{{'dontHaveAnAccount'|trans}} <a href="{{ path ('signup') }}">{{'here'|trans}}</a> </span>
+            </footer>
+            
+        </form>
     
 {% endblock %}
 
