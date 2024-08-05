@@ -13,7 +13,7 @@
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form id="authentication_form" action="{{ path('signin') }}" method="post">
+        <form class="authentication_form" action="{{ path('signin') }}" method="post">
                       
             <span class="authentication_form_field">
                 <label for="username">{{'email'|trans}}</label>
@@ -26,7 +26,7 @@
 
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-            <footer>
+            <footer class="authentication_form_field">
                 <button type="submit">{{'signInFormButton'|trans}}</button>
                 <span class="authentication_form_redirect">{{'dontHaveAnAccount'|trans}} <a href="{{ path ('signup') }}">{{'here'|trans}}</a> </span>
             </footer>
@@ -34,4 +34,3 @@
         </form>
     
 {% endblock %}
-

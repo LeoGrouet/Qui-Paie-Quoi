@@ -1,8 +1,6 @@
-:root{
-    /* Colors */
-    --color-primary: #38256C;
-    --color-secondary: #D6CEEC;
+@import url(fontcolor.css);
 
+:root{
      /* Gap size */
     --space-xs: 0.25em;
     --space-s: 0.4em;
@@ -31,23 +29,20 @@
 
     /* Border radius */
     --border-radius : 0.5rem;
-
 }
 
 body {
+    display: flex;
+    flex-direction: column;
     padding: 1.5rem 1.5rem;
     box-sizing: border-box;
     height: 100vh;
+    color: var(--slate);
 }
 
 .title{
     display: flex;
     justify-content: space-between;
-}
-
-img{
-    width: var(--height-xl);
-    height: var(--height-xl);
 }
 
 .qui-paie-quoi{
@@ -62,12 +57,12 @@ img{
 }
 
 .flash-success{
-    color: var(--color-primary);
+    color: var(--purple);
     text-align: center;
     align-content: center;
     height: var(--height-m);
     width: var(--width-xl);
-    border: solid var(--color-primary) 1px;
+    border: solid var(--purple) 1px;
     border-radius: var(--border-radius-xl);
 }
     

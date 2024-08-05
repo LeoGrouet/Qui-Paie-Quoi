@@ -9,53 +9,43 @@
 {% block body %}
     <h2 class="authentication_form_title">{{'signUp'|trans}}</h2>
 
-    <div id="authentication_form">
+    <div class="authentication_form">
       {{ form_start(form) }}
-        <ul>
-
-          <div class="authentication_form_container">
           
-            <li class="authentication_form_li">
+            <span class="authentication_form_field">
               {{ form_label(form.username) }}
               {{ form_widget(form.username) }}
               <div class="authentication_form_error">
               {{ form_errors(form.username) }}
               </div>
-            </li>
-            <li class="authentication_form_li">
+            </span>
+            <span class="authentication_form_field">
               {{ form_label(form.email) }}
               {{ form_widget(form.email) }}
               <div class="authentication_form_error">
               {{ form_errors(form.email) }}
               </div>
-            </li>
-            <li class="authentication_form_li">
+            </span>
+            <span class="authentication_form_field">
               {{ form_label(form.password.first) }}
               {{ form_widget(form.password.first) }}
               <div class="authentication_form_error">
               {{ form_errors(form.password.first) }}
               </div>
-            </li>
-            <li class="authentication_form_li">
+            </span>
+            <span class="authentication_form_field">
               {{ form_label(form.password.second) }}
               {{ form_widget(form.password.second) }}
               <div class="authentication_form_error">
               {{ form_errors(form.password.second) }}
               </div>
-            </li>
+            </span>
 
-          </div>
-
-          <div class="authentication_form_button">
-
-            <li class="authentication_form_li">
-              {{ form_row(form.save) }}
-              <span class="authentication_form_redirect">{{'alreadyAnAccount'|trans}} <a href="{{ path ('signin') }}">{{'here'|trans}}</a> </span>
-            </li>
+            <footer class="authentication_form_field">
+                {{ form_row(form.save) }}
+                <span class="authentication_form_redirect">{{'alreadyAnAccount'|trans}} <a href="{{ path ('signin') }}">{{'here'|trans}}</a> </span>
+            </footer>
             
-          </div>
-
-        </ul>
       {{ form_end(form) }}
     </div>
 
