@@ -1,6 +1,7 @@
 signUp: S'inscrire
 signIn: Se connecter
 alreadyAnAccount: Vous avez déjà un compte? Connectez-vous
+dontHaveAnAccount: Vous n'avez pas de compte? Inscrivez-vous
 here: ici
 username: Nom d'utilisateur
 usernameTooShort: Nom d'utilisateur trop court ( Minimum 4 caractères) .
@@ -9,7 +10,6 @@ usernameRequired: Veuillez entrer un nom d'utilisateur .
 usernameAllreadyUsed: Ce nom d'utilisateur est déjà utilisé.
 email: Email
 emailAllreadyUsed: Cet email est déjà utilisé.
-emailLabel: Email
 emailPlaceholder: Saisir mon email
 emailRequired: Veuillez entrer un email
 emailTooLong: Votre email est trop long ( Max 320 caractères) .
@@ -20,5 +20,6 @@ passwordError: Veuillez entrer un mot de passe.
 passwordWeak: Mot de passe trop faible (Au moins 1 majuscule, minuscule, chiffre et caractère spéciaux ).
 passwordRequired: Veuillez entrer un mot de passe.
 signUpFormButton: Je créer mon compte
+signInFormButton: Je me connecte
 errorRegistration: Une erreur est survenue. Veuillez réessayer.
 successRegistration: Félicitations ! Votre compte a bien été créé.

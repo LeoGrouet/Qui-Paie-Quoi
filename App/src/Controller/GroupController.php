@@ -6,6 +6,7 @@ use App\Entity\Group;
 use App\Repository\GroupRepository;
 use App\Service\GroupExpenseBalancer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -13,13 +14,18 @@ use Symfony\Component\Routing\Attribute\Route;
 class GroupController extends AbstractController
 {
     #[Route('/', name: '_home', methods: ['GET'])]
-    public function showGroups(GroupRepository $groupRepository): Response
-    {
+    public function showGroups(
+        GroupRepository $groupRepository,
+        Security $security
+    ): Response {
+        $user = $security->getUser();
+
         $groups = $groupRepository->findAll();
 
         return $this->render(
             'groups.html.twig',
             [
+                'user' => $user,
                 'groups' => $groups,
             ]
         );

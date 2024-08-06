@@ -13,7 +13,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class RegisterController extends AbstractController
+class SignUpController extends AbstractController
 {
     #[Route('/signup', name: 'signup', methods: ['GET', 'POST'])]
     public function signup(
@@ -58,11 +58,5 @@ class RegisterController extends AbstractController
         return $this->render('register/signup.html.twig', [
             'form' => $form,
         ]);
-    }
-
-    #[Route('/signin', name: 'signin', methods: ['GET', 'POST'])]
-    public function login(): Response
-    {
-        return $this->render('register/signin.html.twig');
     }
 }

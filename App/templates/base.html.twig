@@ -19,9 +19,17 @@
     <body>
 
         <header class="title">
+
             <a href="{{ path ('groups_home') }}">
-                <p class="qui-paie-quoi">Qui Paie Quoi</p>
+                <h2 class="qui-paie-quoi">Qui Paie Quoi</h2>
             </a>
+
+            {% if is_granted('ROLE_USER') %}
+                <a href="{{ path ('_logout_main') }}">
+                   {{ ux_icon('lucide:log-out') }}
+                </a>
+            {% endif %}
+
         </header>
 
         <div class = "flash-message">

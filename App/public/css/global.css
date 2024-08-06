@@ -1,3 +1,5 @@
+@import url(fontcolor.css);
+
 :root{
      /* Gap size */
     --space-xs: 0.25em;
@@ -9,14 +11,16 @@
     /* Font size */
     --font-bigger : 3rem;
     --font-title: 2rem;
+    --font-text-l: 1.5rem;
     --font-text: 1rem;
     --font-enphasis: 0.8rem;
 
     /* height size */
     --height-xxl : 4rem;
     --height-xl : 3rem;
-    --height-l : 2rem;
-    --height-m : 1rem;
+    --height-l : 2.5rem;
+    --height-m : 2rem;
+    --height-s : 1rem;
 
     /* Width size */
     --width-xl : 100%;
@@ -24,13 +28,21 @@
     --width-title : 3rem;
 
     /* Border radius */
-    --border-radius : 2rem;
-
+    --border-radius : 0.5rem;
 }
 
 body {
+    display: flex;
+    flex-direction: column;
     padding: 1.5rem 1.5rem;
     box-sizing: border-box;
+    height: 100vh;
+    color: var(--slate);
+}
+
+.title{
+    display: flex;
+    justify-content: space-between;
 }
 
 .qui-paie-quoi{
@@ -45,12 +57,12 @@ body {
 }
 
 .flash-success{
-    font-size: var(--font-title);
+    color: var(--purple);
     text-align: center;
     align-content: center;
     height: var(--height-m);
-    width: var(--width-l);
-    border: solid 1px;
+    width: var(--width-xl);
+    border: solid var(--purple) 1px;
     border-radius: var(--border-radius-xl);
 }
     

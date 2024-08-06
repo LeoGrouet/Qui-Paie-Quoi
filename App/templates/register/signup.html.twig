@@ -7,51 +7,45 @@
 {% endblock %}
 
 {% block body %}
-    <h2 class="signup_form_title">{{'signUp'|trans}}</h2>
+    <h2 class="authentication_form_title">{{'signUp'|trans}}</h2>
 
-    <div id="signup_form">
+    <div class="authentication_form">
       {{ form_start(form) }}
-        <ul>
+          
+            <span class="authentication_form_field">
+              {{ form_label(form.username) }}
+              {{ form_widget(form.username) }}
+              <div class="authentication_form_error">
+              {{ form_errors(form.username) }}
+              </div>
+            </span>
+            <span class="authentication_form_field">
+              {{ form_label(form.email) }}
+              {{ form_widget(form.email) }}
+              <div class="authentication_form_error">
+              {{ form_errors(form.email) }}
+              </div>
+            </span>
+            <span class="authentication_form_field">
+              {{ form_label(form.password.first) }}
+              {{ form_widget(form.password.first) }}
+              <div class="authentication_form_error">
+              {{ form_errors(form.password.first) }}
+              </div>
+            </span>
+            <span class="authentication_form_field">
+              {{ form_label(form.password.second) }}
+              {{ form_widget(form.password.second) }}
+              <div class="authentication_form_error">
+              {{ form_errors(form.password.second) }}
+              </div>
+            </span>
 
-          <li class="signup_form_li">
-            {{ form_label(form.username) }}
-            {{ form_widget(form.username) }}
-            <div class="signin_form_error">
-            {{ form_errors(form.username) }}
-            </div>
-          </li>
-
-          <li class="signup_form_li">
-            {{ form_label(form.email) }}
-            {{ form_widget(form.email) }}
-            <div class="signin_form_error">
-            {{ form_errors(form.email) }}
-            </div>
-          </li>
-
-          <li class="signup_form_li">
-            {{ form_label(form.password.first) }}
-            {{ form_widget(form.password.first) }}
-            <div class="signin_form_error">
-            {{ form_errors(form.password.first) }}
-            </div>
-          </li>
-
-          <li class="signup_form_li">
-            {{ form_label(form.password.second) }}
-            {{ form_widget(form.password.second) }}
-            <div class="signin_form_error">
-            {{ form_errors(form.password.second) }}
-            </div>
-          </li>
-
-          <li class="signup_form_li">
-            {{ form_row(form.save) }}
-            <span class="signup_form_redirect">{{'alreadyAnAccount'|trans}} <a href="{{ path ('signin') }}">{{'here'|trans}}</a> </span>
-          </li>
-
-        </ul>
-
+            <footer class="authentication_form_field">
+                {{ form_row(form.save) }}
+                <span class="authentication_form_redirect">{{'alreadyAnAccount'|trans}} <a href="{{ path ('signin') }}">{{'here'|trans}}</a> </span>
+            </footer>
+            
       {{ form_end(form) }}
     </div>
 

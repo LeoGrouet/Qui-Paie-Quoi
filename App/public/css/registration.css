@@ -1,53 +1,56 @@
-form{
-    width: 80%;
-}
-
-#signup_form{
+.authentication_form, .authentication_form>form{
     display: flex;
-    justify-content: center;
+    width: 100%;
+    flex-direction: column;
+    flex-grow: 1;
+    position: relative;
+    footer{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        flex-grow: 1;
+    }
 }
 
-.signup_form_title{
-    font-size: var(--font-giant);
+.authentication_form_title{
+    font-size: var(--font-bigger);
     text-align: center;
     margin: var(--space-l) 0;
 }
 
-.signup_form_li{
+.authentication_form_field{
     display: flex;
     flex-direction: column;
-    height: auto;
-    width: auto;
     margin-bottom: var(--space-m);
 }
 
 label{
-    font-size: var(--font-bigger);
+    font-size: var(--font-text-l);
     margin-bottom: var(--space-xs);
 }
 
 button{
-    color: white;
-    background-color: #38256C;
-    font-size: var(--font-bigger);
+    color: var(--white-purple);
+    background-color: var(--purple);
+    font-size: var(--font-text-l);
     height: var(--height-xl);
-    width:  var(--width-xl);
+    width: var(--width-xl);
     border-radius: var(--border-radius);
     margin-top: var(--space-xl);
 }
 
 input{
     height: var(--height-l);
-    border: 1px solid grey;
     border-radius: var(--border-radius);
-    font-size: var(--font-title);
+    border: 1px solid var(--white-purple);
 }
 
-.signup_form_redirect{
-    font-size: var(--font-title);
+.authentication_form_redirect{
+    font-size: var(--font-text);
     text-align: center;
+    padding-top: var(--space-m);
 }
 
-.signup_form_error{
+.authentication_form_error{
     font-size: var(--font-title);
 }

@@ -1,6 +1,7 @@
 signUp: Sign Up
 signIn: Sign In
 alreadyAnAccount: Already have an account? Sign in
+dontHaveAnAccount: You don't have an account? Sign up
 here: here
 username: Username
 usernameTooShort: Username too short ( Minimum 4 characters) .
@@ -20,5 +21,6 @@ passwordError: Please enter a password.
 passwordWeak:  Password too weak (At least 1 uppercase, lowercase, number and special character ).
 passwordRequired: Please enter a password.
 signUpFormButton: Create my account
+signInFormButton: Sign in
 errorRegistration: An error occurred. Please try again.
 successRegistration: Congratulations! Your account has been created successfully.

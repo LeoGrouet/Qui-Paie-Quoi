@@ -19,13 +19,13 @@
 }
 
 .group_parameter_active{
-    background-color: #2e1e59a6;
-    color: #211246;
+    background-color: var(--purple);
+    color: var(--color-secondary);
 }
 
 .group_parameter > a {
     font-size: var(--font-text);
-    border: solid #2e1e59 2px;
+    border: solid var(--purple) 1px;
     text-align: center;
     align-content: center;
     width: 43%;
@@ -58,7 +58,7 @@
 
 .group_info_balance, .group_info_expense{
     box-sizing: border-box;
-    border: solid #2e1e59 2px;
+    border: solid var(--purple) 1px;
     width: 100%;
     height: var(--height-xl);
     border-radius: var(--border-radius);
@@ -71,14 +71,15 @@
 
 .group_info{
     box-sizing: border-box;
-    border: solid #2e1e59 2px;
+    border: solid var(--purple) 1px;
     width: 100%;
     border-radius: var(--border-radius);
     align-items: center;
     display: grid;
     padding: 0vh 14vw;
     justify-content: space-around;
-    font-size: var(--font-title);
+    font-size: var(--font-text);
+    height: var(--height-xl);
 }
 
 .group_info_text{
