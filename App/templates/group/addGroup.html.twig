@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+
+{% trans_default_domain 'groups' %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" href="/css/groupPage.css">
+{% endblock %}
+
+{% block body %}
+
+{{form_start(form)}}
+{{form_end(form)}}
+  
+{% endblock %}
