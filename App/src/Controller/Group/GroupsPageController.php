@@ -2,7 +2,9 @@
 
 namespace App\Controller\Group;
 
-use App\Form\AddGroupType;
+use App\DTO\GroupDTO;
+use App\Entity\Group;
+use App\Form\GroupType;
 use App\Repository\GroupRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,9 +13,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/groups', name: 'groups_', methods: ['GET'])]
 class GroupsPageController extends AbstractController
 {
-    #[Route('/groups', name: 'groups_home', methods: ['GET'])]
+    #[Route('/', name: 'home', methods: ['GET'])]
     public function showGroups(
         GroupRepository $groupRepository,
         Security $security
@@ -31,20 +34,43 @@ class GroupsPageController extends AbstractController
         );
     }
 
-    #[Route('/groups/add', name: 'groups_add', methods: ['GET', 'POST'])]
+    #[Route('/add', name: 'add', methods: ['GET', 'POST'])]
     public function addGroup(
         Request $request,
+        EntityManagerInterface $entityManagerInterface,
     ): Response {
-        $form = $this->createForm(AddGroupType::class);
 
-        // $form->handleRequest($request);
-        // if ($form->isSubmitted() && $form->isValid()) {
-        //     $data = $form->getData();
+        $form = $this->createForm(GroupType::class);
 
-        //     $this->addFlash('success', 'Nouveau groupe créé');
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
 
-        //     return $this->redirectToRoute('groups_home');
-        // }
+            if (!$data instanceof GroupDTO) {
+                $this->addFlash(
+                    'notice',
+                    "Erreur groupe page controller"
+                );
+
+                return $this->redirectToRoute('groups_add');
+            }
+
+            $group = new Group(
+                $data->getName(),
+                $data->getDescription(),
+                $data->getUsers()
+            );
+
+            $this->addFlash(
+                'success',
+                "Nouveau groupe ajouté"
+            );
+
+            $entityManagerInterface->persist($group);
+            $entityManagerInterface->flush();
+
+            return $this->redirectToRoute('groups_home');
+        }
 
         return $this->render(
             'group/addGroup.html.twig',
