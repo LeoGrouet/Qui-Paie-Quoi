@@ -12,6 +12,9 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class GroupType extends AbstractType
@@ -26,7 +29,8 @@ class GroupType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => GroupDTO::class
+            'data_class' => GroupDTO::class,
+            'trans_domain' => 'groups',
         ]);
     }
 
@@ -37,14 +41,40 @@ class GroupType extends AbstractType
                 'name',
                 TextType::class,
                 [
-                    'label' => 'name'
+                    'label' => 'nameGroup',
+                    'attr' => [
+                        'placeholder' => 'groupPlaceholder',
+                    ],
+                    'translation_domain' => $options['trans_domain'],
+                    'required' => true,
+                    'constraints' => [
+                        new NotNull(),
+                        new Length(
+                            min: 1,
+                            max: 60,
+                        ),
+                        new NotBlank(),
+                    ],
                 ]
             )
             ->add(
                 'description',
                 TextType::class,
                 [
-                    'label' => 'description'
+                    'label' => 'descriptionGroup',
+                    'attr' => [
+                        'placeholder' => 'descriptionPlaceholder',
+                    ],
+                    'translation_domain' => $options['trans_domain'],
+                    'required' => true,
+                    'constraints' => [
+                        new NotNull(),
+                        new Length(
+                            min: 4,
+                            max: 180,
+                        ),
+                        new NotBlank(),
+                    ],
                 ]
             )
             ->add(
@@ -56,14 +86,16 @@ class GroupType extends AbstractType
                     'choice_label' => 'username',
                     'multiple' => true,
                     'expanded' => true,
-                    'label' => 'Participants',
+                    'label' => 'addGroupParticipant',
+                    'translation_domain' => $options['trans_domain'],
                 ]
             )
             ->add(
                 'submit',
                 SubmitType::class,
                 [
-                    'label' => "Créer un groupe"
+                    'label' => 'addGroupSubmitButton',
+                    'translation_domain' => $options['trans_domain'],
                 ]
             );
     }
