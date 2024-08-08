@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class GroupBalanceController extends AbstractController
 {
-    #[Route('/groups/{id}', name: 'groups_balance', methods: ['GET'])]
+    #[Route('/groups/{id}/balance', name: 'groups_balance', methods: ['GET'])]
     public function showBalance(
         Group $group,
         GroupExpenseBalancer $groupExpenseBalancer,
