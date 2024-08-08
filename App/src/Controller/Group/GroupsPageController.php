@@ -12,6 +12,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/groups', name: 'groups_', methods: ['GET'])]
 class GroupsPageController extends AbstractController
@@ -38,8 +39,8 @@ class GroupsPageController extends AbstractController
     public function addGroup(
         Request $request,
         EntityManagerInterface $entityManagerInterface,
+        TranslatorInterface $translator
     ): Response {
-
         $form = $this->createForm(GroupType::class);
 
         $form->handleRequest($request);
@@ -49,7 +50,7 @@ class GroupsPageController extends AbstractController
             if (!$data instanceof GroupDTO) {
                 $this->addFlash(
                     'notice',
-                    "Erreur groupe page controller"
+                    $translator->trans('errorGroup', [], 'groups')
                 );
 
                 return $this->redirectToRoute('groups_add');
@@ -63,7 +64,7 @@ class GroupsPageController extends AbstractController
 
             $this->addFlash(
                 'success',
-                "Nouveau groupe ajouté"
+                $translator->trans('succesGroup', [], 'groups')
             );
 
             $entityManagerInterface->persist($group);
@@ -77,7 +78,6 @@ class GroupsPageController extends AbstractController
             [
                 'form' => $form,
             ]
-
         );
     }
 }
