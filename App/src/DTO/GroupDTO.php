@@ -8,7 +8,11 @@ class GroupDTO
 {
     private string $name;
     private string $description;
-    private ?Collection $users;
+
+    /**
+     * @var Collection<int, \App\Entity\User>
+     */
+    private Collection $users;
 
     public function getName(): string
     {
@@ -30,11 +34,17 @@ class GroupDTO
         $this->description = $description;
     }
 
+    /**
+     * @return Collection<int, \App\Entity\User>
+     */
     public function getUsers(): ?Collection
     {
         return $this->users;
     }
 
+    /**
+     * @param Collection<int, \App\Entity\User> $users
+     */
     public function setUsers(Collection $users): void
     {
         $this->users = $users;

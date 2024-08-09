@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\DTO\GroupDTO;
 use App\Entity\User;
-use App\Repository\GroupRepository;
 use App\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -15,16 +14,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class GroupType extends AbstractType
 {
     public function __construct(
-        private readonly GroupRepository $groupRepository,
         private readonly UserRepository $userRepository,
-        private readonly TranslatorInterface $translator,
-    ) {
-    }
+    ) {}
 
     public function configureOptions(OptionsResolver $resolver): void
     {
