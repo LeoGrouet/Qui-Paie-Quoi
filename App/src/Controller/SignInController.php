@@ -13,6 +13,10 @@ class SignInController extends AbstractController
     public function signup(
         AuthenticationUtils $authenticationUtils,
     ): Response {
+        if ($this->isGranted('IS_AUTHENTICATED')) {
+            return $this->redirectToRoute('groups_home');
+        }
+
         $error = $authenticationUtils->getLastAuthenticationError();
 
         return $this->render('register/signin.html.twig', [
