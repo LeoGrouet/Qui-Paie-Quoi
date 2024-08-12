@@ -22,6 +22,10 @@ class SignUpController extends AbstractController
         UserPasswordHasherInterface $passwordHasher,
         TranslatorInterface $translator
     ): Response {
+        if ($this->isGranted('IS_AUTHENTICATED')) {
+            return $this->redirectToRoute('groups_home');
+        }
+
         $form = $this->createForm(UserSignUpType::class);
 
         $form->handleRequest($request);
