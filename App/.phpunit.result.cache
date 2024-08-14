@@ -1,0 +1,1 @@
+{"version":1,"defects":{"App\\Test\\GroupTest::testAddGroup":8,"App\\Tests\\GroupControllerTest::testAddGroup":5,"App\\Tests\\GroupControllerTest::testGroupRedirectionIfNOtLog":5},"times":{"App\\Test\\GroupTest::testAddGroup":0.007,"App\\Tests\\GroupControllerTest::testAddGroup":1.204,"App\\Tests\\GroupControllerTest::testGroupRedirectionIfNOtLog":1.242}}
