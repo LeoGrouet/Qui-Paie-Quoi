@@ -7,41 +7,52 @@
 {% endblock %}
 
 {% block body %}
- <h2 class="add_group_form_title">{{'createGroupTitle'|trans}}</h2>
+  <h2 class="add_group_form_title">{{'createGroupTitle'|trans}}</h2>
 
-  <div class="add_group_form"> 
-   {{form_start(form)}}
+    <div class="add_group_form"> 
+    
+      {{form_start(form)}}
 
-            <span class="add_group_form_field">
-              {{ form_label(form.name) }}
-              {{ form_widget(form.name) }}
-              <div class="add_group_form_error">
-              {{ form_errors(form.name) }}
-              </div>
-            </span>
+        <span class="add_group_form_field">
 
-            <span class="add_group_form_field">
-              {{ form_label(form.description) }}
-              {{ form_widget(form.description) }}
-              <div class="add_group_form_error">
-              {{ form_errors(form.description) }}
-              </div>
-            </span>
+          {{ form_label(form.name) }}
+          {{ form_widget(form.name) }}
 
-            <span class="add_group_form_field">
-              {{ form_label(form.users) }}
-              {{ form_widget(form.users) }}
-              <div class="add_group_form_error">
-              {{ form_errors(form.users) }}
-              </div>
-            </span>
+          <div class="add_group_form_error">
+          {{ form_errors(form.name) }}
+          </div>
 
-             <footer class="add_group_footer">
-                {{ form_row(form.submit) }}
-            </footer>
-   
-    {{form_end(form)}}
-  </div>
+        </span>
+
+        <span class="add_group_form_field">
+
+          {{ form_label(form.description) }}
+          {{ form_widget(form.description) }}
+
+          <div class="add_group_form_error">
+          {{ form_errors(form.description) }}
+          </div>
+
+        </span>
+
+        <span class="add_group_form_field">
+
+          {{ form_label(form.users) }}
+          {{ form_widget(form.users) }}
+
+          <div class="add_group_form_error">
+          {{ form_errors(form.users) }}
+          </div>
+
+        </span>
+
+        <footer class="add_group_footer">
+          {{ form_row(form.submit) }}
+        </footer>
+
+      {{form_end(form)}}
+
+    </div>
 
 
 {% endblock %}

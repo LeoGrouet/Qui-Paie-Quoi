@@ -19,7 +19,8 @@ class GroupType extends AbstractType
 {
     public function __construct(
         private readonly UserRepository $userRepository,
-    ) {}
+    ) {
+    }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -81,6 +82,9 @@ class GroupType extends AbstractType
                     'choice_label' => 'username',
                     'multiple' => true,
                     'expanded' => true,
+                    'attr' => [
+                        'size' => 5,
+                    ],
                     'label' => 'addGroupParticipant',
                     'translation_domain' => $options['trans_domain'],
                 ]
