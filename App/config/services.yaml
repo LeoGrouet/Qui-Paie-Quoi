@@ -14,3 +14,7 @@ services:
   App\Service\GroupExpenseBalancer: ~
 
   App\Controller\GroupController: ~
+  App\Tests: ~
+
+  App\Twig\FormatNumber:
+    tags: ['twig.extension']
