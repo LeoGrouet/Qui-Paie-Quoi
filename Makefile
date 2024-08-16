@@ -32,3 +32,6 @@ phpcsfixer:
 phpcsfixer-dev:
 	docker compose run --rm php vendor/bin/php-cs-fixer check src
 
+.PHONY=phpunit
+phpunit:
+	docker compose run --rm php bin/phpunit
