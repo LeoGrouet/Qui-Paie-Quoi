@@ -39,8 +39,7 @@ class Group
         private string $name,
         #[ORM\Column(type: 'string', length: 180)]
         private string $description,
-    ) {
-    }
+    ) {}
 
     public function getId(): int
     {
@@ -87,10 +86,5 @@ class Group
     public function getExpenses(): Collection
     {
         return $this->expenses;
-    }
-
-    public function __toString()
-    {
-        return $this->name;
     }
 }
