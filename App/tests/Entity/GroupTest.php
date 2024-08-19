@@ -18,4 +18,25 @@ class GroupTest extends TestCase
         $this->assertInstanceOf(Collection::class, $group->getUsers());
         $this->assertEmpty($group->getUsers());
     }
+
+    public function testGroupName(): void
+    {
+        $group = new Group('Group Name', 'Description', new ArrayCollection([]));
+
+        $this->assertSame('Group Name', $group->getName());
+    }
+
+    public function testGroupDescription(): void
+    {
+        $group = new Group('Group Name', 'Description', new ArrayCollection([]));
+
+        $this->assertSame('Description', $group->getDescription());
+    }
+
+    public function testGroupUsers(): void
+    {
+        $group = new Group('Group Name', 'Description', new ArrayCollection([]));
+
+        $this->assertInstanceOf(Collection::class, $group->getUsers());
+    }
 }

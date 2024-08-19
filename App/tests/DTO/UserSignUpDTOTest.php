@@ -13,4 +13,18 @@ class UserSignUpDTOTest extends TestCase
         $userSignUpDTO->setUsername('New User');
         $this->assertSame('New User', $userSignUpDTO->getUsername());
     }
+
+    public function testUserSignUpDTOEmail(): void
+    {
+        $userSignUpDTO = new UserSignUpDTO();
+        $userSignUpDTO->setEmail('newuser@gmail.com');
+        $this->assertSame('newuser@gmail.com', $userSignUpDTO->getEmail());
+    }
+
+    public function testUserSignUpDTOPassword(): void
+    {
+        $userSignUpDTO = new UserSignUpDTO();
+        $userSignUpDTO->setPassword('password');
+        $this->assertSame('password', $userSignUpDTO->getPassword());
+    }
 }
