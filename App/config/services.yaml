@@ -19,7 +19,7 @@ services:
   App\Form\:
     resource: '%kernel.project_dir%/src/Form'
 
-  App\Service\GroupExpenseBalancer: ~
+  App\Service\ExpenseBalancer: ~
 
   App\Twig\FormatNumber:
     tags: ['twig.extension']

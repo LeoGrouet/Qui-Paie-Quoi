@@ -3,7 +3,7 @@
 namespace App\Command;
 
 use App\Repository\GroupRepository;
-use App\Service\GroupExpenseBalancer;
+use App\Service\ExpenseBalancer;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,7 +15,7 @@ class HandleBalanceCommand extends Command
 {
     public function __construct(
         private readonly GroupRepository $groupRepository,
-        private readonly GroupExpenseBalancer $groupExpenseBalancer
+        private readonly ExpenseBalancer $expenseBalancer
     ) {
         parent::__construct();
     }
@@ -50,25 +50,20 @@ class HandleBalanceCommand extends Command
             return Command::FAILURE;
         }
 
-        $id = $this->groupRepository->findIdByName($name);
+        $group = $this->groupRepository->findOneBy(["name" => $name]);
 
-        if (is_null($id)) {
-            $io->error('Invalid group selected.');
+        $expenses = $group->getExpenses();
 
-            return Command::FAILURE;
+        foreach ($expenses as $expense) {
+            $this->expenseBalancer->apply($expense);
         }
 
-        $this->outputBalance($id, $output);
-
-        return Command::SUCCESS;
-    }
-
-    protected function outputBalance(int $id, OutputInterface $output): void
-    {
-        $balances = $this->groupExpenseBalancer->showBalance($id);
+        $balances = $group->getUserBalances();
 
         foreach ($balances as $balance) {
             $output->writeln($balance);
         }
+
+        return Command::SUCCESS;
     }
 }

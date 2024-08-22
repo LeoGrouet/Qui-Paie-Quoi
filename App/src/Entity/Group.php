@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\InverseJoinColumn;
@@ -33,6 +34,9 @@ class Group
     #[InverseJoinColumn(name: 'user_id', referencedColumnName: 'id')]
     #[ManyToMany(targetEntity: User::class)]
     private Collection $users;
+
+    #[OneToMany(targetEntity: UserBalance::class, mappedBy: 'group')]
+    private Collection $userBalances;
 
     public function __construct(
         #[ORM\Column(type: 'string', length: 60)]
@@ -86,5 +90,15 @@ class Group
     public function getExpenses(): Collection
     {
         return $this->expenses;
+    }
+
+    public function getUserBalances(): Collection
+    {
+        return $this->userBalances;
+    }
+
+    public function addUserBalances(UserBalance $userBalance): void
+    {
+        $this->userBalances->add($userBalance);
     }
 }
