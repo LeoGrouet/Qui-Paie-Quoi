@@ -26,23 +26,24 @@ class Group
     #[OneToMany(targetEntity: Expense::class, mappedBy: 'group')]
     private Collection $expenses;
 
-    /**
-     * @var Collection<int, User>
-     */
-    #[JoinTable(name: 'groups_users')]
-    #[JoinColumn(name: 'group_id', referencedColumnName: 'id')]
-    #[InverseJoinColumn(name: 'user_id', referencedColumnName: 'id')]
-    #[ManyToMany(targetEntity: User::class)]
-    private Collection $users;
-
-    #[OneToMany(targetEntity: UserBalance::class, mappedBy: 'group')]
-    private Collection $userBalances;
 
     public function __construct(
         #[ORM\Column(type: 'string', length: 60)]
         private string $name,
         #[ORM\Column(type: 'string', length: 180)]
         private string $description,
+
+        /**
+         * @var Collection<int, User>
+         */
+        #[JoinTable(name: 'groups_users')]
+        #[JoinColumn(name: 'group_id', referencedColumnName: 'id')]
+        #[InverseJoinColumn(name: 'user_id', referencedColumnName: 'id')]
+        #[ManyToMany(targetEntity: User::class)]
+        private Collection $users,
+
+        #[OneToMany(targetEntity: UserBalance::class, mappedBy: 'group')]
+        private Collection $userBalances = new ArrayCollection()
     ) {}
 
     public function getId(): int

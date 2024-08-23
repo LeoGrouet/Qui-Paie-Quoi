@@ -42,4 +42,9 @@ class UserBalance
     {
         $this->amount += $amount;
     }
+
+    public function __toString(): string
+    {
+        return $this->user->getEmail() . ' : ' . $this->amount;
+    }
 }
