@@ -26,7 +26,6 @@ class Group
     #[OneToMany(targetEntity: Expense::class, mappedBy: 'group')]
     private Collection $expenses;
 
-
     public function __construct(
         #[ORM\Column(type: 'string', length: 60)]
         private string $name,
@@ -42,9 +41,13 @@ class Group
         #[ManyToMany(targetEntity: User::class)]
         private Collection $users,
 
+        /**
+         * @var Collection<int, UserBalance>
+         */
         #[OneToMany(targetEntity: UserBalance::class, mappedBy: 'group')]
         private Collection $userBalances = new ArrayCollection()
-    ) {}
+    ) {
+    }
 
     public function getId(): int
     {
@@ -93,6 +96,9 @@ class Group
         return $this->expenses;
     }
 
+    /**
+     * @return Collection<int, UserBalance>
+     */
     public function getUserBalances(): Collection
     {
         return $this->userBalances;

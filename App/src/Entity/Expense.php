@@ -40,7 +40,8 @@ class Expense
         #[ManyToOne(targetEntity: Group::class, inversedBy: 'expenses')]
         #[JoinColumn(name: 'group_id', referencedColumnName: 'id')]
         private Group $group,
-    ) {}
+    ) {
+    }
 
     public function getId(): int
     {

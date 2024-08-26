@@ -2,6 +2,9 @@
 
 namespace App\Command;
 
+use App\Entity\Expense;
+use App\Entity\Group;
+use App\Entity\UserBalance;
 use App\Repository\GroupRepository;
 use App\Service\ExpenseBalancer;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -50,14 +53,27 @@ class HandleBalanceCommand extends Command
             return Command::FAILURE;
         }
 
-        $group = $this->groupRepository->findOneBy(["name" => $name]);
+        if (!$this->groupRepository->findOneBy(['name' => $name]) instanceof Group || null == $this->groupRepository->findOneBy(['name' => $name])) {
+            $io->error('Invalid group name selected.');
 
+            return Command::FAILURE;
+        } else {
+            $group = $this->groupRepository->findOneBy(['name' => $name]);
+        }
+
+        /**
+         * @var array <int, Expense> $expenses
+         */
         $expenses = $group->getExpenses();
 
         foreach ($expenses as $expense) {
+            dump($expense);
             $this->expenseBalancer->apply($expense);
         }
 
+        /**
+         * @var array <int, UserBalance> $balances
+         */
         $balances = $group->getUserBalances();
 
         foreach ($balances as $balance) {

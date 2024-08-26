@@ -5,7 +5,6 @@ namespace App\Command;
 use App\Entity\Expense;
 use App\Entity\Group;
 use App\Entity\User;
-use App\Entity\UserBalance;
 use App\Service\ExpenseBalancer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -188,7 +187,6 @@ class DatabaseFlushTest extends Command
             new Expense(50 * 100, 'Faux gazon', $julien, $participantsCollection, $group),
             new Expense(50 * 100, 'Plomb', $leo, $participantsCollection, $group),
         ];
-
 
         foreach ($expenses as $expense) {
             $this->expenseBalancer->apply($expense);

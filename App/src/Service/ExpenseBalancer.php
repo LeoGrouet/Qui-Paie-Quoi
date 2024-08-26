@@ -6,17 +6,15 @@ use App\Entity\Expense;
 use App\Entity\Group;
 use App\Entity\User;
 use App\Entity\UserBalance;
-use App\Repository\ExpenseRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\Entity;
 
 class ExpenseBalancer
 {
     public function __construct(
-        readonly private ExpenseRepository $expenseRepository,
         readonly private EntityManagerInterface $entityManager
-    ) {}
+    ) {
+    }
 
     public function apply(Expense $expense): void
     {
@@ -41,6 +39,9 @@ class ExpenseBalancer
         $this->entityManager->flush();
     }
 
+    /**
+     * @param Collection <int, UserBalance> $userBalances
+     */
     private function getUserBalance(Collection $userBalances, Group $group, User $user): UserBalance
     {
         foreach ($userBalances as $userBalance) {

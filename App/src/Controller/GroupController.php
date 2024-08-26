@@ -3,10 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Group;
-use App\Entity\UserBalance;
 use App\Repository\GroupRepository;
-use App\Service\ExpenseBalancer;
-use App\Service\GroupExpenseBalancer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,18 +33,16 @@ class GroupController extends AbstractController
     #[Route('/{id}', name: '_balance')]
     public function showBalance(
         Group $group,
-        ExpenseBalancer $ExpenseBalancer,
-        UserBalance $UserBalance
     ): Response {
-
-
-        asort($balances);
+        $groupName = $group->getName();
+        $groupId = $group->getId();
+        $balances = $group->getUserBalances();
 
         return $this->render(
             'groupBalance.html.twig',
             [
-                'groupName' => $group->getName(),
-                'groupId' => $group->getId(),
+                'groupId' => $groupId,
+                'groupName' => $groupName,
                 'balances' => $balances,
             ]
         );

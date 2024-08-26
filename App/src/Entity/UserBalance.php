@@ -15,7 +15,6 @@ class UserBalance
     private int $id;
 
     public function __construct(
-
         #[ManyToOne(targetEntity: User::class)]
         #[JoinColumn(name: 'user_id', referencedColumnName: 'id')]
         private User $user,
@@ -26,7 +25,8 @@ class UserBalance
 
         #[ORM\Column(type: 'integer')]
         private int $amount
-    ) {}
+    ) {
+    }
 
     public function getUser(): User
     {
@@ -45,6 +45,6 @@ class UserBalance
 
     public function __toString(): string
     {
-        return $this->user->getEmail() . ' : ' . $this->amount;
+        return $this->user->getEmail().' : '.$this->amount;
     }
 }
