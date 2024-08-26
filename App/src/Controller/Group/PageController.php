@@ -4,27 +4,28 @@ namespace App\Controller\Group;
 
 use App\DTO\GroupDTO;
 use App\Entity\Group;
+use App\Entity\User;
 use App\Form\GroupType;
 use App\Repository\GroupRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/groups', name: 'groups_', methods: ['GET'])]
-class GroupsPageController extends AbstractController
+#[Route('/groups', name: 'groups_', methods: Request::METHOD_GET)]
+class PageController extends AbstractController
 {
-    #[Route('/', name: 'home', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    #[Route('/', name: 'home', methods: Request::METHOD_GET)]
     public function showGroups(
         GroupRepository $groupRepository,
-        Security $security
+        #[CurrentUser] User $user
     ): Response {
-        $user = $security->getUser();
-
-        $groups = $groupRepository->findAll();
+        $groups = $groupRepository->findAllWhereUserIsMember($user);
 
         return $this->render(
             'group/groups.html.twig',
@@ -58,9 +59,12 @@ class GroupsPageController extends AbstractController
 
             $group = new Group(
                 $data->getName(),
-                $data->getDescription(),
-                $data->getUsers()
+                $data->getDescription()
             );
+
+            if (null !== $data->getUsers()) {
+                $group->setUsers($data->getUsers());
+            }
 
             $this->addFlash(
                 'success',

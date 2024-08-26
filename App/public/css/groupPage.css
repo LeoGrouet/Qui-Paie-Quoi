@@ -118,6 +118,7 @@ a{
 
 .back_arrow>img{
     height: var(--height-l);
+    width: auto;
 }
 
 .add_group_button{

@@ -4,12 +4,13 @@
     flex-direction: column;
     flex-grow: 1;
     position: relative;
+
     footer{
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
         flex-grow: 1;
-    }
+    } 
 }
 
 .add_group_form_title{

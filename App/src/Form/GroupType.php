@@ -46,7 +46,7 @@ class GroupType extends AbstractType
                     'constraints' => [
                         new NotNull(),
                         new Length(
-                            min: 1,
+                            min: 5,
                             max: 60,
                         ),
                         new NotBlank(),
@@ -66,7 +66,6 @@ class GroupType extends AbstractType
                     'constraints' => [
                         new NotNull(),
                         new Length(
-                            min: 4,
                             max: 180,
                         ),
                         new NotBlank(),

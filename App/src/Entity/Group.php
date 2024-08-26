@@ -23,22 +23,22 @@ class Group
      * @var Collection<int, Expense>
      */
     #[OneToMany(targetEntity: Expense::class, mappedBy: 'group')]
-    private ?Collection $expenses = null;
+    private Collection $expenses;
+
+    /**
+     * @var Collection<int, User>
+     */
+    #[JoinTable(name: 'groups_users')]
+    #[JoinColumn(name: 'group_id', referencedColumnName: 'id')]
+    #[InverseJoinColumn(name: 'user_id', referencedColumnName: 'id')]
+    #[ManyToMany(targetEntity: User::class)]
+    private Collection $users;
 
     public function __construct(
         #[ORM\Column(type: 'string', length: 60)]
         private string $name,
         #[ORM\Column(type: 'string', length: 180)]
         private string $description,
-
-        /**
-         * @var Collection<int, User>
-         */
-        #[JoinTable(name: 'groups_users')]
-        #[JoinColumn(name: 'group_id', referencedColumnName: 'id')]
-        #[InverseJoinColumn(name: 'user_id', referencedColumnName: 'id')]
-        #[ManyToMany(targetEntity: User::class)]
-        private ?Collection $users,
     ) {
     }
 
@@ -60,15 +60,31 @@ class Group
     /**
      * @return Collection<int, User>
      */
-    public function getUsers(): ?Collection
+    public function getUsers(): Collection
     {
         return $this->users;
     }
 
     /**
+     * @param Collection<int, User> $users
+     */
+    public function setUsers(Collection $users): void
+    {
+        $this->users = $users;
+    }
+
+    /**
+     * @param Collection<int, Expense> $expenses
+     */
+    public function setExpenses(Collection $expenses): void
+    {
+        $this->expenses = $expenses;
+    }
+
+    /**
      * @return Collection<int, Expense>
      */
-    public function getExpenses(): ?Collection
+    public function getExpenses(): Collection
     {
         return $this->expenses;
     }
