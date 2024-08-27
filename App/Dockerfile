@@ -69,3 +69,7 @@ ENV APP_DEBUG=0
 COPY . .
 
 COPY php/php.prod.ini /usr/local/etc/php/php.ini
+
+COPY --from=composer   /usr/bin/composer /usr/local/bin/composer
+
+RUN composer install --no-scripts --no-dev

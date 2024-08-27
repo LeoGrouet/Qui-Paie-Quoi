@@ -1,7 +1,7 @@
 ---
 services:
   php:
-    image: LeoGrouet/qui-paie-quoi:php-${VERSION_NAME}
+    image: leogrouet/qui-paie-quoi:php-${VERSION_NAME}
     platform: linux/x86_64
     env_file: App/.env
     build:
@@ -12,10 +12,11 @@ services:
     restart: unless-stopped
 
   nginx:
-    image: LeoGrouet/qui-paie-quoi:nginx-${VERSION_NAME}
+    image: leogrouet/qui-paie-quoi:nginx-${VERSION_NAME}
     build:
       context: .
       target: prod
+      dockerfile: services/nginx/Dockerfile
     ports:
       - 80:80
     restart: unless-stopped
