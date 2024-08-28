@@ -13,12 +13,21 @@
      
       <div class="group_info_container_general">
 
-        {% for group in groups %}
-            <a class="group_info" href="{{ path ('groups_balance', {id:group.id}) }}">{{group.name}}</a>
-        {% endfor %}
+        {% if groups is empty %}
+
+          <p class="group_is_empty">Vous n'appartenez à aucun groupe</p>
+
+        {% else %}
+          {% for group in groups %}
+
+            <a class="group_info" href="{{ path ('groups_balance', {id:group.id}) }}">
+              {{group.name}}
+            </a>
+
+          {% endfor %}
+        {% endif %}
         
-      </div>
-      
+      </div> 
   </div> 
 
   <footer class="add_group_footer">

@@ -12,3 +12,4 @@ descriptionPlaceholder: Enter the group description
 addGroupSubmitButton: Add group
 addGroupParticipant: Select participants
 createGroupTitle: New group
+groupsIsEmpty: You don't belong to any group

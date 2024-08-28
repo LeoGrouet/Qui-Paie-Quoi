@@ -27,13 +27,6 @@ class PageController extends AbstractController
     ): Response {
         $groups = $groupRepository->findAllWhereUserIsMember($user);
 
-        if ($groups === []) {
-            $this->addFlash(
-                'notice',
-                'You are not a member of any group'
-            );
-        }
-
         return $this->render(
             'group/groups.html.twig',
             [
