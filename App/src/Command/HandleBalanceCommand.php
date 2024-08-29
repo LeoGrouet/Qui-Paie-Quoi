@@ -2,9 +2,7 @@
 
 namespace App\Command;
 
-use App\Entity\Expense;
 use App\Entity\Group;
-use App\Entity\UserBalance;
 use App\Repository\GroupRepository;
 use App\Service\ExpenseBalancer;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -67,7 +65,6 @@ class HandleBalanceCommand extends Command
         $expenses = $group->getExpenses();
 
         foreach ($expenses as $expense) {
-            dump($expense);
             $this->expenseBalancer->apply($expense);
         }
 

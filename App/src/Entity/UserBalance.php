@@ -14,6 +14,9 @@ class UserBalance
     #[ORM\Column]
     private int $id;
 
+    #[ORM\Column(type: 'integer')]
+    private int $amount = 0;
+
     public function __construct(
         #[ManyToOne(targetEntity: User::class)]
         #[JoinColumn(name: 'user_id', referencedColumnName: 'id')]
@@ -22,11 +25,7 @@ class UserBalance
         #[ManyToOne(targetEntity: Group::class, inversedBy: 'userBalances')]
         #[JoinColumn(name: 'group_id', referencedColumnName: 'id')]
         private Group $group,
-
-        #[ORM\Column(type: 'integer')]
-        private int $amount
-    ) {
-    }
+    ) {}
 
     public function getUser(): User
     {
@@ -43,8 +42,13 @@ class UserBalance
         $this->amount += $amount;
     }
 
+    public function addDebt(int $amount): void
+    {
+        $this->amount -= $amount;
+    }
+
     public function __toString(): string
     {
-        return $this->user->getEmail().' : '.$this->amount;
+        return $this->user->getEmail() . ' : ' . $this->amount;
     }
 }
