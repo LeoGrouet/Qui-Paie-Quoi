@@ -26,7 +26,8 @@ class UserBalance
         #[ManyToOne(targetEntity: Group::class, inversedBy: 'userBalances')]
         #[JoinColumn(name: 'group_id', referencedColumnName: 'id')]
         private Group $group,
-    ) {}
+    ) {
+    }
 
     public function getUser(): User
     {
@@ -50,6 +51,6 @@ class UserBalance
 
     public function __toString(): string
     {
-        return $this->user->getEmail() . ' : ' . $this->amount;
+        return $this->user->getEmail().' : '.$this->amount;
     }
 }

@@ -5,7 +5,6 @@ namespace App\Command;
 use App\Entity\Expense;
 use App\Entity\Group;
 use App\Entity\User;
-use App\Entity\UserBalance;
 use App\Service\ExpenseBalancer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -71,7 +70,7 @@ class DatabaseFlushTest extends Command
 
         foreach ($expenses as $expense) {
             $this->expenseBalancer->apply($expense);
-        };
+        }
 
         $this->logger->info('Expenses of first scenario are loaded in DB');
     }

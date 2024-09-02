@@ -66,145 +66,145 @@ class ExpenseBalancerTest extends TestCase
         $this->assertSame(1500, $camilleBalance->getAmount());
     }
 
-    // public function testApplySecondScenario(): void
-    // {
-    //     /**
-    //      * @var EntityManagerInterface $entityManager
-    //      */
-    //     $entityManager = $this->createMock(EntityManagerInterface::class);
-    //     /**
-    //      * @var UserBalanceRepository $userBalanceRepository
-    //      */
-    //     $userBalanceRepository = $this->createMock(UserBalanceRepository::class);
-    //     $service = new ExpenseBalancer($entityManager, $userBalanceRepository);
+    public function testApplySecondScenario(): void
+    {
+        /**
+         * @var EntityManagerInterface $entityManager
+         */
+        $entityManager = $this->createMock(EntityManagerInterface::class);
+        /**
+         * @var UserBalanceRepository $userBalanceRepository
+         */
+        $userBalanceRepository = $this->createMock(UserBalanceRepository::class);
+        $service = new ExpenseBalancer($entityManager, $userBalanceRepository);
 
-    //     $usersData = new ArrayCollection([
-    //         $pierre = new User('Pierre', 'pierre@gmail.com'),
-    //         $david = new User('David', 'david@gmail.com'),
-    //         $emilie = new User('Emilie', 'emilie@gmail.com'),
-    //         $florence = new User('Florence', 'florence@gmail.com'),
-    //     ]);
+        $usersData = new ArrayCollection([
+            $pierre = new User('Pierre', 'pierre@gmail.com'),
+            $david = new User('David', 'david@gmail.com'),
+            $emilie = new User('Emilie', 'emilie@gmail.com'),
+            $florence = new User('Florence', 'florence@gmail.com'),
+        ]);
 
-    //     $usersGroup = new Group('Second groupe', 'groupe test numero 2', $usersData);
+        $usersGroup = new Group('Second groupe', 'groupe test numero 2', $usersData);
 
-    //     $participantsCollectionOne = new ArrayCollection([$david, $emilie, $florence]);
+        $participantsCollectionOne = new ArrayCollection([$david, $emilie, $florence]);
 
-    //     $expenses = [
-    //         new Expense(10 * 100, 'Taxi', $pierre, $participantsCollectionOne, $usersGroup),
-    //     ];
+        $expenses = [
+            new Expense(10 * 100, 'Taxi', $pierre, $participantsCollectionOne, $usersGroup),
+        ];
 
-    //     $pierreBalance = new UserBalance($pierre, $usersGroup);
-    //     $davidBalance = new UserBalance($david, $usersGroup);
-    //     $emilieBalance = new UserBalance($emilie, $usersGroup);
-    //     $florenceBalance = new UserBalance($florence, $usersGroup);
+        $pierreBalance = new UserBalance($pierre, $usersGroup);
+        $davidBalance = new UserBalance($david, $usersGroup);
+        $emilieBalance = new UserBalance($emilie, $usersGroup);
+        $florenceBalance = new UserBalance($florence, $usersGroup);
 
-    //     $userBalanceRepository->method('getUserBalance')
-    //         ->willReturnCallback(fn(User $user, Group $group) => match ([$user, $group]) {
-    //             [$pierre, $usersGroup] => $pierreBalance,
-    //             [$david, $usersGroup] => $davidBalance,
-    //             [$emilie, $usersGroup] => $emilieBalance,
-    //             [$florence, $usersGroup] => $florenceBalance,
-    //         });
+        $userBalanceRepository->method('getUserBalance')
+            ->willReturnCallback(fn(User $user, Group $group) => match ([$user, $group]) {
+                [$pierre, $usersGroup] => $pierreBalance,
+                [$david, $usersGroup] => $davidBalance,
+                [$emilie, $usersGroup] => $emilieBalance,
+                [$florence, $usersGroup] => $florenceBalance,
+            });
 
-    //     foreach ($expenses as $expense) {
-    //         $service->apply($expense);
-    //     }
+        foreach ($expenses as $expense) {
+            $service->apply($expense);
+        }
 
-    //     $this->assertSame(1000, $pierreBalance->getAmount());
-    //     $this->assertSame(-333, $davidBalance->getAmount());
-    //     $this->assertSame(-333, $emilieBalance->getAmount());
-    //     $this->assertSame(-333, $florenceBalance->getAmount());
-    // }
+        $this->assertSame(1000, $pierreBalance->getAmount());
+        $this->assertThat($davidBalance->getAmount(), $this->logicalOr($this->equalTo(-333), $this->equalTo(-334)));
+        $this->assertThat($emilieBalance->getAmount(), $this->logicalOr($this->equalTo(-333), $this->equalTo(-334)));
+        $this->assertThat($florenceBalance->getAmount(), $this->logicalOr($this->equalTo(-333), $this->equalTo(-334)));
+    }
 
-    // public function testApplyThirdScenario(): void
-    // {
-    //     /**
-    //      * @var EntityManagerInterface $entityManager
-    //      */
-    //     $entityManager = $this->createMock(EntityManagerInterface::class);
-    //     /**
-    //      * @var UserBalanceRepository $userBalanceRepository
-    //      */
-    //     $userBalanceRepository = $this->createMock(UserBalanceRepository::class);
-    //     $service = new ExpenseBalancer($entityManager, $userBalanceRepository);
+    public function testApplyThirdScenario(): void
+    {
+        /**
+         * @var EntityManagerInterface $entityManager
+         */
+        $entityManager = $this->createMock(EntityManagerInterface::class);
+        /**
+         * @var UserBalanceRepository $userBalanceRepository
+         */
+        $userBalanceRepository = $this->createMock(UserBalanceRepository::class);
+        $service = new ExpenseBalancer($entityManager, $userBalanceRepository);
 
-    //     $usersData = new ArrayCollection([
-    //         $george = new User('George', 'george@gmail.com'),
-    //         $helene = new User('Helene', 'helene@gmail.com'),
-    //     ]);
+        $usersData = new ArrayCollection([
+            $george = new User('George', 'george@gmail.com'),
+            $helene = new User('Helene', 'helene@gmail.com'),
+        ]);
 
-    //     $usersGroup = new Group('Third groupe', 'groupe test numero 3', $usersData);
+        $usersGroup = new Group('Third groupe', 'groupe test numero 3', $usersData);
 
-    //     $participantsCollectionOne = new ArrayCollection([$george, $helene]);
+        $participantsCollectionOne = new ArrayCollection([$george, $helene]);
 
-    //     $expenses = [
-    //         new Expense(10 * 100, 'Petit dèj', $george, $participantsCollectionOne, $usersGroup),
-    //         new Expense(15 * 100, 'Déjeuner', $helene, new ArrayCollection([$george]), $usersGroup),
-    //         new Expense(20 * 100, 'Diner', $george, new ArrayCollection([$helene]), $usersGroup),
-    //     ];
+        $expenses = [
+            new Expense(10 * 100, 'Petit dèj', $george, $participantsCollectionOne, $usersGroup),
+            new Expense(15 * 100, 'Déjeuner', $helene, new ArrayCollection([$george]), $usersGroup),
+            new Expense(20 * 100, 'Diner', $george, new ArrayCollection([$helene]), $usersGroup),
+        ];
 
-    //     $georgeBalance = new UserBalance($george, $usersGroup);
-    //     $heleneBalance = new UserBalance($helene, $usersGroup);
+        $georgeBalance = new UserBalance($george, $usersGroup);
+        $heleneBalance = new UserBalance($helene, $usersGroup);
 
-    //     $userBalanceRepository->method('getUserBalance')
-    //         ->willReturnCallback(fn(User $user, Group $group) => match ([$user, $group]) {
-    //             [$george, $usersGroup] => $georgeBalance,
-    //             [$helene, $usersGroup] => $heleneBalance,
-    //         });
+        $userBalanceRepository->method('getUserBalance')
+            ->willReturnCallback(fn(User $user, Group $group) => match ([$user, $group]) {
+                [$george, $usersGroup] => $georgeBalance,
+                [$helene, $usersGroup] => $heleneBalance,
+            });
 
-    //     foreach ($expenses as $expense) {
-    //         $service->apply($expense);
-    //     }
+        foreach ($expenses as $expense) {
+            $service->apply($expense);
+        }
 
-    //     $this->assertSame(1000, $georgeBalance->getAmount());
-    //     $this->assertSame(-1000, $heleneBalance->getAmount());
-    // }
+        $this->assertSame(1000, $georgeBalance->getAmount());
+        $this->assertSame(-1000, $heleneBalance->getAmount());
+    }
 
-    // public function testApplyFourthScenario(): void
-    // {
-    //     /**
-    //      * @var EntityManagerInterface $entityManager
-    //      */
-    //     $entityManager = $this->createMock(EntityManagerInterface::class);
-    //     /**
-    //      * @var UserBalanceRepository $userBalanceRepository
-    //      */
-    //     $userBalanceRepository = $this->createMock(UserBalanceRepository::class);
-    //     $service = new ExpenseBalancer($entityManager, $userBalanceRepository);
+    public function testApplyFourthScenario(): void
+    {
+        /**
+         * @var EntityManagerInterface $entityManager
+         */
+        $entityManager = $this->createMock(EntityManagerInterface::class);
+        /**
+         * @var UserBalanceRepository $userBalanceRepository
+         */
+        $userBalanceRepository = $this->createMock(UserBalanceRepository::class);
+        $service = new ExpenseBalancer($entityManager, $userBalanceRepository);
 
-    //     $usersData = new ArrayCollection([
-    //         $isabelle = new User('Isabelle', 'isabelle@gmail.com'),
-    //         $julien = new User('Julien', 'julien@gmail.com'),
-    //         $leo = new User('Leo', 'leo@gmail.com'),
-    //     ]);
+        $usersData = new ArrayCollection([
+            $isabelle = new User('Isabelle', 'isabelle@gmail.com'),
+            $julien = new User('Julien', 'julien@gmail.com'),
+            $leo = new User('Leo', 'leo@gmail.com'),
+        ]);
 
-    //     $usersGroup = new Group('Fourth groupe', 'groupe test numero 4', $usersData);
+        $usersGroup = new Group('Fourth groupe', 'groupe test numero 4', $usersData);
 
-    //     $participantsCollection = new ArrayCollection([$isabelle, $julien, $leo]);
+        $participantsCollection = new ArrayCollection([$isabelle, $julien, $leo]);
 
-    //     $expenses = [
-    //         new Expense(50 * 100, 'Peinture', $isabelle, $participantsCollection, $usersGroup),
-    //         new Expense(50 * 100, 'Faux gazon', $julien, $participantsCollection, $usersGroup),
-    //         new Expense(50 * 100, 'Plomb', $leo, $participantsCollection, $usersGroup),
-    //     ];
+        $expenses = [
+            new Expense(50 * 100, 'Peinture', $isabelle, $participantsCollection, $usersGroup),
+            new Expense(50 * 100, 'Faux gazon', $julien, $participantsCollection, $usersGroup),
+            new Expense(50 * 100, 'Plomb', $leo, $participantsCollection, $usersGroup),
+        ];
 
-    //     $isabelleBalance = new UserBalance($isabelle, $usersGroup);
-    //     $julienBalance = new UserBalance($julien, $usersGroup);
-    //     $leoBalance = new UserBalance($leo, $usersGroup);
+        $isabelleBalance = new UserBalance($isabelle, $usersGroup);
+        $julienBalance = new UserBalance($julien, $usersGroup);
+        $leoBalance = new UserBalance($leo, $usersGroup);
 
-    //     $userBalanceRepository->method('getUserBalance')
-    //         ->willReturnCallback(fn(User $user, Group $group) => match ([$user, $group]) {
-    //             [$isabelle, $usersGroup] => $isabelleBalance,
-    //             [$julien, $usersGroup] => $julienBalance,
-    //             [$leo, $usersGroup] => $leoBalance,
-    //         });
+        $userBalanceRepository->method('getUserBalance')
+            ->willReturnCallback(fn(User $user, Group $group) => match ([$user, $group]) {
+                [$isabelle, $usersGroup] => $isabelleBalance,
+                [$julien, $usersGroup] => $julienBalance,
+                [$leo, $usersGroup] => $leoBalance,
+            });
 
-    //     foreach ($expenses as $expense) {
-    //         $service->apply($expense);
-    //     }
+        foreach ($expenses as $expense) {
+            $service->apply($expense);
+        }
 
-    //     $this->assertSame(2, $isabelleBalance->getAmount());
-    //     $this->assertSame(2, $julienBalance->getAmount());
-    //     $this->assertSame(2, $leoBalance->getAmount());
-    // }
+        $this->assertSame(2, $isabelleBalance->getAmount());
+        $this->assertSame(2, $julienBalance->getAmount());
+        $this->assertSame(2, $leoBalance->getAmount());
+    }
 }

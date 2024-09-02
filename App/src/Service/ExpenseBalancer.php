@@ -23,10 +23,12 @@ class ExpenseBalancer
         $participants = $expense->getParticipants();
         $amountByParticipants = $amount / count($participants);
         $payer = $expense->getPayer();
+        $countOfParticipant = count($expense->getParticipants());
+        $rest = $amount % $countOfParticipant;
 
         $payerUserBalance = $this->userBalanceRepository->getUserBalance($payer, $group);
 
-        if ($payerUserBalance === null) {
+        if (null === $payerUserBalance) {
             $payerUserBalance = new UserBalance($payer, $group);
             $this->entityManager->persist($payerUserBalance);
             $this->entityManager->flush();
@@ -35,11 +37,17 @@ class ExpenseBalancer
         foreach ($participants as $participant) {
             $participantUserBalance = $this->userBalanceRepository->getUserBalance($participant, $group);
 
-            if ($participantUserBalance === null) {
+            if (null === $participantUserBalance) {
                 $participantUserBalance = new UserBalance($participant, $group);
                 $this->entityManager->persist($participantUserBalance);
                 $this->entityManager->flush();
             }
+        }
+
+        if (0 !== $rest) {
+            $this->handleRest($expense);
+
+            return;
         }
 
         $this->updatePayerBalance($group, $amount, $payer);
@@ -51,13 +59,43 @@ class ExpenseBalancer
 
     private function updatePayerBalance(Group $group, int $amount, User $payer): void
     {
+        /**
+         * @var UserBalance $payerUserBalance
+         */
         $payerUserBalance = $this->userBalanceRepository->getUserBalance($payer, $group);
         $payerUserBalance->addAmount($amount);
     }
 
     private function updateParticipantBalance(Group $group, int $amount, User $participant): void
     {
+        /**
+         * @var UserBalance $participantUserBalance
+         */
         $participantUserBalance = $this->userBalanceRepository->getUserBalance($participant, $group);
         $participantUserBalance->addDebt($amount);
+    }
+
+    private function handleRest(Expense $expense): void
+    {
+        $amount = $expense->getAmount();
+        $group = $expense->getGroup();
+        $amount = $expense->getAmount();
+        $participants = $expense->getParticipants();
+        $payer = $expense->getPayer();
+        $countOfParticipant = count($expense->getParticipants());
+        $rest = $amount % $countOfParticipant;
+        $amountByParticipants = ($amount - $rest) / count($participants);
+
+        $this->updatePayerBalance($group, $amount, $payer);
+
+        foreach ($participants as $participant) {
+            $this->updateParticipantBalance($group, $amountByParticipants, $participant);
+        }
+
+        $randomNumber = rand(0, $countOfParticipant);
+        /**
+         * @var array<User> $participants
+         */
+        $this->updateParticipantBalance($group, $rest, $participants[$randomNumber]);
     }
 }
