@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 
 #[ORM\Entity]
+#[ORM\UniqueConstraint(columns: ['user_id', 'group_id'])]
 class UserBalance
 {
     #[ORM\Id]

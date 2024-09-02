@@ -5,6 +5,7 @@ namespace App\Command;
 use App\Entity\Expense;
 use App\Entity\Group;
 use App\Entity\User;
+use App\Entity\UserBalance;
 use App\Service\ExpenseBalancer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -65,9 +66,12 @@ class DatabaseFlushTest extends Command
         ];
 
         foreach ($expenses as $expense) {
-            $this->expenseBalancer->apply($expense);
             $this->entityManager->persist($expense);
         }
+
+        foreach ($expenses as $expense) {
+            $this->expenseBalancer->apply($expense);
+        };
 
         $this->logger->info('Expenses of first scenario are loaded in DB');
     }
@@ -109,7 +113,6 @@ class DatabaseFlushTest extends Command
 
         foreach ($expenses as $expense) {
             $this->expenseBalancer->apply($expense);
-            $this->entityManager->persist($expense);
         }
 
         $this->logger->info('Expenses of first scenario are loaded in DB');
@@ -148,7 +151,6 @@ class DatabaseFlushTest extends Command
 
         foreach ($expenses as $expense) {
             $this->expenseBalancer->apply($expense);
-            $this->entityManager->persist($expense);
         }
 
         $this->logger->info('Expenses of third scenario are loaded in DB');
@@ -190,7 +192,6 @@ class DatabaseFlushTest extends Command
 
         foreach ($expenses as $expense) {
             $this->expenseBalancer->apply($expense);
-            $this->entityManager->persist($expense);
         }
 
         $this->logger->info('Expenses of fourth scenario are loaded in DB');

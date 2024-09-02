@@ -18,15 +18,8 @@ class UserBalanceRepository extends ServiceEntityRepository
         parent::__construct($registry, UserBalance::class);
     }
 
-    public function getUserBalance(User $user, Group $group): UserBalance
+    public function getUserBalance(User $user, Group $group): ?UserBalance
     {
-        $userBalance = $this->findOneBy(['group' => $group, 'user' => $user]);
-        if (!$userBalance instanceof UserBalance) {
-            $userBalance = new UserBalance($user, $group);
-
-            $this->getEntityManager()->persist($userBalance);
-        }
-
-        return $userBalance;
+        return $this->findOneBy(['group' => $group, 'user' => $user]);
     }
 }
