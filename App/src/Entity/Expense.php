@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ExpenseRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
@@ -41,6 +42,7 @@ class Expense
         #[JoinColumn(name: 'group_id', referencedColumnName: 'id')]
         private Group $group,
     ) {
+        $participants = new ArrayCollection();
     }
 
     public function getId(): int

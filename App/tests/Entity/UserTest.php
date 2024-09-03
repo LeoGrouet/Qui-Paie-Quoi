@@ -6,14 +6,18 @@ use App\Entity\Expense;
 use App\Entity\Group;
 use App\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\User\UserInterface;
+
+use function PHPUnit\Framework\logicalAnd;
 
 class UserTest extends TestCase
 {
     public function testUserConstructor(): void
     {
-        $user = new User('New User', "newuser@gmail.com");
+        $user = new User('New User', 'newuser@gmail.com');
 
         $this->assertSame('New User', $user->getUsername());
         $this->assertSame('newuser@gmail.com', $user->getEmail());
@@ -22,12 +26,11 @@ class UserTest extends TestCase
     public function testUserEntityInterfaceImplementation(): void
     {
         $user = new User('New User', 'new@gmail.com');
-        $this->assertInstanceOf(UserInterface::class, $user);
 
-        $this->assertSame('New User', $user->getUsername());
+        $this->assertInstanceOf(UserInterface::class, $user);
     }
 
-    public function testUserPassword(): void
+    public function testUserGetAndSetPassword(): void
     {
         $user = new User('New User', 'newuser@gmail.com');
         $user->setPassword('password');
@@ -42,12 +45,61 @@ class UserTest extends TestCase
         $this->assertSame('New User', $user->getUsername());
     }
 
-    // public function testGetExpense(): void
-    // {
-    //     $user = new User('New User', 'new@gmail.com');
+    public function testUserSetUsername(): void
+    {
+        $user = new User('New User', 'new@gmail.com');
+        $this->assertSame('New User', $user->getUsername());
+        $user->setUsername('New User 2');
+        $this->assertSame('New User 2', $user->getUsername());
+    }
 
-    //     $expense = new Expense(100, 'test', $user, new ArrayCollection(), new Group('test', 'test', new ArrayCollection()));
+    public function testUserGetEmail(): void
+    {
+        $user = new User('New User', 'newuser@gmail.com');
 
-    //     $this->assertSame($expense, $user->getExpenses());
-    // }
+        $this->assertSame('newuser@gmail.com', $user->getEmail());
+    }
+
+    public function testUserSetEmail(): void
+    {
+        $user = new User('New User', 'new@gmail.com');
+        $this->assertSame('new@gmail.com', $user->getEmail());
+        $user->setEmail('newnew@gmail.com');
+        $this->assertSame('newnew@gmail.com', $user->getEmail());
+    }
+
+    public function testUserGetRoles(): void
+    {
+        $user = new User('New User', 'newuser@gmail.com');
+
+        $this->assertSame(['ROLE_USER'], $user->getRoles());
+    }
+
+    public function testGetUserIdentifier(): void
+    {
+        $user = new User('New User', 'newuser@gmail.com');
+
+        $this->assertSame('newuser@gmail.com', $user->getUserIdentifier());
+    }
+
+    public function testGetExpenses(): void
+    {
+        $usersData = new ArrayCollection([
+            $user = new User('New User', 'newuser@gmail.com'),
+            $user2 = new User('New User 2', 'newuser2@gmail.com'),
+            $user3 = new User('New User 3', 'newuser3@gmail.com')
+        ]);
+
+        $group = new Group('test groupe', 'groupe test 4', $usersData);
+
+        $participantsCollection = new ArrayCollection([$user, $user2, $user3]);
+
+        new Expense(50 * 100, 'Peinture', $user, $participantsCollection, $group);
+        new Expense(50 * 100, 'Faux gazon', $user2, $participantsCollection, $group);
+        new Expense(50 * 100, 'Plomb', $user3, $participantsCollection, $group);
+
+        $this->assertContainsOnlyInstancesOf(Expense::class, $user->getExpenses());
+        $this->assertContainsOnlyInstancesOf(Expense::class, $user2->getExpenses());
+        $this->assertContainsOnlyInstancesOf(Expense::class, $user3->getExpenses());
+    }
 }
