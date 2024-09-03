@@ -66,6 +66,7 @@ class DatabaseFlushTest extends Command
 
         foreach ($expenses as $expense) {
             $this->entityManager->persist($expense);
+            $this->entityManager->flush();
         }
 
         foreach ($expenses as $expense) {
@@ -111,6 +112,11 @@ class DatabaseFlushTest extends Command
         ];
 
         foreach ($expenses as $expense) {
+            $this->entityManager->persist($expense);
+            $this->entityManager->flush();
+        }
+
+        foreach ($expenses as $expense) {
             $this->expenseBalancer->apply($expense);
         }
 
@@ -147,6 +153,11 @@ class DatabaseFlushTest extends Command
             new Expense(15 * 100, 'Déjeuner', $helene, new ArrayCollection([$george]), $group),
             new Expense(20 * 100, 'Diner', $george, new ArrayCollection([$helene]), $group),
         ];
+
+        foreach ($expenses as $expense) {
+            $this->entityManager->persist($expense);
+            $this->entityManager->flush();
+        }
 
         foreach ($expenses as $expense) {
             $this->expenseBalancer->apply($expense);
@@ -188,6 +199,11 @@ class DatabaseFlushTest extends Command
             new Expense(50 * 100, 'Faux gazon', $julien, $participantsCollection, $group),
             new Expense(50 * 100, 'Plomb', $leo, $participantsCollection, $group),
         ];
+
+        foreach ($expenses as $expense) {
+            $this->entityManager->persist($expense);
+            $this->entityManager->flush();
+        }
 
         foreach ($expenses as $expense) {
             $this->expenseBalancer->apply($expense);

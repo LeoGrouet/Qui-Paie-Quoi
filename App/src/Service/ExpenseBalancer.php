@@ -77,7 +77,6 @@ class ExpenseBalancer
 
     private function handleRest(Expense $expense): void
     {
-        $amount = $expense->getAmount();
         $group = $expense->getGroup();
         $amount = $expense->getAmount();
         $participants = $expense->getParticipants();
@@ -92,10 +91,15 @@ class ExpenseBalancer
             $this->updateParticipantBalance($group, $amountByParticipants, $participant);
         }
 
-        $randomNumber = rand(0, $countOfParticipant);
+        $randomNumber = rand(0, $countOfParticipant - 1);
+
         /**
-         * @var array<User> $participants
+         * @var User $participant
          */
-        $this->updateParticipantBalance($group, $rest, $participants[$randomNumber]);
+        $participant = $participants->toArray()[$randomNumber];
+
+        $this->updateParticipantBalance($group, $rest, $participant);
+
+        $this->entityManager->flush();
     }
 }

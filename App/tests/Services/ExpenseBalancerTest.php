@@ -64,6 +64,7 @@ class ExpenseBalancerTest extends TestCase
         $this->assertSame(-1200, $aliceBalance->getAmount());
         $this->assertSame(-300, $charlesBalance->getAmount());
         $this->assertSame(1500, $camilleBalance->getAmount());
+        $this->assertSame(0, $aliceBalance->getAmount() + $charlesBalance->getAmount() + $camilleBalance->getAmount());
     }
 
     public function testApplySecondScenario(): void
@@ -114,6 +115,7 @@ class ExpenseBalancerTest extends TestCase
         $this->assertThat($davidBalance->getAmount(), $this->logicalOr($this->equalTo(-333), $this->equalTo(-334)));
         $this->assertThat($emilieBalance->getAmount(), $this->logicalOr($this->equalTo(-333), $this->equalTo(-334)));
         $this->assertThat($florenceBalance->getAmount(), $this->logicalOr($this->equalTo(-333), $this->equalTo(-334)));
+        $this->assertSame(0, $pierreBalance->getAmount() + $davidBalance->getAmount() + $emilieBalance->getAmount() + $florenceBalance->getAmount());
     }
 
     public function testApplyThirdScenario(): void
@@ -158,6 +160,7 @@ class ExpenseBalancerTest extends TestCase
 
         $this->assertSame(1000, $georgeBalance->getAmount());
         $this->assertSame(-1000, $heleneBalance->getAmount());
+        $this->assertSame(0, $georgeBalance->getAmount() + $heleneBalance->getAmount());
     }
 
     public function testApplyFourthScenario(): void
@@ -203,8 +206,9 @@ class ExpenseBalancerTest extends TestCase
             $service->apply($expense);
         }
 
-        $this->assertSame(2, $isabelleBalance->getAmount());
-        $this->assertSame(2, $julienBalance->getAmount());
-        $this->assertSame(2, $leoBalance->getAmount());
+        $this->assertThat($isabelleBalance->getAmount(), $this->logicalOr($this->equalTo(-2), $this->equalTo(2), $this->equalTo(0)));
+        $this->assertThat($julienBalance->getAmount(), $this->logicalOr($this->equalTo(-2), $this->equalTo(2), $this->equalTo(0)));
+        $this->assertThat($leoBalance->getAmount(), $this->logicalOr($this->equalTo(-2), $this->equalTo(2), $this->equalTo(0)));
+        $this->assertSame(0, $isabelleBalance->getAmount() + $julienBalance->getAmount() + $leoBalance->getAmount());
     }
 }
