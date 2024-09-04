@@ -90,7 +90,7 @@ class UserTest extends TestCase
             $user3 = new User('New User 3', 'newuser3@gmail.com')
         ]);
 
-        $group = new Group('test groupe', 'groupe test 4', $usersData);
+        $group = new Group('test groupe', 'groupe test', $usersData);
 
         $participantsCollection = new ArrayCollection([$user, $user2, $user3]);
 
@@ -101,5 +101,26 @@ class UserTest extends TestCase
         $this->assertContainsOnlyInstancesOf(Expense::class, $user->getExpenses());
         $this->assertContainsOnlyInstancesOf(Expense::class, $user2->getExpenses());
         $this->assertContainsOnlyInstancesOf(Expense::class, $user3->getExpenses());
+    }
+
+    public function testSetExpenses(): void
+    {
+        $usersData = new ArrayCollection([
+            $user = new User('New User', 'newuser@gmail.com'),
+            $user2 = new User('New User 2', 'newuser2@gmail.com'),
+            $user3 = new User('New User 3', 'newuser3@gmail.com')
+        ]);
+
+        $group = new Group('test groupe', 'groupe test', $usersData);
+
+        $participantsCollection = new ArrayCollection([$user, $user2, $user3]);
+
+        $expenses = new ArrayCollection([
+            new Expense(50 * 100, 'Peinture', $user, $participantsCollection, $group),
+        ]);
+
+        $user->setExpenses($expenses);
+
+        $this->assertContainsOnlyInstancesOf(Expense::class, $user->getExpenses());
     }
 }
