@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Group;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -45,5 +46,24 @@ class GroupRepository extends ServiceEntityRepository
         }
 
         return $group;
+    }
+
+    /**
+     * @return array<int, Group>
+     */
+    public function findAllWhereUserIsMember(User $user): ?array
+    {
+        $groups = $this->createQueryBuilder('g')
+            ->join('g.users', 'user')
+            ->where('user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+
+        if (!is_array($groups)) {
+            return null;
+        }
+
+        return $groups;
     }
 }

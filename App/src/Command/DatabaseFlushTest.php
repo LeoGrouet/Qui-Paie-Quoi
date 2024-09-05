@@ -43,7 +43,9 @@ class DatabaseFlushTest extends Command
 
         $this->logger->info('User of first scenario are loaded in DB');
 
-        $group = new Group('First groupe', 'groupe test numero 1', $usersData);
+        $group = new Group('First groupe', 'groupe test numero 1');
+
+        $group->setUsers($usersData);
 
         $this->entityManager->persist($group);
 
@@ -88,7 +90,9 @@ class DatabaseFlushTest extends Command
 
         $this->logger->info('User of second scenario are loaded in DB');
 
-        $group = new Group('Second groupe', 'groupe test numero 2', $usersData);
+        $group = new Group('Second groupe', 'groupe test numero 2');
+
+        $group->setUsers($usersData);
 
         $this->entityManager->persist($group);
 
@@ -122,7 +126,10 @@ class DatabaseFlushTest extends Command
 
         $this->logger->info('User of third scenario are loaded in DB');
 
-        $group = new Group('Third groupe', 'groupe test numero 3', $usersData);
+        $group = new Group('Third groupe', 'groupe test numero 3');
+
+        $group->setUsers($usersData);
+
         $this->entityManager->persist($group);
 
         $this->logger->info('Group of third scenario is loaded in DB');
@@ -159,7 +166,9 @@ class DatabaseFlushTest extends Command
 
         $this->logger->info('User of fourth scenario are loaded in DB');
 
-        $group = new Group('Fourth groupe', 'groupe test numero 4', $usersData);
+        $group = new Group('Fourth groupe', 'groupe test numero 4');
+
+        $group->setUsers($usersData);
 
         $this->entityManager->persist($group);
 

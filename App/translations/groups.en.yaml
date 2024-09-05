@@ -3,3 +3,13 @@ expenses: Expenses
 balance: Balance
 owe: owes to
 boughtBy: Bought by
+errorGroup: Error in group creation
+succesGroup: Group created successfully
+nameGroup: Group name
+descriptionGroup: Group description
+groupPlaceholder: Enter the group name
+descriptionPlaceholder: Enter the group description
+addGroupSubmitButton: Add group
+addGroupParticipant: Select participants
+createGroupTitle: New group
+groupsIsEmpty: You don't belong to any group

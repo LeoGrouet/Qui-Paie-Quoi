@@ -3,3 +3,13 @@ expenses: Dépenses
 balance: Equilibre
 owe: Doit à
 boughtBy: Payé par
+errorGroup: Erreur dans la création du groupe
+succesGroup: Nouveau groupe créé
+nameGroup: Nom du groupe
+descriptionGroup: Description du groupe
+groupPlaceholder: Entrez le nom du groupe
+descriptionPlaceholder: Entrez la description du groupe
+addGroupSubmitButton: Ajouter un groupe
+addGroupParticipant: Selectionnez les participants
+createGroupTitle: Nouveau groupe
+groupsIsEmpty: Vous n'appartenez à aucun groupe

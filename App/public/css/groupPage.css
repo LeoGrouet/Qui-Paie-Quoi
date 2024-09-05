@@ -118,4 +118,34 @@ a{
 
 .back_arrow>img{
     height: var(--height-l);
+    width: auto;
+}
+
+.add_group_button{
+    color: var(--white-purple);
+    background-color: var(--purple);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-text-l);
+    height: var(--height-xl);
+    border-radius: var(--border-radius);
+    margin-top: var(--space-xl);
+    padding: 0 var(--space-l);
+}
+
+.add_group_footer{
+    display: flex;
+    width: auto;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-self: flex-end;
+    flex-grow: 1;
+}
+
+.group_is_empty {
+    display: flex;
+    justify-content: center;
+    font-size: var(--font-text);
+    font-style: italic;
 }
