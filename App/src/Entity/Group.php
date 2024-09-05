@@ -39,16 +39,14 @@ class Group
         #[JoinColumn(name: 'group_id', referencedColumnName: 'id')]
         #[InverseJoinColumn(name: 'user_id', referencedColumnName: 'id')]
         #[ManyToMany(targetEntity: User::class)]
-        private Collection $users,
+        private Collection $users = new ArrayCollection(),
 
         /**
          * @var Collection<int, UserBalance>
          */
         #[OneToMany(targetEntity: UserBalance::class, mappedBy: 'group')]
         private Collection $userBalances = new ArrayCollection()
-    ) {
-        $this->users = new ArrayCollection();
-    }
+    ) {}
 
     public function getId(): int
     {

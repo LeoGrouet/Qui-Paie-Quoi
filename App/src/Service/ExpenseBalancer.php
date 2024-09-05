@@ -14,18 +14,18 @@ class ExpenseBalancer
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly UserBalanceRepository $userBalanceRepository
-    ) {
-    }
+    ) {}
 
     public function apply(Expense $expense): void
     {
         $group = $expense->getGroup();
         $amount = $expense->getAmount();
         $participants = $expense->getParticipants();
-        $amountByParticipants = $amount / count($participants);
         $payer = $expense->getPayer();
         $countOfParticipant = count($expense->getParticipants());
         $rest = $amount % $countOfParticipant;
+
+        $amountByParticipants = (int) ($amount - $rest) / count($participants);
 
         $payerUserBalance = $this->userBalanceRepository->getUserBalance($payer, $group);
 
@@ -92,14 +92,14 @@ class ExpenseBalancer
             $this->updateParticipantBalance($group, $amountByParticipants, $participant);
         }
 
-        $randomNumber = rand(0, $countOfParticipant - 1);
-
         /**
-         * @var User $participant
+         * @var Group $group
          */
-        $participant = $participants->toArray()[$randomNumber];
+        $maxDebtUserBalance = $this->userBalanceRepository->getHighestUserBalanceOfGroup($group->getId());
 
-        $this->updateParticipantBalance($group, $rest, $participant);
+        $userHighestUserBalance = $maxDebtUserBalance->getUser();
+
+        $this->updateParticipantBalance($group, $rest, $userHighestUserBalance);
 
         $this->entityManager->flush();
     }

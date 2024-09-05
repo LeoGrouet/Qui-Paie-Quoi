@@ -22,7 +22,7 @@ class GroupController extends AbstractController
         $groups = $groupRepository->findAll();
 
         return $this->render(
-            'groups.html.twig',
+            'group/groups.html.twig',
             [
                 'user' => $user,
                 'groups' => $groups,
@@ -39,7 +39,7 @@ class GroupController extends AbstractController
         $balances = $group->getUserBalances();
 
         return $this->render(
-            'groupBalance.html.twig',
+            'group/groupBalance.html.twig',
             [
                 'groupId' => $groupId,
                 'groupName' => $groupName,
@@ -53,7 +53,7 @@ class GroupController extends AbstractController
         Group $group,
     ): Response {
         return $this->render(
-            'groupExpenses.html.twig',
+            'group/groupExpenses.html.twig',
             [
                 'groupName' => $group->getName(),
                 'groupId' => $group->getId(),

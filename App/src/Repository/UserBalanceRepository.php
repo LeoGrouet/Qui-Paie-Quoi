@@ -22,4 +22,22 @@ class UserBalanceRepository extends ServiceEntityRepository
     {
         return $this->findOneBy(['group' => $group, 'user' => $user]);
     }
+
+    public function getHighestUserBalanceOfGroup(int $groupId): UserBalance
+    {
+        $userBalance = $this->createQueryBuilder('userBalance')
+            ->join('userBalance.group', 'g')
+            ->where('g.id = :groupId')
+            ->setParameter('groupId', $groupId)
+            ->orderBy('userBalance.amount', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        if (null === $userBalance || !$userBalance instanceof UserBalance) {
+            throw new \Exception('Aucun userBalance trouvé pour ce groupe.');
+        }
+
+        return $userBalance;
+    }
 }
