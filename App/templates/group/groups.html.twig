@@ -20,7 +20,7 @@
         {% else %}
           {% for group in groups %}
 
-            <a class="group_info" href="{{ path ('groups_balance', {id:group.id}) }}">
+            <a class="group_info" href="{{ path ('group_balance', {id:group.id}) }}">
               {{group.name}}
             </a>
 

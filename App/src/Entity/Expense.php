@@ -58,6 +58,11 @@ class Expense
         return $this->amount;
     }
 
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
     public function getPayer(): User
     {
         return $this->payer;
@@ -69,11 +74,6 @@ class Expense
     public function getParticipants(): Collection
     {
         return $this->participants;
-    }
-
-    public function getDescription(): string
-    {
-        return $this->description;
     }
 
     public function getGroup(): Group

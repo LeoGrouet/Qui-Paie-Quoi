@@ -1,0 +1,69 @@
+{% extends "base.html.twig" %}
+
+{% trans_default_domain 'addExpense' %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" href="/css/addForm.css">
+{% endblock %}
+
+{% block body %}
+  <h2 class="add_form_title">{{'createExpenseTitle'|trans}}</h2>
+
+    <div class="add_form"> 
+    
+      {{ form_start(form) }}
+
+        <span class="add_form_field">
+
+          {{ form_label(form.description) }}
+          {{ form_widget(form.description) }}
+
+          <div class="add_form_error">
+          {{ form_errors(form.description) }}
+          </div>
+
+        </span>
+
+        <span class="add_form_field">
+
+          {{ form_label(form.amount) }}
+          {{ form_widget(form.amount) }}
+
+          <div class="add_form_error">
+          {{ form_errors(form.amount) }}
+          </div>
+
+        </span>
+
+        <span class="add_form_field">
+
+          {{ form_label(form.payer) }}
+          {{ form_widget(form.payer) }}
+
+          <div class="add_form_error">
+          {{ form_errors(form.payer) }}
+          </div>
+
+        </span>
+
+        <span class="add_form_field">
+
+          {{ form_label(form.participants) }}
+          {{ form_widget(form.participants) }}
+
+          <div class="add_form_error">
+          {{ form_errors(form.participants) }}
+          </div>
+
+        </span>
+
+        <footer class="add_form_footer">
+          {{ form_row(form.submit) }}
+        </footer>
+
+      {{ form_end(form) }}
+
+    </div>
+
+
+{% endblock %}
