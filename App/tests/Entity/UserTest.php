@@ -6,12 +6,8 @@ use App\Entity\Expense;
 use App\Entity\Group;
 use App\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\User\UserInterface;
-
-use function PHPUnit\Framework\logicalAnd;
 
 class UserTest extends TestCase
 {
