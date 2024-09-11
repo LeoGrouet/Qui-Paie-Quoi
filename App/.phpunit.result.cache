@@ -1,1 +1,0 @@
-{"version":1,"defects":{"App\\Tests\\GroupControllerTest::testSomething":5,"App\\Tests\\GroupControllerTest::testGroupsPage":5},"times":{"App\\Tests\\GroupControllerTest::testSomething":0.074,"App\\Tests\\GroupControllerTest::testGroupsPage":1.298}}

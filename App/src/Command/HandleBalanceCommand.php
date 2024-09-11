@@ -2,8 +2,11 @@
 
 namespace App\Command;
 
+use App\Entity\Expense;
+use App\Entity\Group;
+use App\Entity\UserBalance;
 use App\Repository\GroupRepository;
-use App\Service\GroupExpenseBalancer;
+use App\Service\ExpenseBalancer;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,7 +18,7 @@ class HandleBalanceCommand extends Command
 {
     public function __construct(
         private readonly GroupRepository $groupRepository,
-        private readonly GroupExpenseBalancer $groupExpenseBalancer
+        private readonly ExpenseBalancer $expenseBalancer
     ) {
         parent::__construct();
     }
@@ -50,25 +53,32 @@ class HandleBalanceCommand extends Command
             return Command::FAILURE;
         }
 
-        $id = $this->groupRepository->findIdByName($name);
-
-        if (is_null($id)) {
-            $io->error('Invalid group selected.');
+        if (!$this->groupRepository->findOneBy(['name' => $name]) instanceof Group || null == $this->groupRepository->findOneBy(['name' => $name])) {
+            $io->error('Invalid group name selected.');
 
             return Command::FAILURE;
+        } else {
+            $group = $this->groupRepository->findOneBy(['name' => $name]);
         }
 
-        $this->outputBalance($id, $output);
+        /**
+         * @var array <int, Expense> $expenses
+         */
+        $expenses = $group->getExpenses();
 
-        return Command::SUCCESS;
-    }
+        foreach ($expenses as $expense) {
+            $this->expenseBalancer->apply($expense);
+        }
 
-    protected function outputBalance(int $id, OutputInterface $output): void
-    {
-        $balances = $this->groupExpenseBalancer->showBalance($id);
+        /**
+         * @var array <int, UserBalance> $balances
+         */
+        $balances = $group->getUserBalances();
 
         foreach ($balances as $balance) {
             $output->writeln($balance);
         }
+
+        return Command::SUCCESS;
     }
 }
