@@ -20,6 +20,10 @@ migrate:
 insert:
 	docker compose run --rm php bin/console app:insertInDB
 
+.PHONY=handleBalance
+handleBalance:
+	docker compose run --rm php bin/console app:handle-balance
+
 .PHONY=phpstan
 phpstan:
 	docker compose run --rm php vendor/bin/phpstan analyse src
@@ -32,3 +36,6 @@ phpcsfixer:
 phpcsfixer-dev:
 	docker compose run --rm php vendor/bin/php-cs-fixer check src
 
+.PHONY=phpunit
+phpunit:
+	docker compose run --rm php bin/phpunit

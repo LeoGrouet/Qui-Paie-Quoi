@@ -15,11 +15,12 @@ services:
   App\Repository\ExpenseRepository: ~
   App\Repository\GroupRepository: ~
   App\Repository\UserRepository: ~
+  App\Repository\UserBalanceRepository: ~
 
   App\Form\:
     resource: '%kernel.project_dir%/src/Form'
 
-  App\Service\GroupExpenseBalancer: ~
+  App\Service\ExpenseBalancer: ~
 
   App\Twig\FormatNumber:
     tags: ['twig.extension']

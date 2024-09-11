@@ -30,4 +30,7 @@ jobs:
 
       - name: Run php Analytics
         run : make phpstan
+      
+      - name: Run phpunit
+        run : make phpunit
   

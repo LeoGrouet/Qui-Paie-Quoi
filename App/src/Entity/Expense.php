@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ExpenseRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
@@ -25,8 +26,10 @@ class Expense
     public function __construct(
         #[ORM\Column(type: 'integer')]
         private int $amount,
+
         #[ORM\Column(type: 'string')]
         private string $description,
+
         #[ManyToOne(targetEntity: User::class, inversedBy: 'expenses')]
         private User $payer,
 
@@ -37,10 +40,12 @@ class Expense
         #[JoinTable(name: 'expenses_users')]
         #[Groups(['expense.participants'])]
         private Collection $participants,
+
         #[ManyToOne(targetEntity: Group::class, inversedBy: 'expenses')]
         #[JoinColumn(name: 'group_id', referencedColumnName: 'id')]
         private Group $group,
     ) {
+        $participants = new ArrayCollection();
     }
 
     public function getId(): int
@@ -69,5 +74,10 @@ class Expense
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    public function getGroup(): Group
+    {
+        return $this->group;
     }
 }

@@ -5,6 +5,7 @@ namespace App\Command;
 use App\Entity\Expense;
 use App\Entity\Group;
 use App\Entity\User;
+use App\Service\ExpenseBalancer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -21,6 +22,7 @@ class DatabaseFlushTest extends Command
         private readonly EntityManagerInterface $entityManager,
         private readonly LoggerInterface $logger,
         private readonly UserPasswordHasherInterface $userPasswordHasher,
+        private readonly ExpenseBalancer $expenseBalancer
     ) {
         parent::__construct();
     }
@@ -64,6 +66,11 @@ class DatabaseFlushTest extends Command
 
         foreach ($expenses as $expense) {
             $this->entityManager->persist($expense);
+            $this->entityManager->flush();
+        }
+
+        foreach ($expenses as $expense) {
+            $this->expenseBalancer->apply($expense);
         }
 
         $this->logger->info('Expenses of first scenario are loaded in DB');
@@ -106,6 +113,11 @@ class DatabaseFlushTest extends Command
 
         foreach ($expenses as $expense) {
             $this->entityManager->persist($expense);
+            $this->entityManager->flush();
+        }
+
+        foreach ($expenses as $expense) {
+            $this->expenseBalancer->apply($expense);
         }
 
         $this->logger->info('Expenses of first scenario are loaded in DB');
@@ -144,7 +156,13 @@ class DatabaseFlushTest extends Command
 
         foreach ($expenses as $expense) {
             $this->entityManager->persist($expense);
+            $this->entityManager->flush();
         }
+
+        foreach ($expenses as $expense) {
+            $this->expenseBalancer->apply($expense);
+        }
+
         $this->logger->info('Expenses of third scenario are loaded in DB');
     }
 
@@ -184,6 +202,11 @@ class DatabaseFlushTest extends Command
 
         foreach ($expenses as $expense) {
             $this->entityManager->persist($expense);
+            $this->entityManager->flush();
+        }
+
+        foreach ($expenses as $expense) {
+            $this->expenseBalancer->apply($expense);
         }
 
         $this->logger->info('Expenses of fourth scenario are loaded in DB');
