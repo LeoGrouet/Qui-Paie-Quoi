@@ -52,7 +52,7 @@ ENV APP_DEBUG=1
 
 COPY --from=composer   /usr/bin/composer /usr/local/bin/composer
 
-USER 0
+USER 1000
 
 RUN apk add --no-cache gcc g++ make autoconf linux-headers \
     && pecl install xdebug \
