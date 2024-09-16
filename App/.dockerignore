@@ -1,0 +1,12 @@
+*
+!assets
+!bin
+!config
+!migrations
+!php
+!public
+!src
+!templates
+!translations
+!composer.*
+!symfony.lock

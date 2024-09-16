@@ -24,13 +24,13 @@ jobs:
 
       - name: Composer Install
         run : make composer-install  
-      
+
       - name: Run php-cs-fixer
         run : make phpcsfixer-dev
 
       - name: Run php Analytics
         run : make phpstan
-      
+
       - name: Run phpunit
         run : make phpunit
   

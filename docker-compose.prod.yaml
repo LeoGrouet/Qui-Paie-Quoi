@@ -16,6 +16,7 @@ services:
         GID: ${GID:-1000}
         UID: ${UID:-1000}
       context: App
+      target: prod
     restart: unless-stopped
 
   nginx:

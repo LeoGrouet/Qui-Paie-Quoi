@@ -52,7 +52,7 @@ ENV APP_DEBUG=1
 
 COPY --from=composer   /usr/bin/composer /usr/local/bin/composer
 
-USER 1000
+USER 0
 
 RUN apk add --no-cache gcc g++ make autoconf linux-headers \
     && pecl install xdebug \
@@ -66,7 +66,7 @@ FROM base AS prod
 ENV APP_ENV=prod
 ENV APP_DEBUG=0
 
-COPY . .
+COPY --chown=user:user . .
 
 COPY php/php.prod.ini /usr/local/etc/php/php.ini
 

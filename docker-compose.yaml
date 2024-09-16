@@ -6,7 +6,7 @@ services:
     environment:
       DATABASE_HOST: ${POSTGRES_HOST}
       DATABASE_PORT: ${POSTGRES_PORT}
-      DATABASE_DB: ${POSTGRES_DB}
+      DATABASE_NAME: ${POSTGRES_DB}
       DATABASE_USER: ${POSTGRES_USER}
       DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
       DATABASE_VERSION: ${POSTGRES_VERSION}
@@ -15,6 +15,7 @@ services:
         GID: ${GID:-1000}
         UID: ${UID:-1000}
       context: App
+      target: dev
     volumes:
       - "./App:/usr/src/app"
     restart: unless-stopped
