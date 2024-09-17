@@ -1,4 +1,9 @@
 parameters:
+  env(DATABASE_HOST): database
+  env(DATABASE_PORT): 5432
+  env(DATABASE_NAME): app
+  env(DATABASE_VERSION): 16.4
+
 
 services:
   _defaults:

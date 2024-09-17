@@ -11,7 +11,10 @@ concurrency:
 
 env:
   COMPOSE_PROJECT_FILE: docker-compose.prod.yaml
-  VERSION_NAME: github.sha
+  VERSION_NAME: ${{ github.sha }}
+  POSTGRES_USER: ${{ secrets.DATABASE_USER }}
+  POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+  APP_SECRET: ${{ secrets.APP_SECRET }}
 
 jobs:
   deploy:
@@ -40,16 +43,16 @@ jobs:
         run : docker login -u ${{ vars.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_TOKEN }}
 
       - name: Build Docker Images
-        run : touch App/.env; docker compose build
+        run : touch App/.env; VERSION_NAME=$VERSION_NAME docker compose build
 
       - name: Push 
-        run : docker compose push
+        run : VERSION_NAME=$VERSION_NAME docker compose push
 
       - name: Copy compose file
         run : scp docker-compose.prod.yaml ${{ vars.SSH_USERNAME }}@${{ secrets.SERVER_IP }}:qui-paie-quoi/docker-compose.yaml
 
       - name: Pull image on server
-        run : ssh ${{ vars.SSH_USERNAME }}@${{ secrets.SERVER_IP }} "cd qui-paie-quoi; docker compose pull"
+        run : ssh ${{ vars.SSH_USERNAME }}@${{ secrets.SERVER_IP }} "cd qui-paie-quoi; VERSION_NAME=$VERSION_NAME docker compose pull"
 
       - name: Start containers
-        run : ssh ${{ vars.SSH_USERNAME }}@${{ secrets.SERVER_IP }} "cd qui-paie-quoi; docker compose up --detach --no-build"
+        run : ssh ${{ vars.SSH_USERNAME }}@${{ secrets.SERVER_IP }} "cd qui-paie-quoi; VERSION_NAME=$VERSION_NAME docker compose up --detach --no-build"
