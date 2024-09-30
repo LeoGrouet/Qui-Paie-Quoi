@@ -76,6 +76,7 @@ class ExpenseType extends AbstractType
                 [
                     'class' => User::class,
                     'choices' => $group->getUsers(),
+                    'choice_label' => 'username',
                     'data' => $user,
                     'label' => 'payerExpense',
                     'translation_domain' => $options['trans_domain'],
