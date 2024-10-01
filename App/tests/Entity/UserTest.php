@@ -9,8 +9,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-use function PHPUnit\Framework\logicalAnd;
-
 class UserTest extends TestCase
 {
     public function testUserConstructor(): void
