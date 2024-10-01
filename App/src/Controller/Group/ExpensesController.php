@@ -82,4 +82,16 @@ class ExpensesController extends AbstractController
             ]
         );
     }
+
+    #[Route('/group/expense/{id}', name: 'update_expense', methods: ['GET', 'UPDATE'])]
+    public function update(
+        Expense $expense,
+    ): Response {
+        return $this->render(
+            'expense/updateExpense.html.twig',
+            [
+                'expense' => $expense,
+            ]
+        );
+    }
 }
