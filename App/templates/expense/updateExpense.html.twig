@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% trans_default_domain 'addExpense' %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" href="/css/addForm.css">
+{% endblock %}
+
+{% block body %}
+
+ <div class="group_container">
+
+      <h2 class="group_title"> {{ expense.description }} </h2>
+     
+      <div class="group_info_container_general">
+
+        <p> {{ expense.amount }} </p>
+        <p> {{ expense.payer }} </p>
+
+        {% for participant in expense.participants %}
+
+          <p> {{ participant }} </p>
+          
+        {% endfor %}
+
+        <p> {{ expense.group }} </p>
+        
+      </div> 
+  </div> 
+
+{% endblock %}
