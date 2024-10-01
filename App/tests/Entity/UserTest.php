@@ -6,8 +6,6 @@ use App\Entity\Expense;
 use App\Entity\Group;
 use App\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -97,6 +95,18 @@ class UserTest extends TestCase
         new Expense(50 * 100, 'Peinture', $user, $participantsCollection, $group);
         new Expense(50 * 100, 'Faux gazon', $user2, $participantsCollection, $group);
         new Expense(50 * 100, 'Plomb', $user3, $participantsCollection, $group);
+
+        $user->setExpenses(new ArrayCollection([
+            new Expense(50 * 100, 'Peinture', $user, $participantsCollection, $group),
+        ]));
+
+        $user2->setExpenses(new ArrayCollection([
+            new Expense(50 * 100, 'Faux gazon', $user2, $participantsCollection, $group),
+        ]));
+
+        $user3->setExpenses(new ArrayCollection([
+            new Expense(50 * 100, 'Plomb', $user3, $participantsCollection, $group),
+        ]));
 
         $this->assertContainsOnlyInstancesOf(Expense::class, $user->getExpenses());
         $this->assertContainsOnlyInstancesOf(Expense::class, $user2->getExpenses());

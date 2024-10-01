@@ -17,8 +17,8 @@
     </header>
 
     <nav class="group_parameter">
-      <a class="group_parameter_expense" href="{{ path ('groups_expenses', {id:groupId}) }}">{{'expenses'|trans }}</a>
-      <a class="group_parameter_balance group_parameter_active" href="{{ path ('groups_balance', {id:groupId}) }}">{{'balance'|trans }}</a>
+      <a class="group_parameter_expense" href="{{ path ('group_expenses', {id:groupId}) }}">{{'expenses'|trans }}</a>
+      <a class="group_parameter_balance group_parameter_active" href="{{ path ('group_balance', {id:groupId}) }}">{{'balance'|trans }}</a>
     </nav>
 
     <section class="group_balance_container">
@@ -32,6 +32,10 @@
       
     </section>
     
-  </div> 
+  </div>
+
+  <footer class="add_group_footer">
+    <a class="add_group_button" href="{{ path ('add_expense', {id:groupId})}}">Ajouter une dépense</a>
+  </footer>
 
 {% endblock %}

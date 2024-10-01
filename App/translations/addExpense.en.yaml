@@ -1,0 +1,10 @@
+createExpenseTitle : Create an expense
+descriptionExpense : Description of the expense
+expensePlaceholder : Description
+amountExpense : Amount
+amountPlaceholder : -
+payerExpense : Payer
+particicipantsPlaceholder : Participants
+addExpenseSubmitButton : Add an expense
+errorExpense: Error while creating the expense
+succesExpense: Expense created successfully

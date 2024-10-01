@@ -1,4 +1,4 @@
-.add_group_form, .add_group_form > form {
+.add_form, .add_form > form {
     display: flex;
     width: 100%;
     flex-direction: column;
@@ -13,24 +13,24 @@
     } 
 }
 
-.add_group_form_title {
+.add_form_title {
     font-size: var(--font-bigger);
     text-align: center;
     margin: var(--space-l) 0;
 }
 
-.add_group_form_field {
+.add_form_field {
     display: flex;
     flex-direction: column;
     margin-bottom: var(--space-m);
 }
 
-.add_group_footer>div{
+.add_form_footer>div{
     display: flex;
     justify-content: center;
 }
 
-#group_submit{
+#form_submit{
     display: flex;
     justify-content: center;    
 }
@@ -55,4 +55,11 @@ input{
     height: var(--height-l);
     border-radius: var(--border-radius);
     border: 1px solid var(--white-purple);
+}
+
+select{
+    height: var(--height-l);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--white-purple);
+    background-color: white;
 }
