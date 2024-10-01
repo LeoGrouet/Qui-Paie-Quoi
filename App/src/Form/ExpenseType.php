@@ -9,12 +9,14 @@ use App\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Type;
 
 class ExpenseType extends AbstractType
 {
@@ -60,11 +62,22 @@ class ExpenseType extends AbstractType
             )
             ->add(
                 'amount',
-                IntegerType::class,
+                MoneyType::class,
                 [
+                    'html5' => true,
                     'label' => 'amountExpense',
+                    'currency' => 'EUR',
+                    'divisor' => 100,
                     'attr' => [
                         'placeholder' => 'amountPlaceholder',
+                        'step' => '0.01',
+                    ],
+                    'constraints' => [
+                        new NotBlank(),
+                        new Type([
+                            'type' => 'numeric',
+                            'message' => 'Please enter a valid number.',
+                        ]),
                     ],
                     'translation_domain' => $options['trans_domain'],
                     'required' => true,

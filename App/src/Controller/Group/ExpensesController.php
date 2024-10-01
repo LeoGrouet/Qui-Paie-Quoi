@@ -56,7 +56,7 @@ class ExpensesController extends AbstractController
             }
 
             $expense = new Expense(
-                $data->getAmount() * 100,
+                $data->getAmount(),
                 $data->getDescription(),
                 $data->getPayer(),
                 $data->getParticipants(),
