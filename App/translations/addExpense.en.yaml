@@ -8,3 +8,4 @@ particicipantsPlaceholder : Participants
 addExpenseSubmitButton : Add an expense
 errorExpense: Error while creating the expense
 succesExpense: Expense created successfully
+updateExpense: Update expense

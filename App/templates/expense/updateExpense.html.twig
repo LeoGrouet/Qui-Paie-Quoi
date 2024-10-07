@@ -10,22 +10,43 @@
 
  <div class="group_container">
 
-      <h2 class="group_title"> {{ expense.description }} </h2>
-     
-      <div class="group_info_container_general">
+    <div class="add_form"> 
+    
+      {{ form_start(form) }}
 
-        <p> {{ expense.amount }} </p>
-        <p> {{ expense.payer }} </p>
+        <span class="add_form_field">
 
-        {% for participant in expense.participants %}
+          {{ form_label(form.description) }}
+          {{ form_widget(form.description) }}
 
-          <p> {{ participant }} </p>
-          
-        {% endfor %}
+        </span>
 
-        <p> {{ expense.group }} </p>
-        
-      </div> 
+        <span class="add_form_field">
+
+          {{ form_label(form.amount) }}
+          {{ form_widget(form.amount) }}
+
+        </span>
+
+        <span class="add_form_field">
+          {{ form_label(form.payer) }}
+          {{ form_widget(form.payer) }}
+
+        </span>
+
+        <span class="add_form_field">
+
+          {{ form_label(form.participants) }}
+          {{ form_widget(form.participants) }}
+
+        </span>
+
+        <footer class="add_form_footer">
+          {{ form_row(form.submit) }}
+        </footer>
+
+      {{ form_end(form) }}
+      
   </div> 
 
 {% endblock %}
