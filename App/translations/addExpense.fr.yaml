@@ -8,3 +8,4 @@ particicipantsPlaceholder : Participants
 addExpenseSubmitButton : Ajouter une dépense
 errorExpense: Erreur lors de la création de la dépense
 succesExpense: Dépense créée avec succès
+updateExpense: Mettre à jour la dépense

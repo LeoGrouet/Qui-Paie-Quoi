@@ -83,14 +83,30 @@ class ExpensesController extends AbstractController
         );
     }
 
-    #[Route('/group/expense/{id}', name: 'update_expense', methods: ['GET', 'UPDATE'])]
+    #[Route('/group/expense/{id}', name: 'update_expense', methods: ['GET', 'POST'])]
     public function update(
         Expense $expense,
     ): Response {
+
+        $expenseToUpdate = new ExpenseDTO($expense->getAmount(), $expense->getDescription(), $expense->getPayer(), $expense->getParticipants());
+
+        $form = $this->createForm(
+            ExpenseType::class,
+            $expenseToUpdate,
+            [
+                'group' => $expense->getGroup(),
+                'user' => $expense->getPayer(),
+            ]
+        );
+
+        // dump($form->getData()->getPayer()->getUsername());
+
         return $this->render(
             'expense/updateExpense.html.twig',
             [
                 'expense' => $expense,
+                // 'payer' => $expense->getPayer()->getUsername(),
+                'form' => $form,
             ]
         );
     }

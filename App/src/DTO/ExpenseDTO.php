@@ -15,6 +15,14 @@ class ExpenseDTO
      */
     private Collection $participants;
 
+    public function __construct(int $amount, string $description, User $payer, Collection $participants)
+    {
+        $this->amount = $amount;
+        $this->description = $description;
+        $this->payer = $payer;
+        $this->participants = $participants;
+    }
+
     public function getAmount(): int
     {
         return $this->amount;

@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -22,14 +23,15 @@ class ExpenseType extends AbstractType
 {
     public function __construct(
         private readonly UserRepository $userRepository,
-        private readonly Security $security
-    ) {
-    }
+        private readonly Security $security,
+        private readonly RequestStack $requestStack
+    ) {}
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => ExpenseDTO::class,
+            'user' => null,
             'trans_domain' => 'addExpense',
         ]);
 
@@ -38,6 +40,13 @@ class ExpenseType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $request = $this->requestStack->getCurrentRequest();
+        $currentRoute = $request->attributes->get('_route');
+
+        $label = $currentRoute === 'update_expense' ? 'updateLabel' : 'addExpenseSubmitButton';
+
+        $payer = $options['user'];
+
         $group = $options['group'];
         if (!$group instanceof Group) {
             throw new \Exception('Group is not defined');
@@ -90,7 +99,7 @@ class ExpenseType extends AbstractType
                     'class' => User::class,
                     'choices' => $group->getUsers(),
                     'choice_label' => 'username',
-                    'data' => $user,
+                    'data' => $payer,
                     'label' => 'payerExpense',
                     'translation_domain' => $options['trans_domain'],
                     'required' => true,
@@ -117,7 +126,7 @@ class ExpenseType extends AbstractType
                 'submit',
                 SubmitType::class,
                 [
-                    'label' => 'addExpenseSubmitButton',
+                    'label' => $label,
                     'translation_domain' => $options['trans_domain'],
                 ]
             );
