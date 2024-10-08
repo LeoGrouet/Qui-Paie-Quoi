@@ -1,6 +1,6 @@
 framework:
   secret: "%env(APP_SECRET)%"
-
+  http_method_override: true
   session: true
 
 when@test:

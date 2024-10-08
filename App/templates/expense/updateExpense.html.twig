@@ -10,8 +10,10 @@
   <h2 class="expense_form_title">{{'editExpenseTitle'|trans}}</h2>
 
     <div class="expense_form"> 
+
+    {{ form(form)}}
     
-      {{ form_start(form) }}
+      {# {{ form_start(form) }}
 
         <span class="expense_form_field">
 
@@ -44,7 +46,7 @@
           {{ form_row(form.submit) }}
         </footer>
 
-      {{ form_end(form) }}
+      {{ form_end(form) }} #}
       
   </div> 
 

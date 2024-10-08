@@ -2,7 +2,8 @@
 
 namespace App\Form;
 
-use App\DTO\ExpenseDTO;
+use App\DTO\ExpenseDTO\CreateExpenseDTO;
+use App\DTO\ExpenseDTO\UpdateExpenseDTO;
 use App\Entity\Group;
 use App\Entity\User;
 use App\Repository\UserRepository;
@@ -13,8 +14,10 @@ use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Type;
@@ -24,13 +27,23 @@ class ExpenseType extends AbstractType
     public function __construct(
         private readonly UserRepository $userRepository,
         private readonly Security $security,
-        private readonly RequestStack $requestStack
+        private readonly RequestStack $requestStack,
+        private readonly UrlGeneratorInterface $urlGenerator
     ) {}
 
     public function configureOptions(OptionsResolver $resolver): void
     {
+        $request = $this->requestStack->getCurrentRequest();
+        $currentMethod = $request->getMethod();
+
+        if ($currentMethod === Request::METHOD_POST) {
+            $dto = CreateExpenseDTO::class;
+        } else {
+            $dto = UpdateExpenseDTO::class;
+        }
+
         $resolver->setDefaults([
-            'data_class' => ExpenseDTO::class,
+            'data_class' => $dto,
             'user' => null,
             'trans_domain' => 'expense',
         ]);
@@ -45,8 +58,10 @@ class ExpenseType extends AbstractType
 
         if ($currentRoute === 'update_expense') {
             $label = 'updateExpense';
+            $method = Request::METHOD_PUT;
         } else {
             $label = 'addExpenseSubmitButton';
+            $method = Request::METHOD_POST;
         }
 
         $payer = $options['user'];
@@ -132,6 +147,8 @@ class ExpenseType extends AbstractType
                     'label' => $label,
                     'translation_domain' => $options['trans_domain'],
                 ]
-            );
+            )
+            ->setMethod($method)
+        ;
     }
 }
