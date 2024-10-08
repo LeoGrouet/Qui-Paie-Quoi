@@ -1,4 +1,4 @@
-.add_form, .add_form > form {
+.expense_form, .expense_form > form {
     display: flex;
     width: 100%;
     flex-direction: column;
@@ -13,19 +13,19 @@
     } 
 }
 
-.add_form_title {
+.expense_form_title {
     font-size: var(--font-bigger);
     text-align: center;
     margin: var(--space-l) 0;
 }
 
-.add_form_field {
+.expense_form_field {
     display: flex;
     flex-direction: column;
     margin-bottom: var(--space-m);
 }
 
-.add_form_footer>div{
+.expense_form_footer>div{
     display: flex;
     justify-content: center;
 }

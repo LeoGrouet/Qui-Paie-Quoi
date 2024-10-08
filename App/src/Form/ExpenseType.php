@@ -32,7 +32,7 @@ class ExpenseType extends AbstractType
         $resolver->setDefaults([
             'data_class' => ExpenseDTO::class,
             'user' => null,
-            'trans_domain' => 'addExpense',
+            'trans_domain' => 'expense',
         ]);
 
         $resolver->setDefined('group');
@@ -43,7 +43,11 @@ class ExpenseType extends AbstractType
         $request = $this->requestStack->getCurrentRequest();
         $currentRoute = $request->attributes->get('_route');
 
-        $label = $currentRoute === 'update_expense' ? 'updateLabel' : 'addExpenseSubmitButton';
+        if ($currentRoute === 'update_expense') {
+            $label = 'updateExpense';
+        } else {
+            $label = 'addExpenseSubmitButton';
+        }
 
         $payer = $options['user'];
 
@@ -54,7 +58,6 @@ class ExpenseType extends AbstractType
         if (!$this->security->getUser() instanceof UserInterface) {
             throw new \Exception('User is not authenticated');
         }
-        $user = $this->userRepository->findOneByEmail($this->security->getUser()->getUserIdentifier());
 
         $builder
             ->add(
