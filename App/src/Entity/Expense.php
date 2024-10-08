@@ -58,14 +58,29 @@ class Expense
         return $this->amount;
     }
 
+    public function setAmount(int $amount): void
+    {
+        $this->amount = $amount;
+    }
+
     public function getDescription(): string
     {
         return $this->description;
     }
 
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
+
     public function getPayer(): User
     {
         return $this->payer;
+    }
+
+    public function setPayer(User $payer): void
+    {
+        $this->payer = $payer;
     }
 
     /**
@@ -74,6 +89,11 @@ class Expense
     public function getParticipants(): Collection
     {
         return $this->participants;
+    }
+
+    public function setParticipants(Collection $participants): void
+    {
+        $this->participants = $participants;
     }
 
     public function getGroup(): Group

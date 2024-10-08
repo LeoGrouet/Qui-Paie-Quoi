@@ -33,7 +33,7 @@
 
           <p class="group_info_amount">{{ formatNumber(expense.amount) }} €</p>
 
-          <a class="update_expense_button" href="{{ path ('update_expense', {id:groupId})}}">
+          <a class="update_expense_button" href="{{ path ('update_expense', {expenseId:expense.id , groupId:groupId})}}">
             {{ ux_icon('uil:pen') }}
           </a>
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\DTO;
+namespace App\DTO\ExpenseDTO;
 
 use App\Entity\User;
 use Doctrine\Common\Collections\Collection;
 
-class ExpenseDTO
+class CreateExpenseDTO
 {
     private int $amount;
     private string $description;
@@ -14,14 +14,6 @@ class ExpenseDTO
      * @var Collection<int, \App\Entity\User>
      */
     private Collection $participants;
-
-    public function __construct(int $amount, string $description, User $payer, Collection $participants)
-    {
-        $this->amount = $amount;
-        $this->description = $description;
-        $this->payer = $payer;
-        $this->participants = $participants;
-    }
 
     public function getAmount(): int
     {
