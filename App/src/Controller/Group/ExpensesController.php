@@ -83,7 +83,7 @@ class ExpensesController extends AbstractController
         );
     }
 
-    #[Route('/group/expense/{id}', name: 'update_expense', methods: ['GET', 'POST'])]
+    #[Route('/group/expense/{id}/edit', name: 'update_expense', methods: ['GET', 'POST'])]
     public function update(
         Expense $expense,
     ): Response {
@@ -99,13 +99,10 @@ class ExpensesController extends AbstractController
             ]
         );
 
-        // dump($form->getData()->getPayer()->getUsername());
-
         return $this->render(
             'expense/updateExpense.html.twig',
             [
                 'expense' => $expense,
-                // 'payer' => $expense->getPayer()->getUsername(),
                 'form' => $form,
             ]
         );

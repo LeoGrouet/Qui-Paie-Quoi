@@ -1,47 +1,46 @@
 {% extends "base.html.twig" %}
 
-{% trans_default_domain 'addExpense' %}
+{% trans_default_domain 'expense' %}
 
 {% block stylesheets %}
-  <link rel="stylesheet" href="/css/addForm.css">
+  <link rel="stylesheet" href="/css/expenseForm.css">
 {% endblock %}
 
 {% block body %}
+  <h2 class="expense_form_title">{{'editExpenseTitle'|trans}}</h2>
 
- <div class="group_container">
-
-    <div class="add_form"> 
+    <div class="expense_form"> 
     
       {{ form_start(form) }}
 
-        <span class="add_form_field">
+        <span class="expense_form_field">
 
           {{ form_label(form.description) }}
           {{ form_widget(form.description) }}
 
         </span>
 
-        <span class="add_form_field">
+        <span class="expense_form_field">
 
           {{ form_label(form.amount) }}
           {{ form_widget(form.amount) }}
 
         </span>
 
-        <span class="add_form_field">
+        <span class="expense_form_field">
           {{ form_label(form.payer) }}
           {{ form_widget(form.payer) }}
 
         </span>
 
-        <span class="add_form_field">
+        <span class="expense_form_field">
 
           {{ form_label(form.participants) }}
           {{ form_widget(form.participants) }}
 
         </span>
 
-        <footer class="add_form_footer">
+        <footer class="expense_form_footer">
           {{ form_row(form.submit) }}
         </footer>
 
