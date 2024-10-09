@@ -91,6 +91,9 @@ class Expense
         return $this->participants;
     }
 
+    /**
+     * @param Collection<int, User> $participants
+     */
     public function setParticipants(Collection $participants): void
     {
         $this->participants = $participants;

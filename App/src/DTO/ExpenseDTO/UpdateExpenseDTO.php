@@ -15,6 +15,9 @@ class UpdateExpenseDTO
      */
     private Collection $participants;
 
+    /**
+     * @param Collection<int, \App\Entity\User> $participants
+     */
     public function __construct(int $amount, string $description, User $payer, Collection $participants)
     {
         $this->amount = $amount;

@@ -3,61 +3,61 @@
 {% trans_default_domain 'expense' %}
 
 {% block stylesheets %}
-  <link rel="stylesheet" href="/css/expenseForm.css">
+  <link rel="stylesheet" href="/css/form.css">
 {% endblock %}
 
 {% block body %}
-  <h2 class="expense_form_title">{{'createExpenseTitle'|trans}}</h2>
+  <h2 class="form_title">{{'createExpenseTitle'|trans}}</h2>
 
-    <div class="expense_form"> 
+    <div class="form"> 
     
       {{ form_start(form) }}
 
-        <span class="expense_form_field">
+        <span class="form_field">
 
           {{ form_label(form.description) }}
           {{ form_widget(form.description) }}
 
-          <div class="expense_form_error">
+          <div class="form_error">
           {{ form_errors(form.description) }}
           </div>
 
         </span>
 
-        <span class="expense_form_field">
+        <span class="form_field">
 
           {{ form_label(form.amount) }}
           {{ form_widget(form.amount) }}
 
-          <div class="expense_form_error">
+          <div class="form_error">
           {{ form_errors(form.amount) }}
           </div>
 
         </span>
 
-        <span class="expense_form_field">
+        <span class="form_field">
 
           {{ form_label(form.payer) }}
           {{ form_widget(form.payer) }}
 
-          <div class="expense_form_error">
+          <div class="form_error">
           {{ form_errors(form.payer) }}
           </div>
 
         </span>
 
-        <span class="expense_form_field">
+        <span class="form_field">
 
           {{ form_label(form.participants) }}
           {{ form_widget(form.participants) }}
 
-          <div class="expense_form_error">
+          <div class="form_error">
           {{ form_errors(form.participants) }}
           </div>
 
         </span>
 
-        <footer class="expense_form_footer">
+        <footer class="form_footer">
           {{ form_row(form.submit) }}
         </footer>
 

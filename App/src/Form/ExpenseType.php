@@ -6,7 +6,6 @@ use App\DTO\ExpenseDTO\CreateExpenseDTO;
 use App\DTO\ExpenseDTO\UpdateExpenseDTO;
 use App\Entity\Group;
 use App\Entity\User;
-use App\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
@@ -17,7 +16,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Type;
@@ -25,18 +23,22 @@ use Symfony\Component\Validator\Constraints\Type;
 class ExpenseType extends AbstractType
 {
     public function __construct(
-        private readonly UserRepository $userRepository,
         private readonly Security $security,
         private readonly RequestStack $requestStack,
-        private readonly UrlGeneratorInterface $urlGenerator
-    ) {}
+    ) {
+    }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $request = $this->requestStack->getCurrentRequest();
+
+        if (null === $request) {
+            throw new \Exception('Request is not defined');
+        }
+
         $currentMethod = $request->getMethod();
 
-        if ($currentMethod === Request::METHOD_POST) {
+        if (Request::METHOD_POST === $currentMethod) {
             $dto = CreateExpenseDTO::class;
         } else {
             $dto = UpdateExpenseDTO::class;
@@ -54,9 +56,12 @@ class ExpenseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $request = $this->requestStack->getCurrentRequest();
+        if (null === $request) {
+            throw new \Exception('Request is not defined');
+        }
         $currentRoute = $request->attributes->get('_route');
 
-        if ($currentRoute === 'update_expense') {
+        if ('update_expense' === $currentRoute) {
             $label = 'updateExpense';
             $method = Request::METHOD_PUT;
         } else {
@@ -65,6 +70,9 @@ class ExpenseType extends AbstractType
         }
 
         $payer = $options['user'];
+        if (!$payer instanceof User) {
+            throw new \Exception('User is not defined');
+        }
 
         $group = $options['group'];
         if (!$group instanceof Group) {

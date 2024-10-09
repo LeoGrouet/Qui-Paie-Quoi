@@ -7,15 +7,15 @@ use App\Entity\Group;
 use App\Entity\User;
 use App\Entity\UserBalance;
 use App\Repository\UserBalanceRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ExpenseBalancer
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly UserBalanceRepository $userBalanceRepository
-    ) {
-    }
+        private readonly UserBalanceRepository $userBalanceRepository,
+    ) {}
 
     public function apply(Expense $expense): void
     {
@@ -101,6 +101,25 @@ class ExpenseBalancer
         $userHighestUserBalance = $maxDebtUserBalance->getUser();
 
         $this->updateParticipantBalance($group, $rest, $userHighestUserBalance);
+
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @param Collection<int, UserBalance> $usersBalance
+     * @param Collection<int, Expense> $expenses
+     */
+    public function updateBalances(Collection $usersBalance, Collection $expenses): void
+    {
+
+        foreach ($usersBalance as $userBalance) {
+            $userBalance->setAmount(0);
+            $this->entityManager->persist($userBalance);
+        }
+
+        foreach ($expenses as $expense) {
+            $this->apply($expense);
+        }
 
         $this->entityManager->flush();
     }
