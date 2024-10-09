@@ -3,50 +3,48 @@
 {% trans_default_domain 'expense' %}
 
 {% block stylesheets %}
-  <link rel="stylesheet" href="/css/expenseForm.css">
+  <link rel="stylesheet" href="/css/form.css">
 {% endblock %}
 
 {% block body %}
-  <h2 class="expense_form_title">{{'editExpenseTitle'|trans}}</h2>
+  <h2 class="form_title">{{'editExpenseTitle'|trans}}</h2>
 
-    <div class="expense_form"> 
-
-    {{ form(form)}}
+    <div class="form"> 
     
-      {# {{ form_start(form) }}
+      {{ form_start(form) }}
 
-        <span class="expense_form_field">
+        <span class="form_field">
 
           {{ form_label(form.description) }}
           {{ form_widget(form.description) }}
 
         </span>
 
-        <span class="expense_form_field">
+        <span class="form_field">
 
           {{ form_label(form.amount) }}
           {{ form_widget(form.amount) }}
 
         </span>
 
-        <span class="expense_form_field">
+        <span class="form_field">
           {{ form_label(form.payer) }}
           {{ form_widget(form.payer) }}
 
         </span>
 
-        <span class="expense_form_field">
+        <span class="form_field">
 
           {{ form_label(form.participants) }}
           {{ form_widget(form.participants) }}
 
         </span>
 
-        <footer class="expense_form_footer">
+        <footer class="form_footer">
           {{ form_row(form.submit) }}
         </footer>
 
-      {{ form_end(form) }} #}
+      {{ form_end(form) }}
       
   </div> 
 

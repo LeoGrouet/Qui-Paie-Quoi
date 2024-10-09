@@ -106,7 +106,6 @@ class ExpensesController extends AbstractController
         );
 
         $form->handleRequest($request);
-        // dump($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
@@ -126,20 +125,10 @@ class ExpensesController extends AbstractController
             $expense->setParticipants($data->getParticipants());
 
             $entityManagerInterface->persist($expense);
-            $entityManagerInterface->flush();
 
             $usersBalance = $expense->getGroup()->getUserBalances();
-
-            foreach ($usersBalance as $userBalance) {
-                $userBalance->setAmount(0);
-                $entityManagerInterface->persist($userBalance);
-            }
-
             $expenses = $expense->getGroup()->getExpenses();
-
-            foreach ($expenses as $expense) {
-                $expenseBalancer->apply($expense);
-            }
+            $expenseBalancer->updateBalances($usersBalance, $expenses);
 
             return $this->redirectToRoute('group_expenses', ['id' => $expense->getGroup()->getId()]);
         }

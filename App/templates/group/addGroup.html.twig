@@ -3,44 +3,44 @@
 {% trans_default_domain 'groups' %}
 
 {% block stylesheets %}
-  <link rel="stylesheet" href="/css/addForm.css">
+  <link rel="stylesheet" href="/css/form.css">
 {% endblock %}
 
 {% block body %}
-  <h2 class="add_form_title">{{'createGroupTitle'|trans}}</h2>
+  <h2 class="form_title">{{'createGroupTitle'|trans}}</h2>
 
-    <div class="add_form"> 
+    <div class="form"> 
     
       {{ form_start(form) }}
 
-        <span class="add_form_field">
+        <span class="form_field">
 
           {{ form_label(form.name) }}
           {{ form_widget(form.name) }}
 
-          <div class="add_form_error">
+          <div class="form_error">
           {{ form_errors(form.name) }}
           </div>
 
         </span>
 
-        <span class="add_form_field">
+        <span class="form_field">
 
           {{ form_label(form.description) }}
           {{ form_widget(form.description) }}
 
-          <div class="add_form_error">
+          <div class="form_error">
           {{ form_errors(form.description) }}
           </div>
 
         </span>
 
-        <span class="add_form_field">
+        <span class="form_field">
 
           {{ form_label(form.users) }}
           {{ form_widget(form.users) }}
 
-          <div class="add_form_error">
+          <div class="form_error">
           {{ form_errors(form.users) }}
           </div>
 
