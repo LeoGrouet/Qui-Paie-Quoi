@@ -3,14 +3,14 @@ name: "deploy"
 on:
   push:
     branches: 
-    - feat/deploy
+    - main
 
 concurrency:
   group: "${{ github.workflow }} @ ${{ github.ref }}"
   cancel-in-progress: true
 
 env:
-  COMPOSE_PROJECT_FILE: docker-compose.prod.yaml
+  COMPOSE_FILE: docker-compose.prod.yaml
   VERSION_NAME: ${{ github.sha }}
   POSTGRES_USER: ${{ secrets.DATABASE_USER }}
   POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
@@ -18,6 +18,8 @@ env:
 
 jobs:
   deploy:
+    environment: preprod
+
     runs-on: ["ubuntu-latest"]
 
     steps:
@@ -56,3 +58,6 @@ jobs:
 
       - name: Start containers
         run : ssh ${{ vars.SSH_USERNAME }}@${{ secrets.SERVER_IP }} "cd qui-paie-quoi; VERSION_NAME=$VERSION_NAME docker compose up --detach --no-build"
+      
+      - name: apply migrations
+        run : ssh ${{ vars.SSH_USERNAME }}@${{ secrets.SERVER_IP }} "cd qui-paie-quoi; VERSION_NAME=$VERSION_NAME docker compose run --rm php bin/console doctrine:migrations:migrate --no-interaction"
