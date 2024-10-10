@@ -67,6 +67,54 @@ class ExpenseBalancerTest extends TestCase
         $this->assertSame(0, $aliceBalance->getAmount() + $charlesBalance->getAmount() + $camilleBalance->getAmount());
     }
 
+    public function testUpdateBalanceFirstScenario(): void
+    {
+        /**
+         * @var EntityManagerInterface $entityManager
+         */
+        $entityManager = $this->createMock(EntityManagerInterface::class);
+        /**
+         * @var UserBalanceRepository $userBalanceRepository
+         */
+        $userBalanceRepository = $this->createMock(UserBalanceRepository::class);
+
+        $service = new ExpenseBalancer($entityManager, $userBalanceRepository);
+
+        $usersData = new ArrayCollection([
+            $alice = new User('Alice', 'alice@gmail.com'),
+            $charles = new User('Charles', 'charles@gmail.com'),
+            $camille = new User('Camille', 'camille@gmail.com'),
+        ]);
+
+        $usersGroup = new Group('First groupe', 'groupe test numero 1', $usersData);
+
+        $collection1 = new ArrayCollection([$alice, $charles, $camille]);
+        $collection2 = new ArrayCollection([$charles]);
+        $collection3 = new ArrayCollection([$alice, $camille]);
+
+        $expenses = [
+            new Expense(9 * 100, "Bouteille d'eau", $alice, $collection1, $usersGroup),
+            new Expense(6 * 100, 'Sandwich', $charles, $collection2, $usersGroup),
+            new Expense(12 * 100, 'Nourriture', $charles, $collection3, $usersGroup),
+            new Expense(36 * 100, 'Essence', $camille, $collection1, $usersGroup),
+        ];
+
+        $aliceBalance = new UserBalance($alice, $usersGroup);
+        $charlesBalance = new UserBalance($charles, $usersGroup);
+        $camilleBalance = new UserBalance($camille, $usersGroup);
+
+        $userBalanceRepository->method('getUserBalance')
+            ->willReturnCallback(fn(User $user, Group $group) => match ([$user, $group]) {
+                [$alice, $usersGroup] => $aliceBalance,
+                [$charles, $usersGroup] => $charlesBalance,
+                [$camille, $usersGroup] => $camilleBalance,
+            });
+
+        foreach ($expenses as $expense) {
+            $service->apply($expense);
+        }
+    }
+
     public function testApplySecondScenario(): void
     {
         /**
