@@ -60,3 +60,16 @@ RUN apk add --no-cache gcc g++ make autoconf linux-headers \
     && apk del --no-network gcc g++ make autoconf linux-headers
 
 USER user
+
+FROM base AS prod
+
+ENV APP_ENV=prod
+ENV APP_DEBUG=0
+
+COPY --chown=user:user . .
+
+COPY php/php.prod.ini /usr/local/etc/php/php.ini
+
+COPY --from=composer   /usr/bin/composer /usr/local/bin/composer
+
+RUN composer install --no-scripts --no-dev

@@ -16,6 +16,10 @@ reset:
 migrate:
 	docker compose run --rm php bin/console do:mi:mi --no-interaction
 
+.PHONY=diff
+diff:
+	docker compose run --rm php bin/console do:mi:di
+
 .PHONY=insert
 insert:
 	docker compose run --rm php bin/console app:insertInDB

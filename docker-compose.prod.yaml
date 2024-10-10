@@ -1,6 +1,7 @@
 ---
 services:
   php:
+    image: leogrouet/qui-paie-quoi:php-${VERSION_NAME}
     platform: linux/x86_64
     env_file: App/.env
     environment:
@@ -15,20 +16,17 @@ services:
         GID: ${GID:-1000}
         UID: ${UID:-1000}
       context: App
-      target: dev
-    volumes:
-      - "./App:/usr/src/app"
+      target: prod
     restart: unless-stopped
 
   nginx:
+    image: leogrouet/qui-paie-quoi:nginx-${VERSION_NAME}
     build:
-      context: services/nginx
-      target: base
+      context: .
+      target: prod
+      dockerfile: services/nginx/Dockerfile
     ports:
       - 80:80
-    volumes:
-      - ./services/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./App/public:/usr/src/app/public
     restart: unless-stopped
 
   database:
