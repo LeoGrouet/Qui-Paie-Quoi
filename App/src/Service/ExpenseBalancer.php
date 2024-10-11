@@ -15,7 +15,8 @@ class ExpenseBalancer
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly UserBalanceRepository $userBalanceRepository,
-    ) {}
+    ) {
+    }
 
     public function apply(Expense $expense): void
     {
@@ -107,11 +108,10 @@ class ExpenseBalancer
 
     /**
      * @param Collection<int, UserBalance> $usersBalance
-     * @param Collection<int, Expense> $expenses
+     * @param Collection<int, Expense>     $expenses
      */
     public function updateBalances(Collection $usersBalance, Collection $expenses): void
     {
-
         foreach ($usersBalance as $userBalance) {
             $userBalance->setAmount(0);
             $this->entityManager->persist($userBalance);
