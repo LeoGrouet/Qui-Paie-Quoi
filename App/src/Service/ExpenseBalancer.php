@@ -10,11 +10,11 @@ use App\Repository\UserBalanceRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 
-class ExpenseBalancer
+final readonly class ExpenseBalancer
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly UserBalanceRepository $userBalanceRepository,
+        private readonly UserBalanceRepository $userBalanceRepository
     ) {
     }
 
