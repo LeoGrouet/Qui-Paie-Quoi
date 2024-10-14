@@ -77,8 +77,8 @@
     border-radius: var(--border-radius);
     align-items: center;
     display: grid;
-    padding: 0 4vw 0 14vw;
-    grid-template-columns: 2fr 2fr 0.5fr;
+    padding: 0 4vw 0 12vw;
+    grid-template-columns: 2fr 2fr 1fr;
     justify-content: space-around;
 }
 
@@ -166,15 +166,23 @@ a{
 .update_expense_button{
     width: 0.6em;
     align-self: center;
+    color: var(--purple);
 }
+
 
 .delete_expense_button{
     width: 0.6em;
     align-self: center;
+    color: red;
+}
+
+.expense_button:hover{
+    transform: scale(1.3);
 }
 
 .expense_handlers{
     display: flex;
-    justify-content: space-evenly;
+    justify-content: flex-end;
+    gap: 1em;
     width: 100%;
 }

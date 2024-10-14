@@ -149,9 +149,8 @@ class ExpensesController extends AbstractController
         EntityManagerInterface $entityManagerInterface,
         ExpenseBalancer $expenseBalancer
     ): Response {
-
-        dump($expense);
         $entityManagerInterface->remove($expense);
+        $entityManagerInterface->flush();
 
         $usersBalance = $expense->getGroup()->getUserBalances();
         $expenses = $expense->getGroup()->getExpenses();
