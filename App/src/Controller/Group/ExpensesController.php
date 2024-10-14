@@ -141,4 +141,22 @@ class ExpensesController extends AbstractController
             ]
         );
     }
+
+    #[Route('/group/{groupId}/expense/{expenseId}/delete', name: 'delete_expense', methods: ['GET', 'DELETE'])]
+    public function delete(
+        #[MapEntity(mapping: ['expenseId' => 'id'])]
+        Expense $expense,
+        EntityManagerInterface $entityManagerInterface,
+        ExpenseBalancer $expenseBalancer
+    ): Response {
+
+        dump($expense);
+        $entityManagerInterface->remove($expense);
+
+        $usersBalance = $expense->getGroup()->getUserBalances();
+        $expenses = $expense->getGroup()->getExpenses();
+        $expenseBalancer->updateBalances($usersBalance, $expenses);
+
+        return $this->redirectToRoute('group_expenses', ['id' => $expense->getGroup()->getId()]);
+    }
 }

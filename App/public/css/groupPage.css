@@ -166,5 +166,15 @@ a{
 .update_expense_button{
     width: 0.6em;
     align-self: center;
-    justify-self: flex-end;
+}
+
+.delete_expense_button{
+    width: 0.6em;
+    align-self: center;
+}
+
+.expense_handlers{
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
 }
