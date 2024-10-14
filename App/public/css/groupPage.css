@@ -20,7 +20,7 @@
 
 .group_parameter_active{
     background-color: var(--purple);
-    color: var(--color-secondary);
+    color: var(--white);
 }
 
 .group_parameter > a {
@@ -77,7 +77,7 @@
     border-radius: var(--border-radius);
     align-items: center;
     display: grid;
-    padding: 0 4vw 0 12vw;
+    padding: 0 4vw 0 5vw;
     grid-template-columns: 2fr 2fr 1fr;
     justify-content: space-around;
 }
@@ -163,26 +163,23 @@ a{
     font-style: italic;
 }
 
-.update_expense_button{
-    width: 0.6em;
-    align-self: center;
-    color: var(--purple);
-}
-
-
-.delete_expense_button{
-    width: 0.6em;
+.update_expense_button,.delete_expense_button{
+    width: 1.2rem;
     align-self: center;
     color: red;
+    transition: 0.2s ease;
+    &:hover{
+        transform: scale(1.3);
+    }
 }
 
-.expense_button:hover{
-    transform: scale(1.3);
+.update_expense_button{
+    color: var(--purple);
 }
 
 .expense_handlers{
     display: flex;
     justify-content: flex-end;
-    gap: 1em;
+    gap: 1rem;
     width: 100%;
 }

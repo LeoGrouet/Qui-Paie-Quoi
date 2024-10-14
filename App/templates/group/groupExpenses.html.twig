@@ -34,10 +34,10 @@
           <p class="group_info_amount">{{ formatNumber(expense.amount) }} €</p>
 
           <div class="expense_handlers">
-            <a class="update_expense_button expense_button" href="{{ path ('update_expense', {expenseId:expense.id , groupId:groupId})}}">
+            <a class="update_expense_button" href="{{ path ('update_expense', { expenseId:expense.id , groupId:groupId }) }}">
               {{ ux_icon('uil:pen') }}
             </a>
-            <a class="delete_expense_button expense_button" href="{{ path ('delete_expense', {expenseId:expense.id , groupId:groupId})}}">
+            <a class="delete_expense_button" href="{{ path ('delete_expense', { expenseId:expense.id , groupId:groupId }) }}">
               {{ ux_icon('mdi:delete') }}
             </a>
           </div>

@@ -89,6 +89,8 @@ class ExpensesController extends AbstractController
     public function edit(
         #[MapEntity(mapping: ['expenseId' => 'id'])]
         Expense $expense,
+        #[MapEntity(mapping: ['groupId' => 'id'])]
+        Group $group,
         Request $request,
         TranslatorInterface $translator,
         EntityManagerInterface $entityManagerInterface,
@@ -126,8 +128,8 @@ class ExpensesController extends AbstractController
 
             $entityManagerInterface->persist($expense);
 
-            $usersBalance = $expense->getGroup()->getUserBalances();
-            $expenses = $expense->getGroup()->getExpenses();
+            $usersBalance = $group->getUserBalances();
+            $expenses = $group->getExpenses();
             $expenseBalancer->updateBalances($usersBalance, $expenses);
 
             return $this->redirectToRoute('group_expenses', ['id' => $expense->getGroup()->getId()]);
@@ -146,14 +148,16 @@ class ExpensesController extends AbstractController
     public function delete(
         #[MapEntity(mapping: ['expenseId' => 'id'])]
         Expense $expense,
+        #[MapEntity(mapping: ['groupId' => 'id'])]
+        Group $group,
         EntityManagerInterface $entityManagerInterface,
         ExpenseBalancer $expenseBalancer
     ): Response {
         $entityManagerInterface->remove($expense);
         $entityManagerInterface->flush();
 
-        $usersBalance = $expense->getGroup()->getUserBalances();
-        $expenses = $expense->getGroup()->getExpenses();
+        $usersBalance = $group->getUserBalances();
+        $expenses = $group->getExpenses();
         $expenseBalancer->updateBalances($usersBalance, $expenses);
 
         return $this->redirectToRoute('group_expenses', ['id' => $expense->getGroup()->getId()]);
