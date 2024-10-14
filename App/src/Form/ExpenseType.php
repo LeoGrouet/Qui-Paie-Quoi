@@ -2,10 +2,10 @@
 
 namespace App\Form;
 
-use App\DTO\ExpenseDTO;
+use App\DTO\ExpenseDTO\CreateExpenseDTO;
+use App\DTO\ExpenseDTO\UpdateExpenseDTO;
 use App\Entity\Group;
 use App\Entity\User;
-use App\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
@@ -13,6 +13,8 @@ use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -21,16 +23,31 @@ use Symfony\Component\Validator\Constraints\Type;
 class ExpenseType extends AbstractType
 {
     public function __construct(
-        private readonly UserRepository $userRepository,
-        private readonly Security $security
+        private readonly Security $security,
+        private readonly RequestStack $requestStack,
     ) {
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
+        $request = $this->requestStack->getCurrentRequest();
+
+        if (null === $request) {
+            throw new \Exception('Request is not defined');
+        }
+
+        $currentMethod = $request->getMethod();
+
+        if (Request::METHOD_POST === $currentMethod) {
+            $dto = CreateExpenseDTO::class;
+        } else {
+            $dto = UpdateExpenseDTO::class;
+        }
+
         $resolver->setDefaults([
-            'data_class' => ExpenseDTO::class,
-            'trans_domain' => 'addExpense',
+            'data_class' => $dto,
+            'user' => null,
+            'trans_domain' => 'expense',
         ]);
 
         $resolver->setDefined('group');
@@ -38,6 +55,25 @@ class ExpenseType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $request = $this->requestStack->getCurrentRequest();
+        if (null === $request) {
+            throw new \Exception('Request is not defined');
+        }
+        $currentRoute = $request->attributes->get('_route');
+
+        if ('update_expense' === $currentRoute) {
+            $label = 'updateExpense';
+            $method = Request::METHOD_PUT;
+        } else {
+            $label = 'addExpenseSubmitButton';
+            $method = Request::METHOD_POST;
+        }
+
+        $payer = $options['user'];
+        if (!$payer instanceof User) {
+            throw new \Exception('User is not defined');
+        }
+
         $group = $options['group'];
         if (!$group instanceof Group) {
             throw new \Exception('Group is not defined');
@@ -45,7 +81,6 @@ class ExpenseType extends AbstractType
         if (!$this->security->getUser() instanceof UserInterface) {
             throw new \Exception('User is not authenticated');
         }
-        $user = $this->userRepository->findOneByEmail($this->security->getUser()->getUserIdentifier());
 
         $builder
             ->add(
@@ -90,7 +125,7 @@ class ExpenseType extends AbstractType
                     'class' => User::class,
                     'choices' => $group->getUsers(),
                     'choice_label' => 'username',
-                    'data' => $user,
+                    'data' => $payer,
                     'label' => 'payerExpense',
                     'translation_domain' => $options['trans_domain'],
                     'required' => true,
@@ -117,9 +152,11 @@ class ExpenseType extends AbstractType
                 'submit',
                 SubmitType::class,
                 [
-                    'label' => 'addExpenseSubmitButton',
+                    'label' => $label,
                     'translation_domain' => $options['trans_domain'],
                 ]
-            );
+            )
+            ->setMethod($method)
+        ;
     }
 }

@@ -56,7 +56,7 @@
     justify-self: center;
 }
 
-.group_info_balance, .group_info_expense{
+.group_info_balance{
     box-sizing: border-box;
     border: solid var(--purple) 1px;
     width: 100%;
@@ -66,6 +66,19 @@
     display: grid;
     padding: 0 14vw;
     grid-template-columns: 1fr 1fr;
+    justify-content: space-around;
+}
+
+.group_info_expense{
+    box-sizing: border-box;
+    border: solid var(--purple) 1px;
+    width: 100%;
+    height: var(--height-xl);
+    border-radius: var(--border-radius);
+    align-items: center;
+    display: grid;
+    padding: 0 4vw 0 14vw;
+    grid-template-columns: 2fr 2fr 0.5fr;
     justify-content: space-around;
 }
 
@@ -148,4 +161,10 @@ a{
     justify-content: center;
     font-size: var(--font-text);
     font-style: italic;
+}
+
+.update_expense_button{
+    width: 0.6em;
+    align-self: center;
+    justify-self: flex-end;
 }

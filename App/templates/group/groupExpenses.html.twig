@@ -25,12 +25,20 @@
 
       {% for expense in expenses %}
         <div class="group_info_expense">
+
           <div class="group_info_container">
             <p class="group_info_text">{{ expense.description }}</p>
             <p class="group_info_payer">{{'boughtBy'|trans }} {{ expense.payer.username }} </p>
           </div>
+
           <p class="group_info_amount">{{ formatNumber(expense.amount) }} €</p>
+
+          <a class="update_expense_button" href="{{ path ('update_expense', {expenseId:expense.id , groupId:groupId})}}">
+            {{ ux_icon('uil:pen') }}
+          </a>
+
         </div>
+
       {% endfor %}
       
     </section>
@@ -38,7 +46,7 @@
   </div> 
 
   <footer class="add_group_footer">
-    <a class="add_group_button" href="{{ path ('add_expense', {id:groupId})}}">Ajouter une dépense</a>
+    <a class="add_group_button" href="{{ path ('add_expense', {id:groupId})}}">{{'addExpenseSubmitButton'|trans}}</a>
   </footer>
 
 {% endblock %}

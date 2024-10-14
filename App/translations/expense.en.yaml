@@ -1,4 +1,5 @@
 createExpenseTitle : Create an expense
+editExpenseTitle : Update the expense
 descriptionExpense : Description of the expense
 expensePlaceholder : Description
 amountExpense : Amount
@@ -8,3 +9,4 @@ particicipantsPlaceholder : Participants
 addExpenseSubmitButton : Add an expense
 errorExpense: Error while creating the expense
 succesExpense: Expense created successfully
+updateExpense: Update expense

@@ -2,12 +2,14 @@
 
 namespace App\Controller\Group;
 
-use App\DTO\ExpenseDTO;
+use App\DTO\ExpenseDTO\CreateExpenseDTO;
+use App\DTO\ExpenseDTO\UpdateExpenseDTO;
 use App\Entity\Expense;
 use App\Entity\Group;
 use App\Form\ExpenseType;
 use App\Service\ExpenseBalancer;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,7 +48,7 @@ class ExpensesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            if (!$data instanceof ExpenseDTO) {
+            if (!$data instanceof CreateExpenseDTO) {
                 $this->addFlash(
                     'notice',
                     $translator->trans('errorExpense', [], 'addExpense')
@@ -78,6 +80,63 @@ class ExpensesController extends AbstractController
         return $this->render(
             'expense/addExpense.html.twig',
             [
+                'form' => $form,
+            ]
+        );
+    }
+
+    #[Route('/group/{groupId}/expense/{expenseId}/edit', name: 'update_expense', methods: ['GET', 'PUT'])]
+    public function edit(
+        #[MapEntity(mapping: ['expenseId' => 'id'])]
+        Expense $expense,
+        Request $request,
+        TranslatorInterface $translator,
+        EntityManagerInterface $entityManagerInterface,
+        ExpenseBalancer $expenseBalancer
+    ): Response {
+        $expenseToUpdate = new UpdateExpenseDTO($expense->getAmount(), $expense->getDescription(), $expense->getPayer(), $expense->getParticipants());
+
+        $form = $this->createForm(
+            ExpenseType::class,
+            $expenseToUpdate,
+            [
+                'group' => $expense->getGroup(),
+                'user' => $expense->getPayer(),
+            ]
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            if (!$data instanceof UpdateExpenseDTO) {
+                $this->addFlash(
+                    'notice',
+                    $translator->trans('errorExpense', [], 'addExpense')
+                );
+
+                return $this->redirectToRoute('update_expense');
+            }
+
+            $expense->setAmount($data->getAmount());
+            $expense->setDescription($data->getDescription());
+            $expense->setPayer($data->getPayer());
+            $expense->setParticipants($data->getParticipants());
+
+            $entityManagerInterface->persist($expense);
+
+            $usersBalance = $expense->getGroup()->getUserBalances();
+            $expenses = $expense->getGroup()->getExpenses();
+            $expenseBalancer->updateBalances($usersBalance, $expenses);
+
+            return $this->redirectToRoute('group_expenses', ['id' => $expense->getGroup()->getId()]);
+        }
+
+        return $this->render(
+            'expense/updateExpense.html.twig',
+            [
+                'expense' => $expense,
                 'form' => $form,
             ]
         );

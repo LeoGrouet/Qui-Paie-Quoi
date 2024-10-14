@@ -1,4 +1,5 @@
 createExpenseTitle : Création d'une dépense
+editExpenseTitle : Modifier la dépense
 descriptionExpense : Description de la dépense
 expensePlaceholder : Description
 amountExpense : Montant
@@ -8,3 +9,4 @@ particicipantsPlaceholder : Participants
 addExpenseSubmitButton : Ajouter une dépense
 errorExpense: Erreur lors de la création de la dépense
 succesExpense: Dépense créée avec succès
+updateExpense: Mettre à jour la dépense

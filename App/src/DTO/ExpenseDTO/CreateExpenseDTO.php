@@ -1,11 +1,11 @@
 <?php
 
-namespace App\DTO;
+namespace App\DTO\ExpenseDTO;
 
 use App\Entity\User;
 use Doctrine\Common\Collections\Collection;
 
-class ExpenseDTO
+class CreateExpenseDTO
 {
     private int $amount;
     private string $description;

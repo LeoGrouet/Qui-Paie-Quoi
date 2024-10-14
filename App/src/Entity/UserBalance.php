@@ -39,6 +39,11 @@ class UserBalance
         return $this->amount;
     }
 
+    public function setAmount(int $amount): void
+    {
+        $this->amount = $amount;
+    }
+
     public function addAmount(int $amount): void
     {
         $this->amount += $amount;
