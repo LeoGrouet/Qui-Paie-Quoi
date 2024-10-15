@@ -2,21 +2,53 @@
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
 
-/**
- * Defines application features from the specific context.
- */
 class FeatureContext implements Context
 {
-    /**
-     * Initializes context.
-     *
-     * Every scenario gets its own context instance.
-     * You can also pass arbitrary arguments to the
-     * context constructor through behat.yml.
-     */
-    public function __construct()
+
+    private string $output;
+
+    private function setOutput(string $output): void
     {
+        $this->output = $output;
+    }
+
+    private function getOutput(): string
+    {
+        return $this->output;
+    }
+
+    /**
+     * @Given I am in a directory ":dir"
+     */
+    public function iAmInADirectory(string $dir): void
+    {
+        if (!file_exists($dir)) {
+            mkdir($dir);
+        }
+        chdir($dir);
+    }
+
+    /** @Given I have a file named ":file" */
+    public function iHaveAFileNamed(string $file): void
+    {
+        touch($file);
+    }
+
+    /** @When I run ":command" */
+    public function iRun(string $command): void
+    {
+        exec($command, $output);
+        $this->setOutput(trim(implode("\n", $output)));
+    }
+
+    /** @Then I should get: */
+    public function iShouldGet(PyStringNode $string): void
+    {
+        if ((string) $string !== $this->output) {
+            throw new Exception(
+                "Actual output is:\n" . $this->getOutput()
+            );
+        }
     }
 }
