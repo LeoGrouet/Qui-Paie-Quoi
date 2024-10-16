@@ -1,6 +1,7 @@
 <?php
 
 use Behat\Behat\Context\Context;
+use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode;
 
 class FeatureContext implements Context
@@ -50,5 +51,45 @@ class FeatureContext implements Context
                 "Actual output is:\n" . $this->getOutput()
             );
         }
+    }
+
+    /**
+     * @Given I send a request on :arg1
+     */
+    public function iSendARequestOn($arg1)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Given I fill in :arg1::arg2
+     */
+    public function iFillIn($arg1, $arg2)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @When I click the :arg1 button
+     */
+    public function iClickTheButton($arg1)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then I should be redirect to :arg1
+     */
+    public function iShouldBeRedirectTo($arg1)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then I should see a flash message :arg1
+     */
+    public function iShouldSeeAFlashMessage($arg1)
+    {
+        throw new PendingException();
     }
 }
