@@ -33,4 +33,7 @@ jobs:
 
       - name: Run phpunit
         run : make phpunit
+      
+      - name: Run Behat
+        run : make behat-test
   

@@ -35,6 +35,9 @@ phpstan:
 .PHONY=phpcsfixer
 phpcsfixer:
 	docker compose run --rm php vendor/bin/php-cs-fixer fix src
+
+.PHONY=lint
+lint: phpstan phpcsfixer
 	
 .PHONY=phpcsfixer-dev
 phpcsfixer-dev:
@@ -43,3 +46,10 @@ phpcsfixer-dev:
 .PHONY=phpunit
 phpunit:
 	docker compose run --rm php bin/phpunit
+
+.PHONY=behat-test
+behat-test:
+	docker compose run --rm php vendor/bin/behat
+
+.PHONY=tests
+tests: phpunit behat-test
