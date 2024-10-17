@@ -49,7 +49,7 @@ phpunit:
 
 .PHONY=behat-test
 behat-test:
-	docker compose run --rm php vendor/bin/behat
+	docker compose run --rm php vendor/bin/behat features/signup.feature
 
 .PHONY=tests
 tests: phpunit behat-test

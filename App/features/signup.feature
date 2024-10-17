@@ -3,12 +3,12 @@ Feature: Signup
   As a visitor user
   I need to be able to create an account
 
-Scenario: Sign-up the application
-  Given I send a request on "/signup"
-  And I fill in "Username":"Leo"
-  And I fill in "Email":"leo.grouet@gmail.com"
-  And I fill in "Password":"password"
-  And I fill in "ConfirmPassword":"password"
-  When I click the "Submit" button
-  Then I should be redirect to "/signin"
-  And I should see a flash message "Congratulations! Your account has been created successfully."
+  Scenario: Sign-up the application
+    Given I am on /signup
+    And I fill in the input "Username" with Leo
+    And I fill in the input "Email" with leo.grouet@gmail.com
+    And I fill in the input "Password" with password
+    And I fill in the input "Confirm password" with password
+    When I submit the form
+    Then I should be redirect to "/signin"
+    And I should see a flash message "Congratulations! Your account has been created successfully."
