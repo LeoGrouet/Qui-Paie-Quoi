@@ -44,5 +44,10 @@ services:
     image: adminer:4.8.1
     ports: [8080:8080]
 
+  chrome:
+    image: alpeware/chrome-headless-trunk
+    ports:
+      - "9222:9222"
+
 volumes:
   database_data:

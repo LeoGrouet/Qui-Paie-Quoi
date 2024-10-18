@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\DTO;
+namespace Tests\Units\DTO;
 
 use App\DTO\GroupDTO;
 use PHPUnit\Framework\TestCase;
