@@ -1,6 +1,6 @@
 <?php
 
-namespace App\tests\DTO;
+namespace App\tests\Units\DTO;
 
 use App\DTO\ExpenseDTO\CreateExpenseDTO;
 use App\Entity\User;

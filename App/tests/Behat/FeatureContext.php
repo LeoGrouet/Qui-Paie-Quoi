@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Tests\Behat;
+
 use Behat\Behat\Context\Context;
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Mink\Mink;
@@ -8,9 +10,8 @@ use Behat\Step\Given;
 use Behat\Step\Then;
 use Behat\Step\When;
 use DMore\ChromeDriver\ChromeDriver;
-use Symfony\Component\Panther\PantherTestCase;
 
-class FeatureContext extends PantherTestCase implements Context
+class FeatureContext implements Context
 {
     #[Given("I am on /signup")]
     public function iAmOnSignup()
@@ -50,13 +51,13 @@ class FeatureContext extends PantherTestCase implements Context
         throw new PendingException();
     }
 
-   #[Then('Then I should be redirect to ":arg1"')]
+    #[Then('Then I should be redirect to ":arg1"')]
     public function iShouldBeRedirectTo($arg1)
     {
         throw new PendingException();
     }
 
-   #[Then('I should see a flash message ":arg1"')]
+    #[Then('I should see a flash message ":arg1"')]
     public function iShouldSeeAFlashMessage($arg1)
     {
         throw new PendingException();
