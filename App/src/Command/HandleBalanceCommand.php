@@ -18,7 +18,7 @@ class HandleBalanceCommand extends Command
 {
     public function __construct(
         private readonly GroupRepository $groupRepository,
-        private readonly ExpenseBalancer $expenseBalancer
+        private readonly ExpenseBalancer $expenseBalancer,
     ) {
         parent::__construct();
     }

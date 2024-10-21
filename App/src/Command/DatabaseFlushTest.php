@@ -22,7 +22,7 @@ class DatabaseFlushTest extends Command
         private readonly EntityManagerInterface $entityManager,
         private readonly LoggerInterface $logger,
         private readonly UserPasswordHasherInterface $userPasswordHasher,
-        private readonly ExpenseBalancer $expenseBalancer
+        private readonly ExpenseBalancer $expenseBalancer,
     ) {
         parent::__construct();
     }

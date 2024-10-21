@@ -6,6 +6,17 @@ start:
 composer-install:
 	docker compose run --rm php composer install --no-scripts
 
+.PHONY=init-db
+init-db:	
+	docker compose run --rm php bin/console do:da:cr --no-interaction
+	@make migrate
+	@make insert
+
+.PHONY=init-db-test
+init-db-test:
+	docker compose run --rm php bin/console --env test do:da:cr --no-interaction
+	docker compose run --rm php bin/console --env test do:mi:mi --no-interaction
+
 .PHONY=reset
 reset:
 	docker compose run --rm php bin/console do:da:dr -f
@@ -49,7 +60,7 @@ phpunit:
 
 .PHONY=behat-test
 behat-test:
-	docker compose run --rm php vendor/bin/behat features/signup.feature
+	docker compose run -e APP_ENV=test --rm php vendor/bin/behat
 
 .PHONY=tests
 tests: phpunit behat-test

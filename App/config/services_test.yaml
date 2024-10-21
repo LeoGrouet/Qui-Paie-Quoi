@@ -3,5 +3,5 @@ services:
         autowire: true
         autoconfigure: true
 
-    App\Tests\Behat\:
-        resource: '../tests/Behat/*'
+    Tests\Behat\:
+        resource: '%kernel.project_dir%/tests/Behat/*'

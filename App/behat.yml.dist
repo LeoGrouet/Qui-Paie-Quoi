@@ -2,7 +2,21 @@ default:
     suites:
         default:
             contexts:
-                - App\Tests\Behat\DemoContext
+                - Tests\Behat\FeatureContext
 
     extensions:
-        FriendsOfBehat\SymfonyExtension: null
+        FriendsOfBehat\SymfonyExtension: 
+            kernel:
+                class: App\Kernel
+                path: src/Kernel.php
+                environment: test
+
+        DMore\ChromeExtension\Behat\ServiceContainer\ChromeExtension: ~
+
+        Behat\MinkExtension:
+            base_url: 'http://nginx/index_test.php'
+            browser_name: chrome
+            sessions:
+                default:
+                    chrome:
+                        api_url: 'http://chrome:9222'
