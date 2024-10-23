@@ -2,7 +2,8 @@
 
 namespace App\Controller\Group;
 
-use App\DTO\GroupDTO;
+use App\DTO\GroupDTO\CreateGroupDTO;
+use App\DTO\GroupDTO\UpdateGroupDTO;
 use App\Entity\Group;
 use App\Entity\User;
 use App\Form\GroupType;
@@ -16,11 +17,10 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/groups', name: 'groups_', methods: Request::METHOD_GET)]
 class PageController extends AbstractController
 {
     #[IsGranted('ROLE_USER')]
-    #[Route('/', name: 'home', methods: Request::METHOD_GET)]
+    #[Route('/groups/', name: 'groups_home', methods: Request::METHOD_GET)]
     public function showGroups(
         GroupRepository $groupRepository,
         #[CurrentUser] User $user,
@@ -36,7 +36,7 @@ class PageController extends AbstractController
         );
     }
 
-    #[Route('/add', name: 'add', methods: ['GET', 'POST'])]
+    #[Route('/groups/add', name: 'groups_add', methods: ['GET', 'POST'])]
     public function addGroup(
         Request $request,
         EntityManagerInterface $entityManagerInterface,
@@ -48,7 +48,7 @@ class PageController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            if (!$data instanceof GroupDTO) {
+            if (!$data instanceof CreateGroupDTO) {
                 $this->addFlash(
                     'notice',
                     $translator->trans('errorGroup', [], 'groups')
@@ -75,6 +75,53 @@ class PageController extends AbstractController
             $entityManagerInterface->flush();
 
             return $this->redirectToRoute('groups_home');
+        }
+
+        return $this->render(
+            'group/addGroup.html.twig',
+            [
+                'form' => $form,
+            ]
+        );
+    }
+
+    #[Route('groupe/{id}/edit', name: 'update_group',  methods: ['GET', 'PUT'])]
+    public function edit(
+        Group $group,
+        Request $request,
+        EntityManagerInterface $entityManagerInterface,
+        TranslatorInterface $translator
+    ): Response {
+
+        $groupToEdit = new UpdateGroupDTO($group->getName(), $group->getDescription(), $group->getUsers());
+
+        $form = $this->createForm(
+            GroupType::class,
+            $groupToEdit,
+            [
+                'users' => $group->getUsers(),
+            ]
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            if (!$data instanceof UpdateGroupDTO) {
+                $this->addFlash(
+                    'notice',
+                    $translator->trans('errorExpense', [], 'addExpense')
+                );
+
+                return $this->redirectToRoute('update_expense');
+            }
+
+            $group->setName($data->getName());
+            $group->setDescription($data->getDescription());
+            $group->setUsers($data->getUsers());
+
+            $entityManagerInterface->persist($group);
         }
 
         return $this->render(

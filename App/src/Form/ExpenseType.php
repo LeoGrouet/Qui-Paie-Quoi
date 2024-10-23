@@ -25,8 +25,7 @@ class ExpenseType extends AbstractType
     public function __construct(
         private readonly Security $security,
         private readonly RequestStack $requestStack,
-    ) {
-    }
+    ) {}
 
     public function configureOptions(OptionsResolver $resolver): void
     {

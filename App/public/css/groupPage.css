@@ -119,7 +119,7 @@ a{
 }
 
 .group_container_header{
-    display: grid;
+    display: flex;
     height: var(--height-xxl);
     justify-content: center;
 }

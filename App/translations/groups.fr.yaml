@@ -12,5 +12,6 @@ descriptionPlaceholder: Entrez la description du groupe
 addGroupSubmitButton: Ajouter un groupe
 addGroupParticipant: Selectionnez les participants
 createGroupTitle: Nouveau groupe
+editGroupTitle: Modifier le groupe
 groupsIsEmpty: Vous n'appartenez à aucun groupe
 addExpenseSubmitButton: Ajouter une dépense
