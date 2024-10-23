@@ -25,7 +25,8 @@ class ExpenseType extends AbstractType
     public function __construct(
         private readonly Security $security,
         private readonly RequestStack $requestStack,
-    ) {}
+    ) {
+    }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -70,8 +71,8 @@ class ExpenseType extends AbstractType
         } else {
             $label = 'addExpenseSubmitButton';
             $method = Request::METHOD_POST;
-            $payer = null;
-        };
+            $payer = $options['user'];
+        }
 
         $group = $options['group'];
         if (!$group instanceof Group) {

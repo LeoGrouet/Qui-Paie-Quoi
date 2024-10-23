@@ -38,10 +38,11 @@ class ExpensesController extends AbstractController
         EntityManagerInterface $entityManagerInterface,
         TranslatorInterface $translator,
         Group $group,
-        ExpenseBalancer $expenseBalancer
+        ExpenseBalancer $expenseBalancer,
     ): Response {
         $form = $this->createForm(ExpenseType::class, null, [
             'group' => $group,
+            'user' => $this->getUser(),
         ]);
 
         $form->handleRequest($request);
@@ -94,7 +95,7 @@ class ExpensesController extends AbstractController
         Request $request,
         TranslatorInterface $translator,
         EntityManagerInterface $entityManagerInterface,
-        ExpenseBalancer $expenseBalancer
+        ExpenseBalancer $expenseBalancer,
     ): Response {
         $expenseToUpdate = new UpdateExpenseDTO($expense->getAmount(), $expense->getDescription(), $expense->getPayer(), $expense->getParticipants());
 

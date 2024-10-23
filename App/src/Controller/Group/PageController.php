@@ -23,7 +23,7 @@ class PageController extends AbstractController
     #[Route('/', name: 'home', methods: Request::METHOD_GET)]
     public function showGroups(
         GroupRepository $groupRepository,
-        #[CurrentUser] User $user
+        #[CurrentUser] User $user,
     ): Response {
         $groups = $groupRepository->findAllWhereUserIsMember($user);
 
@@ -40,7 +40,7 @@ class PageController extends AbstractController
     public function addGroup(
         Request $request,
         EntityManagerInterface $entityManagerInterface,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
     ): Response {
         $form = $this->createForm(GroupType::class);
 
