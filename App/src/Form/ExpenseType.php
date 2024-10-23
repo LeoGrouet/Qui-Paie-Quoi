@@ -25,8 +25,7 @@ class ExpenseType extends AbstractType
     public function __construct(
         private readonly Security $security,
         private readonly RequestStack $requestStack,
-    ) {
-    }
+    ) {}
 
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -64,15 +63,15 @@ class ExpenseType extends AbstractType
         if ('update_expense' === $currentRoute) {
             $label = 'updateExpense';
             $method = Request::METHOD_PUT;
+            $payer = $options['user'];
+            if (!$payer instanceof User) {
+                throw new \Exception('User is not defined');
+            }
         } else {
             $label = 'addExpenseSubmitButton';
             $method = Request::METHOD_POST;
-        }
-
-        $payer = $options['user'];
-        if (!$payer instanceof User) {
-            throw new \Exception('User is not defined');
-        }
+            $payer = null;
+        };
 
         $group = $options['group'];
         if (!$group instanceof Group) {
