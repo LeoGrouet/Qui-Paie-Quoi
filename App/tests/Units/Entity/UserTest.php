@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Entity;
+namespace Tests\Units\Entity;
 
 use App\Entity\Expense;
 use App\Entity\Group;

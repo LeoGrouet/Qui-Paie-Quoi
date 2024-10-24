@@ -18,6 +18,13 @@ jobs:
           echo GID=$(id -g) > .env
           echo UID=$UID >> .env
           cp App/.env.dist App/.env
+          echo 'DATABASE_URL=postgresql://app:!ChangeMe!@database:5432/app' >> App/.env
+          echo 'POSTGRES_HOST=database
+                POSTGRES_PORT=5432
+                POSTGRES_DB=app
+                POSTGRES_USER=app
+                POSTGRES_PASSWORD=!ChangeMe!
+                POSTGRES_VERSION=16.4' >> .env
 
       - name: Build Docker PHP Image
         run : docker compose build php
@@ -33,4 +40,16 @@ jobs:
 
       - name: Run phpunit
         run : make phpunit
+
+      - name: Build images
+        run : docker compose build
+      
+      - name: Start services
+        run : docker compose up -d
+
+      - name: Init test DB
+        run : make init-db-test
+      
+      - name: Run Behat
+        run : make behat-test
   

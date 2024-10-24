@@ -75,14 +75,19 @@ class UserSignUpType extends AbstractType
                     'translation_domain' => $options['trans_domain'],
                     'required' => true,
                     'constraints' => [
-                        new NotNull(),
-                        new Length(
-                            min: 4,
-                            max: 64,
-                        ),
-                        new NotBlank(
-                            normalizer: 'trim',
-                        ),
+                        new NotNull([
+                            'message' => $this->translator->trans('usernameRequired', [], 'authentication'),
+                        ]),
+                        new Length([
+                            'min' => 4,
+                            'minMessage' => $this->translator->trans('usernameTooShort', [], 'authentication'),
+                            'max' => 64,
+                            'maxMessage' => $this->translator->trans('usernameTooLong', [], 'authentication'),
+                        ]),
+                        new NotBlank([
+                            'normalizer' => 'trim',
+                            'message' => $this->translator->trans('usernameRequired', [], 'authentication'),
+                        ]),
                         new Callback($callbackUsername),
                     ],
                 ]
@@ -97,12 +102,21 @@ class UserSignUpType extends AbstractType
                     ],
                     'required' => true,
                     'constraints' => [
-                        new NotNull(),
-                        new NotBlank(),
+                        new NotNull([
+                            'message' => $this->translator->trans('emailRequired', [], 'authentication'),
+                        ]),
+                        new NotBlank([
+                            'message' => $this->translator->trans('emailRequired', [], 'authentication'),
+                        ]),
                         new Length(
-                            max: 320
+                            [
+                                'max' => 320,
+                                'maxMessage' => $this->translator->trans('emailTooLong', [], 'authentication'),
+                            ]
                         ),
-                        new Email(),
+                        new Email([
+                            'message' => $this->translator->trans('emailValid', [], 'authentication'),
+                        ]),
                         new Callback($callbackEmail),
                     ],
                     'translation_domain' => $options['trans_domain'],
@@ -117,8 +131,12 @@ class UserSignUpType extends AbstractType
                     ],
                     'translation_domain' => $options['trans_domain'],
                     'constraints' => [
-                        new NotNull(),
-                        new NotBlank(),
+                        new NotNull([
+                            'message' => $this->translator->trans('passwordRequired', [], 'authentication'),
+                        ]),
+                        new NotBlank([
+                            'message' => $this->translator->trans('passwordRequired', [], 'authentication'),
+                        ]),
                         new PasswordStrength(
                             minScore: PasswordStrength::STRENGTH_WEAK,
                             message: $this->translator->trans('passwordWeak', [], 'authentication'),
