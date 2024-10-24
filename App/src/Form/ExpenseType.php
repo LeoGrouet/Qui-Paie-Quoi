@@ -64,14 +64,14 @@ class ExpenseType extends AbstractType
         if ('update_expense' === $currentRoute) {
             $label = 'updateExpense';
             $method = Request::METHOD_PUT;
+            $payer = $options['user'];
+            if (!$payer instanceof User) {
+                throw new \Exception('User is not defined');
+            }
         } else {
             $label = 'addExpenseSubmitButton';
             $method = Request::METHOD_POST;
-        }
-
-        $payer = $options['user'];
-        if (!$payer instanceof User) {
-            throw new \Exception('User is not defined');
+            $payer = $options['user'];
         }
 
         $group = $options['group'];

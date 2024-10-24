@@ -20,7 +20,7 @@ class SignUpController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManagerInterface,
         UserPasswordHasherInterface $passwordHasher,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
     ): Response {
         if ($this->isGranted('IS_AUTHENTICATED')) {
             return $this->redirectToRoute('groups_home');

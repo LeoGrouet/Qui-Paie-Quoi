@@ -12,7 +12,7 @@ class BalanceController extends AbstractController
 {
     #[Route('/group/{id}/balance', name: 'group_balance', methods: Request::METHOD_GET)]
     public function showBalance(
-        Group $group
+        Group $group,
     ): Response {
         return $this->render(
             'group/groupBalance.html.twig',
