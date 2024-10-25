@@ -8,6 +8,7 @@ use App\Entity\Group;
 use App\Entity\User;
 use App\Form\GroupType;
 use App\Repository\GroupRepository;
+use App\Service\ExpenseBalancer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -85,14 +86,14 @@ class PageController extends AbstractController
         );
     }
 
-    #[Route('groupe/{id}/edit', name: 'update_group',  methods: ['GET', 'PUT'])]
+    #[Route('group/{id}/edit', name: 'update_group', methods: ['GET', 'PUT'])]
     public function edit(
         Group $group,
         Request $request,
         EntityManagerInterface $entityManagerInterface,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        ExpenseBalancer $expenseBalancer,
     ): Response {
-
         $groupToEdit = new UpdateGroupDTO($group->getName(), $group->getDescription(), $group->getUsers());
 
         $form = $this->createForm(
@@ -119,13 +120,29 @@ class PageController extends AbstractController
 
             $group->setName($data->getName());
             $group->setDescription($data->getDescription());
-            $group->setUsers($data->getUsers());
+
+            if (null !== $data->getUsers()) {
+                $group->setUsers($data->getUsers());
+            } else {
+                $this->addFlash(
+                    'notice',
+                    $translator->trans('errorExpense', [], 'addExpense'),
+                );
+
+                return $this->redirectToRoute('update_expense');
+            }
 
             $entityManagerInterface->persist($group);
+
+            $usersBalance = $group->getUserBalances();
+            $expenses = $group->getExpenses();
+            $expenseBalancer->updateBalances($usersBalance, $expenses);
+
+            return $this->redirectToRoute('group_expenses', ['id' => $group->getId()]);
         }
 
         return $this->render(
-            'group/addGroup.html.twig',
+            'group/editGroup.html.twig',
             [
                 'form' => $form,
             ]

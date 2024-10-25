@@ -25,7 +25,8 @@ class GroupType extends AbstractType
         private readonly UserRepository $userRepository,
         private readonly RequestStack $requestStack,
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -38,13 +39,13 @@ class GroupType extends AbstractType
         $currentMethod = $request->getMethod();
 
         if (Request::METHOD_POST === $currentMethod) {
-            $dto = UpdateGroupDTO::class;
-        } else {
             $dto = CreateGroupDTO::class;
+        } else {
+            $dto = UpdateGroupDTO::class;
         }
 
         $resolver->setDefaults([
-            'data_class' => UpdateGroupDTO::class,
+            'data_class' => $dto,
             'trans_domain' => 'groups',
         ]);
 
@@ -63,7 +64,7 @@ class GroupType extends AbstractType
             $label = 'editGroupTitle';
             $method = Request::METHOD_PUT;
         } else {
-            $label = 'createGroupTitle';
+            $label = 'addGroupSubmitButton';
             $method = Request::METHOD_POST;
         }
 
@@ -127,7 +128,7 @@ class GroupType extends AbstractType
                 'submit',
                 SubmitType::class,
                 [
-                    'label' => $label,
+                    'label' => $this->translator->trans($label, [], 'groups'),
                     'translation_domain' => $options['trans_domain'],
                 ]
             )

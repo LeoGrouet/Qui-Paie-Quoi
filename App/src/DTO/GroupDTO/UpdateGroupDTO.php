@@ -2,7 +2,6 @@
 
 namespace App\DTO\GroupDTO;
 
-use App\Entity\User;
 use Doctrine\Common\Collections\Collection;
 
 class UpdateGroupDTO

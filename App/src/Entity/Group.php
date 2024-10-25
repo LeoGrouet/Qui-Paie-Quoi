@@ -45,8 +45,9 @@ class Group
          * @var Collection<int, UserBalance>
          */
         #[OneToMany(targetEntity: UserBalance::class, mappedBy: 'group')]
-        private Collection $userBalances = new ArrayCollection()
-    ) {}
+        private Collection $userBalances = new ArrayCollection(),
+    ) {
+    }
 
     public function getId(): int
     {
