@@ -123,4 +123,37 @@ final readonly class ExpenseBalancer
 
         $this->entityManager->flush();
     }
+
+    public function initBalances(Group $group): void
+    {
+        $users = $group->getUsers();
+
+        foreach ($users as $user) {
+            if (null !== $this->userBalanceRepository->getUserBalance($user, $group)) {
+                continue;
+            }
+            $userBalance = new UserBalance($user, $group);
+            $this->entityManager->persist($userBalance);
+        }
+
+        $this->entityManager->flush();
+    }
+
+    public function removeZeroBalances(Group $group): void
+    {
+        $users = $group->getUsers();
+
+        $usersBalance = $group->getUserBalances();
+
+        foreach ($usersBalance as $userBalance) {
+            if (!$users->contains($userBalance->getUser())) {
+                $this->entityManager->remove($userBalance);
+            }
+            if (0 === $userBalance->getAmount()) {
+                continue;
+            }
+        }
+
+        $this->entityManager->flush();
+    }
 }

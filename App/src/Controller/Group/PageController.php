@@ -42,6 +42,7 @@ class PageController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManagerInterface,
         TranslatorInterface $translator,
+        ExpenseBalancer $expenseBalancer,
     ): Response {
         $form = $this->createForm(GroupType::class);
 
@@ -73,6 +74,9 @@ class PageController extends AbstractController
             );
 
             $entityManagerInterface->persist($group);
+
+            $expenseBalancer->initBalances($group);
+
             $entityManagerInterface->flush();
 
             return $this->redirectToRoute('groups_home');
@@ -134,9 +138,7 @@ class PageController extends AbstractController
 
             $entityManagerInterface->persist($group);
 
-            $usersBalance = $group->getUserBalances();
-            $expenses = $group->getExpenses();
-            $expenseBalancer->updateBalances($usersBalance, $expenses);
+            $expenseBalancer->initBalances($group);
 
             return $this->redirectToRoute('group_expenses', ['id' => $group->getId()]);
         }
