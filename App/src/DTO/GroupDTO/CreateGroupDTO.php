@@ -1,10 +1,10 @@
 <?php
 
-namespace App\DTO;
+namespace App\DTO\GroupDTO;
 
 use Doctrine\Common\Collections\Collection;
 
-class GroupDTO
+class CreateGroupDTO
 {
     private string $name;
     private string $description;

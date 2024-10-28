@@ -3,6 +3,7 @@
 namespace App\Controller\Group;
 
 use App\Entity\Group;
+use App\Service\ExpenseBalancer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +14,10 @@ class BalanceController extends AbstractController
     #[Route('/group/{id}/balance', name: 'group_balance', methods: Request::METHOD_GET)]
     public function showBalance(
         Group $group,
+        ExpenseBalancer $expenseBalancer,
     ): Response {
+        $expenseBalancer->removeZeroBalances($group);
+
         return $this->render(
             'group/groupBalance.html.twig',
             [

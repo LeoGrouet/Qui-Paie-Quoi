@@ -2,11 +2,13 @@
 
 namespace App\Controller\Group;
 
-use App\DTO\GroupDTO;
+use App\DTO\GroupDTO\CreateGroupDTO;
+use App\DTO\GroupDTO\UpdateGroupDTO;
 use App\Entity\Group;
 use App\Entity\User;
 use App\Form\GroupType;
 use App\Repository\GroupRepository;
+use App\Service\ExpenseBalancer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,11 +18,10 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/groups', name: 'groups_', methods: Request::METHOD_GET)]
 class PageController extends AbstractController
 {
     #[IsGranted('ROLE_USER')]
-    #[Route('/', name: 'home', methods: Request::METHOD_GET)]
+    #[Route('/groups/', name: 'groups_home', methods: Request::METHOD_GET)]
     public function showGroups(
         GroupRepository $groupRepository,
         #[CurrentUser] User $user,
@@ -36,11 +37,12 @@ class PageController extends AbstractController
         );
     }
 
-    #[Route('/add', name: 'add', methods: ['GET', 'POST'])]
+    #[Route('/groups/add', name: 'groups_add', methods: ['GET', 'POST'])]
     public function addGroup(
         Request $request,
         EntityManagerInterface $entityManagerInterface,
         TranslatorInterface $translator,
+        ExpenseBalancer $expenseBalancer,
     ): Response {
         $form = $this->createForm(GroupType::class);
 
@@ -48,7 +50,7 @@ class PageController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            if (!$data instanceof GroupDTO) {
+            if (!$data instanceof CreateGroupDTO) {
                 $this->addFlash(
                     'notice',
                     $translator->trans('errorGroup', [], 'groups')
@@ -72,6 +74,9 @@ class PageController extends AbstractController
             );
 
             $entityManagerInterface->persist($group);
+
+            $expenseBalancer->initBalances($group);
+
             $entityManagerInterface->flush();
 
             return $this->redirectToRoute('groups_home');
@@ -79,6 +84,67 @@ class PageController extends AbstractController
 
         return $this->render(
             'group/addGroup.html.twig',
+            [
+                'form' => $form,
+            ]
+        );
+    }
+
+    #[Route('group/{id}/edit', name: 'update_group', methods: ['GET', 'PUT'])]
+    public function edit(
+        Group $group,
+        Request $request,
+        EntityManagerInterface $entityManagerInterface,
+        TranslatorInterface $translator,
+        ExpenseBalancer $expenseBalancer,
+    ): Response {
+        $groupToEdit = new UpdateGroupDTO($group->getName(), $group->getDescription(), $group->getUsers());
+
+        $form = $this->createForm(
+            GroupType::class,
+            $groupToEdit,
+            [
+                'users' => $group->getUsers(),
+            ]
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            if (!$data instanceof UpdateGroupDTO) {
+                $this->addFlash(
+                    'notice',
+                    $translator->trans('errorExpense', [], 'addExpense')
+                );
+
+                return $this->redirectToRoute('update_expense');
+            }
+
+            $group->setName($data->getName());
+            $group->setDescription($data->getDescription());
+
+            if (null !== $data->getUsers()) {
+                $group->setUsers($data->getUsers());
+            } else {
+                $this->addFlash(
+                    'notice',
+                    $translator->trans('errorExpense', [], 'addExpense'),
+                );
+
+                return $this->redirectToRoute('update_expense');
+            }
+
+            $entityManagerInterface->persist($group);
+
+            $expenseBalancer->initBalances($group);
+
+            return $this->redirectToRoute('group_expenses', ['id' => $group->getId()]);
+        }
+
+        return $this->render(
+            'group/editGroup.html.twig',
             [
                 'form' => $form,
             ]

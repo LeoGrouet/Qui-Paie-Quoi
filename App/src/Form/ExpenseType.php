@@ -19,12 +19,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Type;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ExpenseType extends AbstractType
 {
     public function __construct(
         private readonly Security $security,
         private readonly RequestStack $requestStack,
+        private readonly TranslatorInterface $translator,
     ) {
     }
 
@@ -152,7 +154,7 @@ class ExpenseType extends AbstractType
                 'submit',
                 SubmitType::class,
                 [
-                    'label' => $label,
+                    'label' => $this->translator->trans($label, [], 'expense'),
                     'translation_domain' => $options['trans_domain'],
                 ]
             )

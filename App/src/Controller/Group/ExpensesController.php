@@ -52,7 +52,7 @@ class ExpensesController extends AbstractController
             if (!$data instanceof CreateExpenseDTO) {
                 $this->addFlash(
                     'notice',
-                    $translator->trans('errorExpense', [], 'addExpense')
+                    $translator->trans('errorExpense', [], 'expense')
                 );
 
                 return $this->redirectToRoute('add_expense');
@@ -68,7 +68,7 @@ class ExpensesController extends AbstractController
 
             $this->addFlash(
                 'success',
-                $translator->trans('succesExpense', [], 'addExpense')
+                $translator->trans('succesExpense', [], 'expense')
             );
 
             $expenseBalancer->apply($expense);
@@ -116,7 +116,7 @@ class ExpensesController extends AbstractController
             if (!$data instanceof UpdateExpenseDTO) {
                 $this->addFlash(
                     'notice',
-                    $translator->trans('errorExpense', [], 'addExpense')
+                    $translator->trans('errorExpense', [], 'expense')
                 );
 
                 return $this->redirectToRoute('update_expense');
@@ -152,7 +152,7 @@ class ExpensesController extends AbstractController
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
         EntityManagerInterface $entityManagerInterface,
-        ExpenseBalancer $expenseBalancer
+        ExpenseBalancer $expenseBalancer,
     ): Response {
         $entityManagerInterface->remove($expense);
         $entityManagerInterface->flush();
