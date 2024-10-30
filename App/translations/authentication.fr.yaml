@@ -23,3 +23,13 @@ signUpFormButton: Je créer mon compte
 signInFormButton: Je me connecte
 errorRegistration: Une erreur est survenue. Veuillez réessayer.
 successRegistration: Félicitations ! Votre compte a bien été créé.
+backToSignIn: Retour à la page de connexion
+resetPassword: Réinitialiser le mot de passe
+updatePassword: Modifier le mot de passe
+oldPassword: Ancien mot de passe
+newPassword: Nouveau mot de passe
+confirmNewPassword: Confirmer le nouveau mot de passe
+notTheGoodEmail: Cet email n'est pas celui que vous avez utilisé pour créer votre compte.
+errorPasswordUpdateDTO: Une erreur est survenue. Veuillez réessayer.
+send: Envoyer
+errorToken: Ce token n'est pas valide.

@@ -22,6 +22,7 @@
             <span class="authentication_form_field">
                 <label for="password">{{'password'|trans}}</label>
                 <input type="password" id="password" name="_password" placeholder = "{{'password'|trans}}" required>
+                <a href="{{ path('forgot_password')}}">Mot de passe oublié ?</a>
             </span>
 
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">

@@ -24,3 +24,13 @@ signUpFormButton: Create my account
 signInFormButton: Sign in
 errorRegistration: An error occurred. Please try again.
 successRegistration: Congratulations! Your account has been created successfully.
+backToSignIn: Back to sign in page
+resetPassword: Reset password
+updatePassword: Update password
+oldPassword: Old password
+newPassword: New password
+confirmNewPassword: Confirm new password
+notTheGoodEmail: This email is not the one you used to create your account.
+errorPasswordUpdateDTO: An error occurred. Please try again.
+send: Send
+errorToken: This token is not valid.

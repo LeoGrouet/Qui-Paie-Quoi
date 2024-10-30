@@ -13,10 +13,9 @@
         {% block stylesheets %}
         {% endblock %}
         {% block javascripts %}
-           <script 
-                defer 
-                src="{{ asset('js/flashMessageDisplayer.js') }}" 
-           ></script>
+        <script defer src="{{ asset('js/flashMessageDisplayer.js') }}"></script>
+        <script defer src="{{ asset('js/menuNavBar.js') }}"></script>
+
         {% endblock %}
 
     </head>
@@ -29,9 +28,21 @@
             </a>
 
             {% if is_granted('ROLE_USER') %}
-                <a href="{{ path ('_logout_main') }}">
-                   {{ ux_icon('lucide:log-out') }}
-                </a>
+
+                <menu class="user_nav">
+
+                    {# <svg class="user_nav_profil">{{ux_icon('lucide:user') }}</svg> #}
+
+                    {# <div class="user_nav_burger">
+                        <a href="{{ path ('forgot_password')}}">Modifier mon mot de passe</p>
+                    </div> #}
+
+                    <a href="{{ path ('_logout_main') }}">
+                        <svg>{{ ux_icon('lucide:log-out') }}</svg>
+                    </a>
+
+                </menu>
+
             {% endif %}
 
         </header>

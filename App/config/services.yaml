@@ -3,6 +3,8 @@ parameters:
   env(DATABASE_PORT): "5432"
   env(DATABASE_NAME): "app"
   env(DATABASE_VERSION): "16.4"
+  env(FROM_EMAIL): "noreply@localhost"
+  app.jwt_secret: "%env(JWT_SECRET)%"
 
 
 services:
@@ -25,7 +27,11 @@ services:
   App\Form\:
     resource: '%kernel.project_dir%/src/Form'
 
+  App\Security\AccessTokenHandler: ~
+
   App\Service\ExpenseBalancer: ~
+  App\Service\SendEmailService: ~
+  App\Service\JWTService: ~
 
   App\Twig\FormatNumber:
     tags: ['twig.extension']

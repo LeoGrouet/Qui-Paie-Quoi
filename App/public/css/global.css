@@ -67,4 +67,20 @@ body {
     border: solid var(--purple) 1px;
     border-radius: var(--border-radius-xl);
 }
-    
+
+.user_nav{
+    align-content: center;
+}
+
+svg{
+    cursor: pointer ;
+    height: 2rem;
+    width: 2rem;
+    padding-right: 5px;
+}
+
+.user_nav_burger{
+    position: relative;
+    display: flex;
+    border: 1px solid black;
+}

@@ -13,10 +13,9 @@ use Doctrine\ORM\EntityManagerInterface;
 final readonly class ExpenseBalancer
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly UserBalanceRepository $userBalanceRepository,
-    ) {
-    }
+        private EntityManagerInterface $entityManager,
+        private UserBalanceRepository $userBalanceRepository,
+    ) {}
 
     public function apply(Expense $expense): void
     {

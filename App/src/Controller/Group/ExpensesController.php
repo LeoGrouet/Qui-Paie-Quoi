@@ -152,7 +152,7 @@ class ExpensesController extends AbstractController
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
         EntityManagerInterface $entityManagerInterface,
-        ExpenseBalancer $expenseBalancer
+        ExpenseBalancer $expenseBalancer,
     ): Response {
         $entityManagerInterface->remove($expense);
         $entityManagerInterface->flush();
