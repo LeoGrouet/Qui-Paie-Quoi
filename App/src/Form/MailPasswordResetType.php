@@ -2,7 +2,20 @@
 
 namespace App\Form;
 
-class PasswordResetType
+use App\DTO\PasswordUpdateDTO;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Contracts\Translation\TranslatorInterface;
+
+class MailPasswordResetType extends AbstractType
 {
     public function __construct(
         private readonly Security $security,

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Security;
 
+use App\Form\MailPasswordResetType;
 use App\Form\PasswordResetType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,8 +13,6 @@ use App\Service\JWTService;
 use App\Service\SendEmailService;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\Transport\Smtp\Auth\LoginAuthenticator;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PasswordController extends AbstractController
@@ -27,7 +26,7 @@ class PasswordController extends AbstractController
         JWTService $jwt
     ): Response {
 
-        $form = $this->createForm(PasswordResetType::class);
+        $form = $this->createForm(MailPasswordResetType::class);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
