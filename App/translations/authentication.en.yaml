@@ -33,4 +33,4 @@ confirmNewPassword: Confirm new password
 notTheGoodEmail: This email is not the one you used to create your account.
 errorPasswordUpdateDTO: An error occurred. Please try again.
 send: Send
-errorToken: This token is not valid.
+errorToken: This token is not valid, please try again.

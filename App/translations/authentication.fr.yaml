@@ -32,4 +32,4 @@ confirmNewPassword: Confirmer le nouveau mot de passe
 notTheGoodEmail: Cet email n'est pas celui que vous avez utilisé pour créer votre compte.
 errorPasswordUpdateDTO: Une erreur est survenue. Veuillez réessayer.
 send: Envoyer
-errorToken: Ce token n'est pas valide.
+errorToken: Ce token n'est pas valide, veuillez reessayer.

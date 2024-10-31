@@ -10,9 +10,11 @@ use App\Mail\ResetMail;
 use App\Repository\UserRepository;
 use App\Service\JWTService;
 use App\Service\SendEmailService;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Transport\Smtp\Auth\LoginAuthenticator;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PasswordController extends AbstractController
 {
@@ -84,28 +86,38 @@ class PasswordController extends AbstractController
         string $token,
         JWTService $jwt,
         UserRepository $usersRepository,
+        Security $security,
+        TranslatorInterface $translator
     ) {
 
-        if ($jwt->isValid($token) && !$jwt->isExpired($token) && $jwt->check($token, $this->getParameter('app.jwtsecret'))) {
-            $user = $usersRepository->findOneBy(['resetToken' => $token]);
+        if ($jwt->isValid($token) && !$jwt->isExpired($token) && $jwt->check($token, $this->getParameter('app.jwt_secret'))) {
+            $payload = $jwt->getPayload($token);
 
-            if (!$user === null) {
-                $this->isGranted('IS_AUTHENTICATED');
+            if (!array_key_exists('user_id', $payload)) {
+
+                $this->addFlash(
+                    'notice',
+                    $translator->trans('tokenError', [], 'authentification')
+                );
+                return $this->redirectToRoute('forgot_password');
             }
 
-            $form = $this->createForm(PasswordResetType::class);
+            $user = $usersRepository->findOneBy(['id' => $payload['user_id']]);
 
-            $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
-                $data = $form->getData();
-            }
-
-            return $this->render(
-                'register/forgotPassword.html.twig',
-                [
-                    'form' => $form,
-                ]
-            );
+            $security->login($user);
         }
+
+        $form = $this->createForm(PasswordResetType::class);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+        }
+        return $this->render(
+            'register/forgotPassword.html.twig',
+            [
+                'form' => $form,
+            ]
+        );
     }
 }
