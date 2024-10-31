@@ -8,8 +8,9 @@ abstract class AbstractMail implements MailInterface
         private string $from,
         private string $to,
         private string $subject,
-        private string $template
-    ) {}
+        private string $template,
+    ) {
+    }
 
     public function getTemplate(): string
     {

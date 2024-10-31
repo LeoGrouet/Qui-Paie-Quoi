@@ -10,7 +10,6 @@ usernameRequired: Please enter a username.
 usernameAllreadyUsed: This username is already used.
 email: Email
 emailAllreadyUsed: This email is already used.
-emailLabel: Email
 emailPlaceholder: Enter your email
 emailRequired: Please enter an email
 emailTooLong: Your email is too long ( Max 320 characters) .
@@ -34,3 +33,6 @@ notTheGoodEmail: This email is not the one you used to create your account.
 errorPasswordUpdateDTO: An error occurred. Please try again.
 send: Send
 errorToken: This token is not valid, please try again.
+errorUser: An error occurred. Please try again.
+passwordUpdateSuccess: Your password has been updated successfully.
+backToGroupPage: Back to group page

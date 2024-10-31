@@ -9,7 +9,7 @@ class ResetMail extends AbstractMail implements MailInterface
     public function __construct(
         string $from,
         private readonly User $recipient,
-        private readonly string $token
+        private readonly string $token,
     ) {
         parent::__construct($from, $recipient->getEmail(), 'reset_password', 'resetPassword');
     }
@@ -18,7 +18,7 @@ class ResetMail extends AbstractMail implements MailInterface
     {
         return [
             'username' => $this->recipient->getEmail(),
-            'token' => $this->token
+            'token' => $this->token,
         ];
     }
 }

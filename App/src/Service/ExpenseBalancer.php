@@ -15,7 +15,8 @@ final readonly class ExpenseBalancer
     public function __construct(
         private EntityManagerInterface $entityManager,
         private UserBalanceRepository $userBalanceRepository,
-    ) {}
+    ) {
+    }
 
     public function apply(Expense $expense): void
     {

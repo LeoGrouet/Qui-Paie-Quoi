@@ -33,3 +33,6 @@ notTheGoodEmail: Cet email n'est pas celui que vous avez utilisé pour créer vo
 errorPasswordUpdateDTO: Une erreur est survenue. Veuillez réessayer.
 send: Envoyer
 errorToken: Ce token n'est pas valide, veuillez reessayer.
+errorUser: Une erreur est survenue. Veuillez réessayer.
+passwordUpdateSuccess: Votre mot de passe a bien été modifié.
+backToGroupPage: Retour à la page de groupe

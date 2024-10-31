@@ -9,13 +9,13 @@ use Symfony\Component\Mailer\MailerInterface;
 class SendEmailService
 {
     public function __construct(
-        private MailerInterface $mailer
-    ) {}
+        private MailerInterface $mailer,
+    ) {
+    }
 
     public function send(
-        MailInterface $mail
+        MailInterface $mail,
     ): void {
-
         $email = (new TemplatedEmail())
             ->from($mail->getFrom())
             ->to($mail->getTo())

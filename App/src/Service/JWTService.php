@@ -2,22 +2,12 @@
 
 namespace App\Service;
 
-use DateTimeImmutable;
-
 class JWTService
 {
-
-    /**
-     * @param array $header 
-     * @param array $payload 
-     * @param string $secret 
-     * @param int $validity 
-     * @return string 
-     */
     public function generate(array $header, array $payload, string $secret, int $validity = 20): string
     {
         if ($validity > 0) {
-            $now = new DateTimeImmutable();
+            $now = new \DateTimeImmutable();
             $exp = $now->getTimestamp() + $validity;
 
             $payload['iat'] = $now->getTimestamp();
@@ -31,23 +21,23 @@ class JWTService
         $base64Payload = str_replace(['+', '/', '='], ['-', '_', ''], $base64Payload);
 
         $secret = base64_encode($secret);
-        $signature = hash_hmac('sha256', $base64Header . '.' . $base64Payload, $secret, true);
+        $signature = hash_hmac('sha256', $base64Header.'.'.$base64Payload, $secret, true);
 
         $base64Signature = base64_encode($signature);
 
         $signature = str_replace(['+', '/', '='], ['-', '_', ''], $base64Signature);
 
-        $jwt = $base64Header . '.' . $base64Payload . '.' . $signature;
+        $jwt = $base64Header.'.'.$base64Payload.'.'.$signature;
 
         return $jwt;
     }
 
     public function isValid(string $token): bool
     {
-        return preg_match(
+        return 1 === preg_match(
             '/^[a-zA-Z0-9\-\_\=]+\.[a-zA-Z0-9\-\_\=]+\.[a-zA-Z0-9\-\_\=]+$/',
             $token
-        ) === 1;
+        );
     }
 
     public function getPayload(string $token): array
@@ -72,7 +62,7 @@ class JWTService
     {
         $payload = $this->getPayload($token);
 
-        $now = new DateTimeImmutable();
+        $now = new \DateTimeImmutable();
 
         return $payload['exp'] < $now->getTimestamp();
     }

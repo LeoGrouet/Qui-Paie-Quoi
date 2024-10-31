@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-use App\DTO\PasswordUpdateDTO;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -21,7 +20,8 @@ class MailPasswordResetType extends AbstractType
         private readonly Security $security,
         private readonly RequestStack $requestStack,
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     public function configureOptions(OptionsResolver $resolver): void
     {

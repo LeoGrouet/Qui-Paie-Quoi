@@ -15,14 +15,13 @@ use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\PasswordStrength;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class PasswordResetType extends AbstractType
+class UpdatePasswordFromLinkType extends AbstractType
 {
     public function __construct(
         private readonly Security $security,
         private readonly RequestStack $requestStack,
         private readonly TranslatorInterface $translator,
-    ) {
-    }
+    ) {}
 
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -34,26 +33,6 @@ class PasswordResetType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add(
-                'oldPassword',
-                PasswordType::class,
-                [
-                    'label' => 'oldPassword',
-                    'attr' => [
-                        'placeholder' => 'oldPassword',
-                    ],
-                    'required' => true,
-                    'constraints' => [
-                        new NotNull([
-                            'message' => $this->translator->trans('emailRequired', [], 'authentication'),
-                        ]),
-                        new NotBlank([
-                            'message' => $this->translator->trans('emailRequired', [], 'authentication'),
-                        ]),
-                    ],
-                    'translation_domain' => $options['trans_domain'],
-                ]
-            )
             ->add('newPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => [
@@ -87,7 +66,7 @@ class PasswordResetType extends AbstractType
                 'submit',
                 SubmitType::class,
                 [
-                    'label' => $this->translator->trans('send', [], 'authentication'),
+                    'label' => $this->translator->trans('resetPassword', [], 'authentication'),
                     'translation_domain' => $options['trans_domain'],
                 ]
             )
